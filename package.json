@@ -1,0 +1,12 @@
+{
+  "name": "fenix-engine",
+  "version": "0.0.0",
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "lerna": "7.1.4"
+  }
+}
