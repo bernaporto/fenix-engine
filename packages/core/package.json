@@ -1,0 +1,10 @@
+{
+  "name": "@fenix-engine/core",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "three": "^0.154.0",
+    "typescript": "^5.1.6"
+  }
+}

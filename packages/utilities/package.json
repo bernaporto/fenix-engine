@@ -1,0 +1,9 @@
+{
+  "name": "@fenix-engine/utilities",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "typescript": "^5.1.6"
+  }
+}
