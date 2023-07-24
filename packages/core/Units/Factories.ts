@@ -9,23 +9,20 @@ type FactoryProps = {
   assetUrl: string;
   preload?: boolean;
 };
+type InstantiateParameters = Omit<PropConfig | PuppetConfig, 'assetPromise'>;
 
-type InstantiateProps<P extends PropConfig | PuppetConfig> = Omit<
+type InstantiateProps<P extends InstantiateParameters> = Omit<
   P,
   'assetPromise'
 >;
 
-type BaseFactoryProps<
-  T,
-  P extends PropConfig | PuppetConfig,
-  U
-> = FactoryProps & {
+type BaseFactoryProps<T, P extends InstantiateParameters, U> = FactoryProps & {
   instantiate: (props: InstantiateProps<P>, assetPromise: Promise<U>) => T;
   load: (assetUrl: string) => Promise<U>;
 };
 
 // BASE UNIT FACTORY
-class BaseFactory<T, P extends PropConfig | PuppetConfig, U> {
+class BaseFactory<T, P extends InstantiateParameters, U> {
   private _preloadPromise: Promise<U> | null = null;
 
   constructor(private props: BaseFactoryProps<T, P, U>) {
@@ -52,7 +49,11 @@ class BaseFactory<T, P extends PropConfig | PuppetConfig, U> {
 }
 
 // PROP FACTORY
-export class PropFactory extends BaseFactory<Prop, PropConfig, Object3D> {
+export class PropFactory extends BaseFactory<
+  Prop,
+  Omit<PropConfig, 'assetPromise'>,
+  Object3D
+> {
   constructor(props: FactoryProps) {
     super({
       ...props,
@@ -69,7 +70,7 @@ export class PropFactory extends BaseFactory<Prop, PropConfig, Object3D> {
 // ANIMATED Unit FACTORY
 export class PuppetFactory extends BaseFactory<
   Puppet,
-  PuppetConfig,
+  Omit<PuppetConfig, 'assetPromise'>,
   SkinnedObject
 > {
   constructor(props: FactoryProps) {

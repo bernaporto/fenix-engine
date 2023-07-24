@@ -1,0 +1,1 @@
+export { loadGameManifest } from './manifest';

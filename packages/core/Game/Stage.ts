@@ -1,6 +1,8 @@
 import type { WebGLRenderer } from 'three';
 import { getResizeHandler, hookResizeEvent } from './utils/handleResize';
 import { Scene } from './Scene';
+import { SceneRegistry } from './registries';
+import { buildSceneTree } from './utils/buildSceneTree';
 
 export type StageOptions = {
   autoResize?: boolean;
@@ -29,23 +31,29 @@ export class Stage {
     }
   }
 
-  public create(id: string) {
+  private create(id: string) {
     const scene = new Scene(id);
     this._scenes.set(id, scene);
 
     return scene;
   }
 
-  public load(id: string): Scene {
-    const scene = this.get(id) ?? this.create(id);
+  public load(key: string): Scene {
+    const scene = this.get(key) ?? this.create(key);
     this._currentScene = scene;
+
+    const sceneData = SceneRegistry.get(key);
+    if (sceneData) {
+      buildSceneTree(scene, sceneData);
+    }
+
     this.resize(scene);
 
     return scene;
   }
 
-  public disposeScene(id: string): void {
-    const scene = this._scenes.get(id);
+  public disposeScene(key: string): void {
+    const scene = this._scenes.get(key);
 
     if (!scene) return;
 
@@ -54,7 +62,7 @@ export class Stage {
     }
 
     scene.dispose();
-    this._scenes.delete(id);
+    this._scenes.delete(key);
   }
 
   public clear(): void {

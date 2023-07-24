@@ -1,10 +1,20 @@
-import type { Material, Object3D } from 'three';
+import type { Object3D } from 'three';
 import { Mesh } from 'three';
+import { Material } from './Material';
 
-export const applyMaterial = (obj: Object3D, material: Material): void => {
+export const applyMaterial = (
+  obj: Object3D,
+  material: Material | string
+): void => {
+  const mat = typeof material === 'string' ? Material.load(material) : material;
+
+  if (mat === null) {
+    throw new Error(`Material "${material}" not found`);
+  }
+
   obj.traverse((child) => {
     if (isMesh(child)) {
-      child.material = material;
+      child.material = mat.build();
     }
   });
 };

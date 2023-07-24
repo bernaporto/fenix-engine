@@ -1,11 +1,11 @@
-import { LoadingManager, ObjectLoader } from 'three';
+import { FileLoader, LoadingManager } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 
 export const loadingManager = new LoadingManager();
 
 /* JSON files */
-const jsonLoader = new ObjectLoader(loadingManager);
+const jsonLoader = new FileLoader(loadingManager);
 loadingManager.addHandler(/\.json$/i, jsonLoader);
 
 /* 3D Models */

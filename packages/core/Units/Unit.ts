@@ -4,9 +4,10 @@ import { v4 as uuid4 } from 'uuid';
 import {
   BehaviourController,
   BehaviourRegistry,
-} from '../Game/BehaviourRegistry';
+} from '../Game/registries/BehaviourRegistry';
 import { Vector3 } from '../Math';
 import type { TickerState } from '../Tools/Ticker';
+import { UnitConfig } from '../types';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -14,9 +15,6 @@ type UnitEventCallbackMap = {
   update: (state: TickerState) => void;
 };
 export type UnitEvent = keyof UnitEventCallbackMap;
-export type UnitConfig = {
-  name?: string;
-};
 
 /**
  * A Unit represents any kind of element that can be placed in the scene.

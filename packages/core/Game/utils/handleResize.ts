@@ -21,7 +21,7 @@ export const getResizeHandler = (renderer: WebGLRenderer) => (scene: Scene) => {
   const aspect = width / height;
 
   // Update camera
-  scene.camera.resize(aspect);
+  scene.camera?.resize(aspect);
 
   // Update canvas
   const canvas = renderer.domElement;

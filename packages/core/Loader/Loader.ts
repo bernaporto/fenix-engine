@@ -43,7 +43,10 @@ const initLoader = (): Loader => {
       }
 
       // @ts-ignore
-      loader.load(url, resolve, onProgress, reject);
+      loader.load(url, resolve, onProgress, (error) => {
+        console.log('loader', error);
+        reject(error);
+      });
     });
 
     cache.set(url, promise);

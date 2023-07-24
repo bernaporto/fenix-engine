@@ -1,2 +1,2 @@
-export { BehaviourRegistry } from './BehaviourRegistry';
+export { BehaviourRegistry } from './registries/BehaviourRegistry';
 export { Game } from './Game';

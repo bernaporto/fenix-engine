@@ -7,19 +7,26 @@ import { Layer } from './Layer';
 type SceneEvent = 'dispose';
 
 export class Scene {
-  public readonly camera = new Camera();
-
+  private _camera: Camera | null = null;
   private _layers = new Map<number, Layer>();
   private _emitter = new EventEmitter();
 
-  constructor(public readonly sceneId: string) {
-    this.getLayer(0).append(this.camera);
-  }
+  constructor(public readonly sceneId: string) {}
 
   public setBackgroundColor(color: number | string): void {
     this._layers.forEach((layer) => {
       layer.background = new Color(color);
     });
+  }
+
+  /* Camera */
+  public get camera(): Camera | null {
+    return this._camera;
+  }
+
+  public setCamera(camera: Camera, layer = 0): void {
+    this._camera = camera;
+    this.getLayer(layer).append(camera);
   }
 
   /* Parenting */
@@ -47,15 +54,18 @@ export class Scene {
   }
 
   public render(renderer: WebGLRenderer): void {
+    if (!this._camera) return;
+
     renderer.clear();
     const state = Ticker.state.get();
+    const camera = this._camera.camera;
 
     Array.from(this._layers.entries())
       .sort((a, b) => a[0] - b[0])
       .forEach(([_, layer]) => {
         layer.update(state);
 
-        renderer.render(layer.node, this.camera.camera);
+        renderer.render(layer.node, camera);
         renderer.clearDepth();
       });
   }

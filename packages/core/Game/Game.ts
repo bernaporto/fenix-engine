@@ -2,8 +2,15 @@ import { WebGLRenderer, SRGBColorSpace } from 'three';
 import { isNotNullable } from '@fenix-engine/shared/utils';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import { Stage, type StageOptions } from './Stage';
+import { loadGameManifest } from '../Data';
+import { MaterialRegistry, SceneRegistry } from './registries';
+import { loadSceneManifest } from '../Data/manifest';
 
 export type GameConfig = StageOptions & {
+  /**
+   * The path to the manifest file. This file must contain all game configuration info.
+   */
+  manifest: string;
   container?: HTMLElement;
 };
 
@@ -12,11 +19,11 @@ export class Game {
   private _stage: Stage;
   private _subscription: VoidFunction;
 
-  constructor(options?: GameConfig) {
+  constructor(private options: GameConfig) {
+    const { container } = options;
+
     const renderer = new WebGLRenderer({ antialias: true });
     renderer.outputColorSpace = SRGBColorSpace;
-
-    const { container } = options ?? {};
 
     if (isNotNullable(container)) {
       container.appendChild(renderer.domElement);
@@ -40,6 +47,22 @@ export class Game {
 
   public get stage() {
     return this._stage;
+  }
+
+  public async load(): Promise<void> {
+    const { manifest } = this.options;
+
+    const { scenes, materials = {} } = await loadGameManifest(manifest);
+
+    await Promise.all([
+      ...Object.entries(scenes).map(async ([key, value]) => {
+        const data = await loadSceneManifest(value.path);
+        SceneRegistry.add(key, data);
+      }),
+      ...Object.entries(materials).map(([key, value]) => {
+        MaterialRegistry.add(key, value);
+      }),
+    ]);
   }
 
   private loop({ status }: TickerState) {

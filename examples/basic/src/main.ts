@@ -1,11 +1,5 @@
 import { BehaviourRegistry, Game } from '@fenix-engine/core';
 import { Vector3 } from '@fenix-engine/core/Math';
-import { Box, Material } from '@fenix-engine/core/Units';
-
-const game = new Game({
-  container: document.getElementById('game')!,
-  backgroundColor: 0x242424,
-});
 
 BehaviourRegistry.add('bounce', {
   type: 'prop',
@@ -30,21 +24,14 @@ BehaviourRegistry.add('bounce', {
   },
 });
 
-const scene = game.stage.load('basic-scene');
-scene.camera.transform.setPosition({
-  x: 0,
-  y: 0,
-  z: 5,
-});
+(async function init() {
+  const game = new Game({
+    manifest: '/assets/manifest.json',
+    container: document.getElementById('game')!,
+    backgroundColor: 0x242424,
+  });
 
-const box = new Box({
-  material: new Material({ type: 'basic', color: 0x00ff00 }),
-});
-scene.append(box);
+  await game.load();
 
-// Add the 'bounce' behaviour
-box.addBehaviour('bounce');
-// Amd remove it after 10 seconds
-setTimeout(() => {
-  box.removeBehaviour('bounce');
-}, 10_000);
+  game.stage.load('basic-scene');
+})();

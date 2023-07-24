@@ -9,6 +9,14 @@ export const Vector3 = {
     return { x: 0, y: 1, z: 0 };
   },
 
+  get zero(): Vector3 {
+    return Vector3.create();
+  },
+
+  get one(): Vector3 {
+    return { x: 1, y: 1, z: 1 };
+  },
+
   create: (): Vector3 => ({
     x: 0,
     y: 0,

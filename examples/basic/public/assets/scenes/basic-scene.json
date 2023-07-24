@@ -1,0 +1,21 @@
+{
+  "key": "basic-scene",
+  "tree": [
+    {
+      "type": "camera",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 5
+      }
+    },
+    {
+      "type": "box",
+      "behaviours": ["bounce"],
+      "material": {
+        "type": "basic",
+        "color": "#00ff00"
+      }
+    }
+  ]
+}
