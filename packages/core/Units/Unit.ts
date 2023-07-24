@@ -1,14 +1,17 @@
+import EventEmitter from 'eventemitter3';
 import { Object3D } from 'three';
 import { v4 as uuid4 } from 'uuid';
+import {
+  BehaviourController,
+  BehaviourRegistry,
+} from '../Game/BehaviourRegistry';
 import { Vector3 } from '../Math';
-import EventEmitter from 'eventemitter3';
-
-export type Behavior = (unit: Unit) => void;
+import type { TickerState } from '../Tools/Ticker';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
   load: VoidFunction;
-  update: (delta: number) => void;
+  update: (state: TickerState) => void;
 };
 export type UnitEvent = keyof UnitEventCallbackMap;
 export type UnitConfig = {
@@ -17,10 +20,9 @@ export type UnitConfig = {
 
 /**
  * A Unit represents any kind of element that can be placed in the scene.
- * Units can receive Behavior scripts, which are defined by the developer.
+ * Units can receive Behaviour scripts, which are defined by the developer.
  */
 export class Unit {
-  public readonly behaviors = new Set<Behavior>();
   public readonly id: string;
   public readonly name: string;
   public readonly node = new Object3D();
@@ -29,11 +31,14 @@ export class Unit {
   private _children = new Set<Unit>();
   private _emitter = new EventEmitter();
   private _parent: Unit | null = null;
+  private _behaviours = new Map<string, BehaviourController>();
 
-  constructor({ name }: UnitConfig) {
+  constructor(config?: UnitConfig) {
     const id = uuid4();
+    const { name = `Unit-${id}` } = config || {};
+
     this.id = id;
-    this.name = name || `Unit-${id}`;
+    this.name = name;
   }
 
   /* Parenting */
@@ -70,12 +75,24 @@ export class Unit {
   }
 
   /* Behaviours */
-  public addBehavior(behavior: Behavior) {
-    this.behaviors.add(behavior);
+  public addBehaviour(key: string) {
+    const behaviour = BehaviourRegistry.get(key);
+
+    if (!behaviour) {
+      throw new Error(`Behaviour not found for key: ${key}`);
+    }
+
+    const controller = behaviour(this);
+    this._behaviours.set(key, controller);
   }
 
-  public removeBehavior(behavior: Behavior) {
-    this.behaviors.delete(behavior);
+  public removeBehaviour(key: string) {
+    const controller = this._behaviours.get(key);
+
+    if (controller) {
+      controller.dispose();
+      this._behaviours.delete(key);
+    }
   }
 
   /* Events */
@@ -109,8 +126,10 @@ export class Unit {
     this.removeFromParent();
   }
 
-  public update(delta: number) {
-    this.emit('update', delta);
+  public update(state: TickerState) {
+    this.emit('update', state);
+
+    this.children.forEach((child) => child.update(state));
   }
 }
 

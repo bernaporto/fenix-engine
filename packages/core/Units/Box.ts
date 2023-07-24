@@ -1,4 +1,5 @@
-import { BoxGeometry, type Material, Mesh } from 'three';
+import { BoxGeometry, Mesh } from 'three';
+import { Material } from './Material';
 import { Unit, type UnitConfig } from './Unit';
 
 type BoxConfig = UnitConfig & {
@@ -9,17 +10,13 @@ type BoxConfig = UnitConfig & {
 };
 
 export class Box extends Unit {
-  constructor({
-    material,
-    width = 1,
-    height = 1,
-    depth = 1,
-    ...unitConfig
-  }: BoxConfig) {
-    super(unitConfig);
+  constructor(config?: BoxConfig) {
+    super(config);
+
+    const { material, width = 1, height = 1, depth = 1 } = config || {};
 
     const geometry = new BoxGeometry(width, height, depth);
-    const cube = new Mesh(geometry, material);
+    const cube = new Mesh(geometry, material?.build());
 
     this.node.add(cube);
   }

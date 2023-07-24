@@ -1,12 +1,8 @@
-import {
-  AnimationAction,
-  AnimationClip,
-  AnimationMixer,
-  Material,
-} from 'three';
-import { Unit, UnitConfig } from './Unit';
+import { AnimationAction, AnimationClip, AnimationMixer } from 'three';
 import { SkinnedObject } from '../types';
 import { applyMaterial } from './utils';
+import { Material } from './Material';
+import { Unit, UnitConfig } from './Unit';
 
 export type PuppetConfig = UnitConfig & {
   assetPromise: Promise<SkinnedObject>;
@@ -23,7 +19,7 @@ export class Puppet extends Unit {
     super(unitConfig);
 
     assetPromise.then(({ animations, root }) => {
-      material && applyMaterial(root, material);
+      material && applyMaterial(root, material.build());
       this.node.add(root);
       this.emit('load', animations);
     });

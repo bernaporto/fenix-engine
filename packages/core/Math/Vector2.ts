@@ -4,6 +4,10 @@ export type Vector2 = {
 };
 
 export const Vector2 = {
+  get up(): Vector2 {
+    return { x: 0, y: 1 };
+  },
+
   create: (): Vector2 => ({ x: 0, y: 0 }),
 
   copy: (v: Vector2): Vector2 => ({ x: v.x, y: v.y }),

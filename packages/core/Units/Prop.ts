@@ -1,6 +1,7 @@
-import type { Material, Object3D } from 'three';
-import { Unit, UnitConfig } from './Unit';
+import type { Object3D } from 'three';
 import { applyMaterial } from './utils';
+import { Material } from './Material';
+import { Unit, UnitConfig } from './Unit';
 
 export type PropConfig = UnitConfig & {
   assetPromise: Promise<Object3D>;
@@ -17,7 +18,7 @@ export class Prop extends Unit {
     assetPromise.then((obj) => {
       this.node.add(obj);
 
-      material && applyMaterial(obj, material);
+      material && applyMaterial(obj, material.build());
 
       this.emit('load');
     });
