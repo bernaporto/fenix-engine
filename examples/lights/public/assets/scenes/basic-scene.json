@@ -1,0 +1,31 @@
+{
+  "key": "basic-scene",
+  "tree": [
+    {
+      "type": "camera",
+      "cameraType": "perspective",
+      "angle": { "x": -45, "y": 45 },
+      "distance": 5
+    },
+    {
+      "type": "box",
+      "material": "default-material"
+    },
+    {
+      "type": "plane",
+      "material": "default-material"
+    },
+    {
+      "type": "light",
+      "lightType": "point",
+      "color": "red",
+      "position": { "x": 2, "y": 4, "z": 2 }
+    },
+    {
+      "type": "light",
+      "lightType": "point",
+      "color": "blue",
+      "position": { "x": -2, "y": 4, "z": 2 }
+    }
+  ]
+}

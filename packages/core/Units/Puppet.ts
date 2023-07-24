@@ -1,8 +1,14 @@
-import type { AnimationAction, AnimationClip } from 'three';
+import type { AnimationAction, AnimationClip, Group } from 'three';
 import { AnimationMixer } from 'three';
-import type { SkinnedObject, UnitConfigWithMaterial } from '../types';
+import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils';
+import type {
+  AssetUnitConfig,
+  SkinnedObject,
+  UnitConfigWithMaterial,
+} from '../types';
 import { applyMaterial } from './utils';
 import { Unit } from './Unit';
+import { PuppetAssetRegistry } from '../Game/registries';
 
 export type PuppetConfig = UnitConfigWithMaterial & {
   assetPromise: Promise<SkinnedObject>;
@@ -14,10 +20,13 @@ export type PuppetConfig = UnitConfigWithMaterial & {
 export class Puppet extends Unit {
   public readonly puppeteer = makePuppeteer(this);
 
-  constructor({ assetPromise, material, ...unitConfig }: PuppetConfig) {
+  constructor({ path, material, ...unitConfig }: AssetUnitConfig) {
     super(unitConfig);
 
-    assetPromise.then(({ animations, root }) => {
+    const assetPromise =
+      PuppetAssetRegistry.get(path) ?? PuppetAssetRegistry.add(path, path);
+
+    assetPromise.then(cloneSkinnedObject).then(({ animations, root }) => {
       material && applyMaterial(root, material);
       this.node.add(root);
       this.emit('load', animations);
@@ -86,3 +95,13 @@ const makePuppeteer = (puppet: Puppet): Puppeteer => {
     },
   };
 };
+
+/* UTILS */
+
+const cloneSkinnedObject = ({
+  animations,
+  root,
+}: SkinnedObject): SkinnedObject => ({
+  animations,
+  root: cloneSkeleton(root) as Group,
+});

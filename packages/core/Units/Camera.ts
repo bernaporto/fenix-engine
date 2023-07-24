@@ -4,6 +4,7 @@ import {
   Raycaster,
   Vector3 as THREE_Vector3,
   Vector2 as THREE_Vector2,
+  PerspectiveCamera,
 } from 'three';
 import { degreesToRadians, remap } from '@fenix-engine/shared/utils';
 import { Unit } from './Unit';
@@ -13,27 +14,29 @@ import type { CameraConfig } from '../types';
 const raycaster = new Raycaster();
 
 export class Camera extends Unit {
-  private _joint = new Object3D();
-  private _camera: OrthographicCamera;
+  private _joint: Object3D;
+  private _camera: OrthographicCamera | PerspectiveCamera;
 
   constructor(config?: CameraConfig) {
     super(config);
 
-    this._camera = new OrthographicCamera();
-    this._joint.add(this._camera);
-    this._joint.name = 'camera_joint';
-    this.node.add(this._joint);
-    this.node.name = 'camera_pivot';
-
-    const { angle, distance, zoom } = {
+    const { angle, cameraType, distance, fov, zoom }: CameraConfig = {
       ...{
         angle: Vector2.zero,
+        cameraType: 'orthographic',
         distance: 0,
+        fov: 60,
         zoom: 1,
       },
       ...config,
     };
 
+    const { camera, joint } = createCamera(cameraType);
+    this._camera = camera;
+    this._joint = joint;
+    this.node.add(joint);
+
+    this.setFov(fov);
     this.setAngle(angle);
     this.setDistance(distance);
     this.setZoom(zoom);
@@ -74,6 +77,13 @@ export class Camera extends Unit {
     this.setPosition(localPos);
   }
 
+  public setFov(value: number) {
+    if (this._camera instanceof OrthographicCamera) return;
+
+    this._camera.fov = value;
+    this._camera.updateProjectionMatrix();
+  }
+
   public setZoom(zoom: number) {
     if (this._camera.zoom === zoom) return;
 
@@ -81,12 +91,8 @@ export class Camera extends Unit {
     this._camera.updateProjectionMatrix();
   }
 
-  public resize(aspect: number, viewSize = 20) {
-    this._camera.left = (-aspect * viewSize) / 2;
-    this._camera.right = (aspect * viewSize) / 2;
-    this._camera.top = viewSize / 2;
-    this._camera.bottom = -viewSize / 2;
-    this._camera.updateProjectionMatrix();
+  public resize(aspect: number) {
+    resizeCamera(this._camera, aspect);
   }
 
   public raycast(normalizedMousePos: Vector2, root: Unit): Vector3[] {
@@ -114,3 +120,51 @@ export class Camera extends Unit {
     };
   }
 }
+
+/* UTILS */
+const createCamera = (
+  cameraType: 'orthographic' | 'perspective'
+): {
+  camera: OrthographicCamera | PerspectiveCamera;
+  joint: Object3D;
+} => {
+  const joint = new Object3D();
+  const camera =
+    cameraType === 'orthographic'
+      ? new OrthographicCamera()
+      : new PerspectiveCamera();
+
+  joint.add(camera);
+  joint.name = 'camera_joint';
+
+  return { camera, joint };
+};
+
+const resizeCamera = (
+  camera: OrthographicCamera | PerspectiveCamera,
+  aspect: number,
+  viewSize = 20
+) => {
+  if (camera instanceof PerspectiveCamera) {
+    resizePerspectiveCamera(camera, aspect);
+  } else {
+    resizeOrthographicCamera(camera, aspect, viewSize);
+  }
+};
+
+const resizePerspectiveCamera = (camera: PerspectiveCamera, aspect: number) => {
+  camera.aspect = aspect;
+  camera.updateProjectionMatrix();
+};
+
+const resizeOrthographicCamera = (
+  camera: OrthographicCamera,
+  aspect: number,
+  viewSize: number
+) => {
+  camera.left = (-aspect * viewSize) / 2;
+  camera.right = (aspect * viewSize) / 2;
+  camera.top = viewSize / 2;
+  camera.bottom = -viewSize / 2;
+  camera.updateProjectionMatrix();
+};

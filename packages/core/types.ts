@@ -25,10 +25,16 @@ export type UnitConfigWithMaterial = UnitConfig & {
   material?: Material | MaterialConfig | string;
 };
 
+export type AssetUnitConfig = UnitConfigWithMaterial & {
+  path: string;
+};
+
 /* OTHER UNIT TYPES */
 export type CameraConfig = UnitConfig & {
   angle?: Vector2;
+  cameraType?: 'orthographic' | 'perspective';
   distance?: number;
+  fov?: number;
   zoom?: number;
 };
 

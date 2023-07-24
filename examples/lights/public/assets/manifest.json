@@ -1,0 +1,12 @@
+{
+  "scenes": {
+    "basic-scene": {
+      "path": "/assets/scenes/basic-scene.json"
+    }
+  },
+  "materials": {
+    "default-material": {
+      "type": "basic"
+    }
+  }
+}
