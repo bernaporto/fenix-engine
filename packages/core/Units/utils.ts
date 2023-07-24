@@ -1,12 +1,13 @@
 import type { Object3D } from 'three';
 import { Mesh } from 'three';
 import { Material } from './Material';
+import { MaterialConfig } from '../types';
 
 export const applyMaterial = (
   obj: Object3D,
-  material: Material | string
+  material: Material | MaterialConfig | string
 ): void => {
-  const mat = typeof material === 'string' ? Material.load(material) : material;
+  const mat = material instanceof Material ? material : Material.load(material);
 
   if (mat === null) {
     throw new Error(`Material "${material}" not found`);

@@ -1,19 +1,7 @@
-import {
-  Box,
-  Camera,
-  Material,
-  PropFactory,
-  PuppetFactory,
-  Unit,
-} from '../../Units';
-import { Vector3 } from '../../Math';
-import type {
-  MaterialModel,
-  SceneChild,
-  SceneManifest,
-} from '../../Data/Model';
+import { Box, Camera, PropFactory, PuppetFactory, Unit } from '../../Units';
 import type { Scene } from '../Scene';
-import { makeRegistry } from '../registries/makeRegistry';
+import type { AssetModel, SceneChild, SceneManifest } from '../../Data/Model';
+import { FactoryRegistry } from '../registries';
 
 export const buildSceneTree = (scene: Scene, manifest: SceneManifest): void => {
   const { tree } = manifest;
@@ -38,36 +26,24 @@ const buildSceneChild =
       }
 
       case 'camera': {
-        buildCamera(scene, node);
-
+        const camera = new Camera(node);
+        scene.setCamera(camera);
         return;
       }
 
-      case 'unit': {
-        unit = new Unit();
+      case 'prop':
+      case 'puppet': {
+        unit = getFactory(node.type, node).instantiate(node);
         break;
       }
 
-      case 'prop': {
-        const { path, preload } = node;
-        const factory = getPropFactory(path, preload);
-
-        unit = factory.instantiate({
-          material: getMaterial(node.material),
-        });
-      }
-
-      case 'puppet': {
-        const { path, preload } = node;
-        const factory = getPuppetFactory(path, preload);
-
-        unit = factory.instantiate({
-          material: getMaterial(node.material),
-        });
+      case 'unit': {
+        unit = new Unit(node);
+        break;
       }
 
       case 'box': {
-        unit = new Box({ material: getMaterial(node.material) });
+        unit = new Box(node);
         break;
       }
     }
@@ -79,63 +55,17 @@ const buildSceneChild =
     }
 
     root.append(unit);
-    updateTransform(unit, node);
-    applyBehaviours(unit, node.behaviours ?? []);
   };
 
 /* UTILS */
-const buildCamera = (scene: Scene, node: SceneChild): void => {
-  if (node.type !== 'camera') return;
-
-  const camera = new Camera();
-  scene.setCamera(camera);
-  updateTransform(camera, node);
-
-  const { angle, distance } = node;
-  angle && camera.setAngle(angle);
-  distance && camera.setDistance(distance);
-  applyBehaviours(camera, node.behaviours ?? []);
+const getFactory = (
+  type: 'prop' | 'puppet',
+  asset: AssetModel
+): PropFactory | PuppetFactory => {
+  const { path: assetUrl, preload } = asset;
+  const Factory = type === 'prop' ? PropFactory : PuppetFactory;
+  return (
+    FactoryRegistry.get(assetUrl) ??
+    FactoryRegistry.add(assetUrl, new Factory({ assetUrl, preload }))
+  );
 };
-
-const updateTransform = (
-  unit: Unit,
-  {
-    position = Vector3.zero,
-    rotation = Vector3.zero,
-    scale = Vector3.one,
-  }: {
-    position?: Vector3;
-    rotation?: Vector3;
-    scale?: Vector3;
-  }
-): void => {
-  unit.transform.setPosition(position);
-  unit.transform.setRotation(rotation);
-  unit.transform.setScale(scale);
-};
-
-const getMaterial = (
-  material?: string | MaterialModel
-): string | Material | undefined => {
-  if (!material) return undefined;
-
-  if (typeof material === 'string') {
-    return material;
-  }
-
-  return new Material(material);
-};
-
-const applyBehaviours = (unit: Unit, behaviours: string[]): void =>
-  behaviours.forEach((behaviour) => unit.addBehaviour(behaviour));
-
-const factoryRegistry = makeRegistry<PropFactory | PuppetFactory>();
-const getFactory =
-  <T extends PropFactory | PuppetFactory>(type: 'prop' | 'puppet') =>
-  (assetUrl: string, preload?: boolean): T => {
-    const Factory = type === 'prop' ? PropFactory : PuppetFactory;
-    return (factoryRegistry.get(assetUrl) ??
-      factoryRegistry.add(assetUrl, new Factory({ assetUrl, preload }))) as T;
-  };
-const getPropFactory = getFactory<PropFactory>('prop');
-const getPuppetFactory = getFactory<PuppetFactory>('puppet');

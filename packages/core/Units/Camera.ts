@@ -5,10 +5,10 @@ import {
   Vector3 as THREE_Vector3,
   Vector2 as THREE_Vector2,
 } from 'three';
-import { Constants } from '@fenix-engine/shared/constants';
 import { degreesToRadians, remap } from '@fenix-engine/shared/utils';
 import { Unit } from './Unit';
-import { Vector2, Vector3 } from '../Math';
+import { Vector2, type Vector3 } from '../Math';
+import type { CameraConfig } from '../types';
 
 const raycaster = new Raycaster();
 
@@ -16,14 +16,27 @@ export class Camera extends Unit {
   private _joint = new Object3D();
   private _camera: OrthographicCamera;
 
-  constructor() {
-    super({ name: 'Camera' });
+  constructor(config?: CameraConfig) {
+    super(config);
 
     this._camera = new OrthographicCamera();
     this._joint.add(this._camera);
     this._joint.name = 'camera_joint';
     this.node.add(this._joint);
     this.node.name = 'camera_pivot';
+
+    const { angle, distance, zoom } = {
+      ...{
+        angle: Vector2.zero,
+        distance: 0,
+        zoom: 1,
+      },
+      ...config,
+    };
+
+    this.setAngle(angle);
+    this.setDistance(distance);
+    this.setZoom(zoom);
   }
 
   public get camera() {
@@ -68,7 +81,7 @@ export class Camera extends Unit {
     this._camera.updateProjectionMatrix();
   }
 
-  public resize(aspect: number, viewSize = Constants.VIEW_SIZE) {
+  public resize(aspect: number, viewSize = 20) {
     this._camera.left = (-aspect * viewSize) / 2;
     this._camera.right = (aspect * viewSize) / 2;
     this._camera.top = viewSize / 2;

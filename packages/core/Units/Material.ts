@@ -3,10 +3,8 @@ import {
   MeshBasicMaterial,
   MeshStandardMaterial,
 } from 'three';
+import type { MaterialConfig } from '../types';
 import { MaterialRegistry } from '../Game/registries';
-import { MaterialModel } from '../Data/Model';
-
-type MaterialConfig = Omit<MaterialModel, 'key'>;
 
 const materialConstructorMap = {
   basic: MeshBasicMaterial,
@@ -34,7 +32,15 @@ export class Material {
     return this._material;
   }
 
-  static load(key: string) {
-    return MaterialRegistry.get(key);
+  static load(keyOrModel: string | MaterialConfig) {
+    if (typeof keyOrModel === 'string') {
+      return MaterialRegistry.get(keyOrModel);
+    }
+
+    if (keyOrModel.key !== undefined) {
+      return MaterialRegistry.get(keyOrModel.key);
+    }
+
+    return new Material(keyOrModel);
   }
 }

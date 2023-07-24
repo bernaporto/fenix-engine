@@ -1,5 +1,11 @@
-import type { AnimationClip, Group } from 'three';
+import type {
+  AnimationClip,
+  Group,
+  MeshBasicMaterialParameters,
+  MeshStandardMaterialParameters,
+} from 'three';
 import type { Material, Prop, Puppet, Unit } from './Units';
+import type { Vector2, Vector3 } from './Math';
 
 /* SHARED UNIT TYPES */
 export type SkinnedObject = {
@@ -8,19 +14,39 @@ export type SkinnedObject = {
 };
 
 export type UnitConfig = {
+  behaviours?: string[];
   name?: string;
+  position?: Vector3;
+  rotation?: Vector3;
+  scale?: Vector3;
 };
 
 export type UnitConfigWithMaterial = UnitConfig & {
-  material?: Material | string;
+  material?: Material | MaterialConfig | string;
 };
+
+/* OTHER UNIT TYPES */
+export type CameraConfig = UnitConfig & {
+  angle?: Vector2;
+  distance?: number;
+  zoom?: number;
+};
+
+export type MaterialConfig = { key?: string } & (
+  | ({
+      type: 'basic';
+    } & MeshBasicMaterialParameters)
+  | ({
+      type: 'standard';
+    } & MeshStandardMaterialParameters)
+);
 
 /* SHARED GAME TYPES */
 export type BehaviourController = { dispose: VoidFunction };
 export type Behaviour<T extends Unit> = (unit: T) => BehaviourController;
 export type BehaviourConfig =
   | {
-      type: 'unit';
+      type?: 'unit';
       behaviour: Behaviour<Unit>;
     }
   | {

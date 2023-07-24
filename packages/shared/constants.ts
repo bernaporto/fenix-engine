@@ -1,7 +1,5 @@
-import { Vector2, Vector3 } from './vector';
-
-const CAMERA_POSITION: Vector3 = Object.freeze({ x: 0, y: 0, z: 0 });
-const CAMERA_ANGLE: Vector2 = Object.freeze({ x: -45, y: 45 });
+const CAMERA_POSITION = Object.freeze({ x: 0, y: 0, z: 0 });
+const CAMERA_ANGLE = Object.freeze({ x: -45, y: 45 });
 const CAMERA_DISTANCE = 100;
 const VIEW_SIZE = 20;
 

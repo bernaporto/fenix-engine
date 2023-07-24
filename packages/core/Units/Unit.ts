@@ -33,10 +33,24 @@ export class Unit {
 
   constructor(config?: UnitConfig) {
     const id = uuid4();
-    const { name = `Unit-${id}` } = config || {};
+    const { behaviours, name, position, rotation, scale } = {
+      ...{
+        behaviours: [],
+        name: `Unit-${id}`,
+        position: Vector3.zero,
+        rotation: Vector3.zero,
+        scale: Vector3.one,
+      },
+      ...config,
+    };
 
     this.id = id;
     this.name = name;
+    this.transform.setPosition(position);
+    this.transform.setRotation(rotation);
+    this.transform.setScale(scale);
+
+    behaviours.forEach((key) => this.addBehaviour(key));
   }
 
   /* Parenting */

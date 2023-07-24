@@ -1,10 +1,6 @@
-import type {
-  MeshBasicMaterialParameters,
-  MeshStandardMaterialParameters,
-} from 'three';
-import type { Vector2, Vector3 } from '../Math';
+import type { CameraConfig, MaterialConfig, UnitConfig } from '../types';
 
-type AssetModel = {
+export type AssetModel = {
   path: string;
   preload?: boolean;
 };
@@ -13,14 +9,9 @@ type ModelList<T> = Record<string, T>;
 type AssetModelList = ModelList<AssetModel>;
 
 /* MATERIAL MODEL */
-export type MaterialModel =
-  | ({
-      key: string;
-      type: 'basic';
-    } & MeshBasicMaterialParameters)
-  | ({
-      type: 'standard';
-    } & MeshStandardMaterialParameters);
+type MaterialModel = MaterialConfig & {
+  key: string;
+};
 
 /* GAME MANIFEST */
 export type GameManifest = {
@@ -29,13 +20,9 @@ export type GameManifest = {
 };
 
 /* SCENE MANIFEST */
-type SceneUnitConfig = {
-  behaviours?: string[];
+type SceneUnitConfig = UnitConfig & {
   children?: SceneChildModel[];
-  material?: string | MaterialModel;
-  position?: Vector3;
-  rotation?: Vector3;
-  scale?: Vector3;
+  material?: MaterialModel | string;
 };
 
 type WithType<T, U extends string> = T & {
@@ -44,16 +31,10 @@ type WithType<T, U extends string> = T & {
 
 type SceneChildModel =
   | WithType<AssetModel, 'prefab'>
+  | WithType<CameraConfig, 'camera'>
   | WithType<SceneUnitConfig, 'unit' | 'box'>
   | WithType<AssetModel & SceneUnitConfig, 'prop'>
-  | WithType<AssetModel & SceneUnitConfig, 'puppet'>
-  | WithType<
-      Omit<SceneUnitConfig, 'children'> & {
-        distance?: number;
-        angle?: Vector2;
-      },
-      'camera'
-    >;
+  | WithType<AssetModel & SceneUnitConfig, 'puppet'>;
 
 type WithLayer<T> = T & {
   layer: number;

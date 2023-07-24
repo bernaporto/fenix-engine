@@ -3,11 +3,8 @@
   "tree": [
     {
       "type": "camera",
-      "position": {
-        "x": 0,
-        "y": 0,
-        "z": 5
-      }
+      "angle": { "x": 45, "y": 45 },
+      "distance": 5
     },
     {
       "type": "box",
