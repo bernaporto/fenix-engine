@@ -1,4 +1,4 @@
-import { WebGLRenderer, SRGBColorSpace, PCFShadowMap } from 'three';
+import { WebGLRenderer, SRGBColorSpace } from 'three';
 import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import { Stage, type StageOptions } from './Stage';
@@ -56,20 +56,28 @@ export class Game {
     const {
       settings,
       scenes,
-      materials = {},
+      materials = [],
     } = await loadGameManifest(manifest);
 
     this.applySettings(settings);
 
-    await Promise.all([
-      ...Object.entries(scenes).map(async ([key, value]) => {
-        const data = await loadSceneManifest(value.path);
+    materials.map(({ key, ...data }) => {
+      MaterialRegistry.add(key, data);
+    });
+
+    await Promise.all(
+      scenes.map(async ({ key, path }) => {
+        const data = await loadSceneManifest(path);
         SceneRegistry.add(key, data);
-      }),
-      ...Object.entries(materials).map(([key, value]) => {
-        MaterialRegistry.add(key, value);
-      }),
-    ]);
+      })
+    );
+
+    const { initialScene } = {
+      ...settings,
+      initialScene: scenes[0].key,
+    };
+
+    this.stage.load(initialScene);
   }
 
   private applySettings(settings?: GameSettings) {
@@ -77,7 +85,8 @@ export class Game {
 
     if (enableShadows) {
       this.renderer.shadowMap.enabled = true;
-      this.renderer.shadowMap.type = PCFShadowMap;
+      // THREE.BasicShadowMap = 0 | THREE.PCFShadowMap = 1 | THREE.PCFSoftShadowMap = 2
+      this.renderer.shadowMap.type = 1;
     }
   }
 

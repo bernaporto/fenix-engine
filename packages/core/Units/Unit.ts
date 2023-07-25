@@ -36,14 +36,12 @@ export class Unit {
   constructor(config?: UnitConfig) {
     const id = uuid4();
     const { behaviours, name, position, rotation, scale, type } = {
-      ...{
-        behaviours: [],
-        name: `Unit-${id}`,
-        position: Vector3.zero,
-        rotation: Vector3.zero,
-        scale: Vector3.one,
-        type: 'unit',
-      },
+      behaviours: [],
+      name: `Unit-${id}`,
+      position: Vector3.zero,
+      rotation: Vector3.zero,
+      scale: Vector3.one,
+      type: 'unit',
       ...config,
     };
 

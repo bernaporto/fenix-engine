@@ -21,13 +21,11 @@ export class Camera extends Unit {
     super(config);
 
     const { angle, cameraType, distance, fov, zoom }: CameraConfig = {
-      ...{
-        angle: Vector2.zero,
-        cameraType: 'orthographic',
-        distance: 0,
-        fov: 60,
-        zoom: 1,
-      },
+      angle: Vector2.zero,
+      cameraType: 'orthographic',
+      distance: 0,
+      fov: 60,
+      zoom: 1,
       ...config,
     };
 

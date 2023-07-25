@@ -32,6 +32,10 @@ export type AssetUnitConfig = MeshUnitConfig & {
   path: string;
 };
 
+export type SkinnedUnitConfig = AssetUnitConfig & {
+  defaultClip: string;
+};
+
 /* OTHER UNIT TYPES */
 export type CameraConfig = UnitConfig & {
   angle?: Vector2;
@@ -48,6 +52,8 @@ export type LightConfig = UnitConfig & {
   distance?: number;
   intensity?: number;
   lightType?: 'ambient' | 'directional' | 'point';
+  shadowMapWidth?: number;
+  shadowMapHeight?: number;
 };
 
 export type MaterialConfig = { key?: string } & (

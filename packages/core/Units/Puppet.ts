@@ -1,32 +1,38 @@
 import type { AnimationAction, AnimationClip, Group } from 'three';
 import { AnimationMixer } from 'three';
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils';
-import type { AssetUnitConfig, SkinnedObject, MeshUnitConfig } from '../types';
-import { applyMaterial } from './utils';
+import type { SkinnedObject, SkinnedUnitConfig } from '../types';
+import { applyMeshConfig } from './utils';
 import { Unit } from './Unit';
 import { PuppetAssetRegistry } from '../Game/registries';
-
-export type PuppetConfig = MeshUnitConfig & {
-  assetPromise: Promise<SkinnedObject>;
-};
+import { TickerState } from '../Tools/Ticker';
 
 /**
  * A Puppet is a unit with a skinned mesh child that is animated by a skeleton
  */
 export class Puppet extends Unit {
-  public readonly puppeteer = makePuppeteer(this);
+  public readonly puppeteer: Puppeteer;
 
-  constructor({ path, material, ...unitConfig }: AssetUnitConfig) {
-    super(unitConfig);
+  constructor({ path, defaultClip, ...meshUnitConfig }: SkinnedUnitConfig) {
+    super(meshUnitConfig);
+
+    this.puppeteer = makePuppeteer(this, defaultClip);
 
     const assetPromise =
       PuppetAssetRegistry.get(path) ?? PuppetAssetRegistry.add(path, path);
 
     assetPromise.then(cloneSkinnedObject).then(({ animations, root }) => {
-      material && applyMaterial(root, material);
+      applyMeshConfig(root, meshUnitConfig);
+
       this.node.add(root);
       this.emit('load', animations);
     });
+  }
+
+  public override update(state: TickerState) {
+    super.update(state);
+
+    this.puppeteer.update(state.deltaTime);
   }
 }
 
@@ -37,7 +43,7 @@ type Puppeteer = {
   update: (delta: number) => void;
 };
 
-const makePuppeteer = (puppet: Puppet): Puppeteer => {
+const makePuppeteer = (puppet: Puppet, defaultClip?: string): Puppeteer => {
   const mixer = new AnimationMixer(puppet.node);
   const actions: Map<string, AnimationAction> = new Map();
   let currentAction: AnimationAction | null = null;
@@ -56,7 +62,7 @@ const makePuppeteer = (puppet: Puppet): Puppeteer => {
     });
   });
 
-  return {
+  const puppeteer: Puppeteer = {
     get actions() {
       return [...actions.keys()];
     },
@@ -90,6 +96,10 @@ const makePuppeteer = (puppet: Puppet): Puppeteer => {
       mixer.update(delta);
     },
   };
+
+  if (defaultClip) puppeteer.play(defaultClip);
+
+  return puppeteer;
 };
 
 /* UTILS */

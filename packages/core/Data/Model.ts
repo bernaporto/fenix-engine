@@ -1,24 +1,31 @@
-import type { CameraConfig, MaterialConfig, UnitConfig } from '../types';
+import type {
+  AssetUnitConfig,
+  CameraConfig,
+  LightConfig,
+  MaterialConfig,
+  SkinnedUnitConfig,
+  UnitConfig,
+} from '../types';
 
 export type AssetModel = {
   path: string;
 };
 
-type ModelList<T> = Record<string, T>;
-type AssetModelList = ModelList<AssetModel>;
-
-/* MATERIAL MODEL */
-type MaterialModel = MaterialConfig & {
+type WithKey<T> = T & {
   key: string;
 };
+
+/* MATERIAL MODEL */
+type MaterialModel = WithKey<MaterialConfig>;
 
 /* GAME MANIFEST */
 export type GameSettings = {
   enableShadows?: boolean;
+  initialScene?: string;
 };
 export type GameManifest = {
-  scenes: AssetModelList;
-  materials?: ModelList<MaterialModel>;
+  scenes: WithKey<AssetModel>[];
+  materials?: MaterialModel[];
   settings?: GameSettings;
 };
 
@@ -35,9 +42,10 @@ type WithType<T, U extends string> = T & {
 type SceneChildModel =
   | WithType<AssetModel, 'prefab'>
   | WithType<CameraConfig, 'camera'>
+  | WithType<LightConfig, 'light'>
   | WithType<SceneUnitConfig, 'unit' | 'box' | 'plane'>
-  | WithType<AssetModel & SceneUnitConfig, 'prop'>
-  | WithType<AssetModel & SceneUnitConfig, 'puppet'>;
+  | WithType<AssetUnitConfig, 'prop'>
+  | WithType<SkinnedUnitConfig, 'puppet'>;
 
 type WithLayer<T> = T & {
   layer: number;
