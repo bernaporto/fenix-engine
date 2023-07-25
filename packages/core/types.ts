@@ -19,13 +19,16 @@ export type UnitConfig = {
   position?: Vector3;
   rotation?: Vector3;
   scale?: Vector3;
+  type?: string;
 };
 
-export type UnitConfigWithMaterial = UnitConfig & {
+export type MeshUnitConfig = UnitConfig & {
+  castShadow?: boolean;
   material?: Material | MaterialConfig | string;
+  receiveShadow?: boolean;
 };
 
-export type AssetUnitConfig = UnitConfigWithMaterial & {
+export type AssetUnitConfig = MeshUnitConfig & {
   path: string;
 };
 
@@ -36,6 +39,15 @@ export type CameraConfig = UnitConfig & {
   distance?: number;
   fov?: number;
   zoom?: number;
+};
+
+export type LightConfig = UnitConfig & {
+  castShadow?: boolean;
+  color?: string;
+  decay?: number;
+  distance?: number;
+  intensity?: number;
+  lightType?: 'ambient' | 'directional' | 'point';
 };
 
 export type MaterialConfig = { key?: string } & (

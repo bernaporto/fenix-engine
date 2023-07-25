@@ -1,16 +1,12 @@
 import type { AnimationAction, AnimationClip, Group } from 'three';
 import { AnimationMixer } from 'three';
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils';
-import type {
-  AssetUnitConfig,
-  SkinnedObject,
-  UnitConfigWithMaterial,
-} from '../types';
+import type { AssetUnitConfig, SkinnedObject, MeshUnitConfig } from '../types';
 import { applyMaterial } from './utils';
 import { Unit } from './Unit';
 import { PuppetAssetRegistry } from '../Game/registries';
 
-export type PuppetConfig = UnitConfigWithMaterial & {
+export type PuppetConfig = MeshUnitConfig & {
   assetPromise: Promise<SkinnedObject>;
 };
 

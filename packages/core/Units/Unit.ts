@@ -8,6 +8,7 @@ import {
 import { Vector3 } from '../Math';
 import type { TickerState } from '../Tools/Ticker';
 import { UnitConfig } from '../types';
+import { degToRad } from 'three/src/math/MathUtils';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -22,6 +23,7 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  */
 export class Unit {
   public readonly id: string;
+  public readonly type: string;
   public readonly name: string;
   public readonly node = new Object3D();
   public readonly transform = makeTransformController(this);
@@ -33,19 +35,22 @@ export class Unit {
 
   constructor(config?: UnitConfig) {
     const id = uuid4();
-    const { behaviours, name, position, rotation, scale } = {
+    const { behaviours, name, position, rotation, scale, type } = {
       ...{
         behaviours: [],
         name: `Unit-${id}`,
         position: Vector3.zero,
         rotation: Vector3.zero,
         scale: Vector3.one,
+        type: 'unit',
       },
       ...config,
     };
 
     this.id = id;
     this.name = name;
+    this.type = type;
+
     this.transform.setPosition(position);
     this.transform.setRotation(rotation);
     this.transform.setScale(scale);
@@ -153,6 +158,10 @@ export type TransformController = {
   setPosition: (value: Vector3) => void;
   setRotation: (value: Vector3) => void;
   setScale: (value: Vector3) => void;
+
+  rotateX: (value: number) => void;
+  rotateY: (value: number) => void;
+  rotateZ: (value: number) => void;
 };
 
 export const makeTransformController = (unit: Unit): TransformController => {
@@ -175,6 +184,18 @@ export const makeTransformController = (unit: Unit): TransformController => {
       return Vector3.copy(scale);
     },
 
+    rotateX: (value: number) => {
+      node.rotateX(degToRad(value));
+    },
+
+    rotateY: (value: number) => {
+      node.rotateY(degToRad(value));
+    },
+
+    rotateZ: (value: number) => {
+      node.rotateZ(degToRad(value));
+    },
+
     setPosition: (value: Vector3) => {
       position = Vector3.copy(value);
 
@@ -184,7 +205,11 @@ export const makeTransformController = (unit: Unit): TransformController => {
     setRotation: (value: Vector3) => {
       rotation = Vector3.copy(value);
 
-      node.rotation.set(rotation.x, rotation.y, rotation.z);
+      node.rotation.set(
+        degToRad(rotation.x),
+        degToRad(rotation.y),
+        degToRad(rotation.z)
+      );
     },
 
     setScale: (value: Vector3) => {

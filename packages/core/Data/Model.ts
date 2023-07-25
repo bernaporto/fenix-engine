@@ -2,7 +2,6 @@ import type { CameraConfig, MaterialConfig, UnitConfig } from '../types';
 
 export type AssetModel = {
   path: string;
-  preload?: boolean;
 };
 
 type ModelList<T> = Record<string, T>;
@@ -14,9 +13,13 @@ type MaterialModel = MaterialConfig & {
 };
 
 /* GAME MANIFEST */
+export type GameSettings = {
+  enableShadows?: boolean;
+};
 export type GameManifest = {
   scenes: AssetModelList;
   materials?: ModelList<MaterialModel>;
+  settings?: GameSettings;
 };
 
 /* SCENE MANIFEST */
@@ -32,7 +35,7 @@ type WithType<T, U extends string> = T & {
 type SceneChildModel =
   | WithType<AssetModel, 'prefab'>
   | WithType<CameraConfig, 'camera'>
-  | WithType<SceneUnitConfig, 'unit' | 'box'>
+  | WithType<SceneUnitConfig, 'unit' | 'box' | 'plane'>
   | WithType<AssetModel & SceneUnitConfig, 'prop'>
   | WithType<AssetModel & SceneUnitConfig, 'puppet'>;
 

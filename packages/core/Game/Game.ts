@@ -1,10 +1,11 @@
-import { WebGLRenderer, SRGBColorSpace } from 'three';
+import { WebGLRenderer, SRGBColorSpace, PCFShadowMap } from 'three';
 import { isNotNullable } from '@fenix-engine/shared/utils';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import { Stage, type StageOptions } from './Stage';
 import { loadGameManifest } from '../Data';
 import { MaterialRegistry, SceneRegistry } from './registries';
 import { loadSceneManifest } from '../Data/manifest';
+import { GameSettings } from '../Data/Model';
 
 export type GameConfig = StageOptions & {
   /**
@@ -52,7 +53,13 @@ export class Game {
   public async load(): Promise<void> {
     const { manifest } = this.options;
 
-    const { scenes, materials = {} } = await loadGameManifest(manifest);
+    const {
+      settings,
+      scenes,
+      materials = {},
+    } = await loadGameManifest(manifest);
+
+    this.applySettings(settings);
 
     await Promise.all([
       ...Object.entries(scenes).map(async ([key, value]) => {
@@ -63,6 +70,15 @@ export class Game {
         MaterialRegistry.add(key, value);
       }),
     ]);
+  }
+
+  private applySettings(settings?: GameSettings) {
+    const { enableShadows = false } = settings ?? {};
+
+    if (enableShadows) {
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = PCFShadowMap;
+    }
   }
 
   private loop({ status }: TickerState) {

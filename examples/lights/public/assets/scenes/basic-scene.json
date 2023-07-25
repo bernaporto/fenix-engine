@@ -5,27 +5,48 @@
       "type": "camera",
       "cameraType": "perspective",
       "angle": { "x": -45, "y": 45 },
-      "distance": 5
+      "distance": 5,
+      "behaviours": ["orbit"]
     },
     {
       "type": "box",
-      "material": "default-material"
+      "castShadow": true,
+      "material": "default-material",
+      "position": { "x": 0, "y": 0.5, "z": 0 }
     },
     {
       "type": "plane",
-      "material": "default-material"
+      "height": 10,
+      "material": "default-material",
+      "receiveShadow": true,
+      "width": 10,
+      "rotation": { "x": -90, "y": 0, "z": 0 }
+    },
+    {
+      "type": "light",
+      "lightType": "ambient",
+      "color": "#666"
     },
     {
       "type": "light",
       "lightType": "point",
+      "castShadow": true,
       "color": "red",
-      "position": { "x": 2, "y": 4, "z": 2 }
+      "position": { "x": 2, "y": 4, "z": -2 }
     },
     {
       "type": "light",
       "lightType": "point",
+      "castShadow": true,
       "color": "blue",
       "position": { "x": -2, "y": 4, "z": 2 }
+    },
+    {
+      "type": "light",
+      "lightType": "point",
+      "castShadow": true,
+      "intensity": 0.7,
+      "position": { "x": 2, "y": 4, "z": 2 }
     }
   ]
 }
