@@ -7,19 +7,13 @@ import { buildSceneTree } from './utils/buildSceneTree';
 
 export class Stage {
   private _config: StageConfig = {};
-  private _emptyScene: Scene;
-  private _currentScene: Scene;
-  private _scenes: Map<string, Scene> = new Map();
+  private _currentScene: Scene | null = null;
   private _unsubscribeResizeEvent: VoidFunction | null = null;
 
   private resize: (scene: Scene) => void;
 
   constructor(public readonly renderer: WebGLRenderer) {
     renderer.autoClear = false;
-
-    this._emptyScene = new Scene('empty', renderer);
-    this._currentScene = this._emptyScene;
-
     this.resize = getResizeHandler(renderer);
   }
 
@@ -38,7 +32,7 @@ export class Stage {
 
     if (autoResize && !this._unsubscribeResizeEvent) {
       this._unsubscribeResizeEvent = hookResizeEvent(() => {
-        this.resize(this._currentScene);
+        this._currentScene && this.resize(this._currentScene);
       });
     } else if (!autoResize && this._unsubscribeResizeEvent) {
       this._unsubscribeResizeEvent();
@@ -46,61 +40,36 @@ export class Stage {
     }
   }
 
-  private create(id: string) {
-    const scene = new Scene(id, this.renderer);
-    this._scenes.set(id, scene);
-
-    return scene;
-  }
-
   public load(key: string): Scene {
-    const scene = this.get(key) ?? this.create(key);
-    this._currentScene = scene;
-
     const sceneData = SceneRegistry.get(key);
-    if (sceneData) {
-      buildSceneTree(scene, sceneData);
+
+    if (!sceneData) {
+      throw new Error(`Scene "${key}" not found`);
     }
 
+    if (this._currentScene) {
+      this._currentScene.dispose();
+    }
+
+    const scene = new Scene(sceneData, this.renderer);
+    this._currentScene = scene;
+
+    buildSceneTree(scene, sceneData);
     this.resize(scene);
 
     return scene;
   }
 
-  public disposeScene(key: string): void {
-    const scene = this._scenes.get(key);
-
-    if (!scene) return;
-
-    if (this._currentScene === scene) {
-      this._currentScene = this._emptyScene;
-    }
-
-    scene.dispose();
-    this._scenes.delete(key);
-  }
-
-  public clear(): void {
-    this._scenes.forEach((scene) => {
-      scene.dispose();
-    });
-    this._scenes.clear();
-  }
-
-  public get currentScene(): Scene {
+  public get currentScene(): Scene | null {
     return this._currentScene;
   }
 
-  public get(id: string): Scene | null {
-    return this._scenes.get(id) ?? null;
-  }
-
   public render(): void {
-    this._currentScene.update();
+    this._currentScene?.update();
   }
 
   public setBackgroundColor(color: number | string): void {
-    this.currentScene.setBackgroundColor(color);
+    this.currentScene?.setBackgroundColor(color);
     this.renderer.setClearColor(color);
   }
 }

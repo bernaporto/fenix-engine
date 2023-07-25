@@ -4,6 +4,7 @@ import type {
   GameSettings,
   LightConfig,
   MaterialConfig,
+  SceneConfig,
   SkinnedUnitConfig,
   UnitConfig,
 } from '../types';
@@ -48,8 +49,7 @@ type WithLayer<T> = T & {
   layer: number;
 };
 
-export type SceneManifest = {
-  key: string;
+export type SceneManifest = SceneConfig & {
   tree: WithLayer<SceneChildModel>[];
 };
 

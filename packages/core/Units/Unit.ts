@@ -12,6 +12,7 @@ import {
   EventHandler,
   Queryable,
   SceneUnit,
+  Stateful,
   UnitConfig,
 } from '../types';
 import type { TickerState } from '../Tools/Ticker';
@@ -30,7 +31,7 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  * A Unit represents any kind of element that can be placed in the scene.
  * Units can receive Behaviour scripts, which are defined by the developer.
  */
-export class Unit implements EventHandler, Queryable, SceneUnit {
+export class Unit implements EventHandler, Queryable, SceneUnit, Stateful {
   public readonly id: string;
   public readonly name: string;
   public readonly type: string;
@@ -196,7 +197,9 @@ export class Unit implements EventHandler, Queryable, SceneUnit {
     }
 
     const controller = behaviour(this);
-    this._behaviours.set(key, controller);
+    if (controller) {
+      this._behaviours.set(key, controller);
+    }
   }
 
   public removeBehaviour(key: string) {

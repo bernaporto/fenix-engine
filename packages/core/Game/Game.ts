@@ -107,7 +107,7 @@ export class Game {
   }
 
   public destroy() {
-    this._stage.clear();
+    this._stage.currentScene?.dispose();
     this._renderer.dispose();
     this._subscription();
   }

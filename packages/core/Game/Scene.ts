@@ -1,22 +1,48 @@
 import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
-import type { CustomEvent, EventHandler, Queryable, SceneUnit } from '../types';
+import { AnyState, Store } from '@fenix-engine/utilities/store/types';
+import { createStore } from '@fenix-engine/utilities/store';
+import type {
+  CustomEvent,
+  EventHandler,
+  Queryable,
+  SceneConfig,
+  SceneUnit,
+  Stateful,
+} from '../types';
 import { Ticker } from '../Tools/Ticker';
 import { Camera, Unit } from '../Units';
 import { Layer } from './Layer';
 
 type SceneEvent = 'dispose' | CustomEvent;
 
-export class Scene implements EventHandler, Queryable, SceneUnit {
+export class Scene implements EventHandler, Queryable, SceneUnit, Stateful {
+  public readonly sceneId: string;
+
   private _camera: Camera | null = null;
-  private _layers = new Map<number, Layer>();
   private _emitter = new EventEmitter();
+  private _layers = new Map<number, Layer>();
+  private _store: Store<AnyState> | null = null;
 
-  constructor(
-    public readonly sceneId: string,
-    private _renderer: WebGLRenderer
-  ) {}
+  constructor(config: SceneConfig, private _renderer: WebGLRenderer) {
+    const { key, initialState } = config;
 
+    this.sceneId = key;
+    initialState && this.initStore(initialState);
+  }
+  /* State */
+  public get store() {
+    return this._store ?? this.initStore({});
+  }
+
+  private initStore(initialState: Record<string, any>) {
+    const store = createStore(initialState);
+    this._store = store;
+
+    return store;
+  }
+
+  /* Background */
   public setBackgroundColor(color: number | string): void {
     this._layers.forEach((layer) => {
       layer.background = new Color(color);

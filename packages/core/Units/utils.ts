@@ -99,6 +99,8 @@ export type TransformController = {
   rotation: Vector3;
   scale: Vector3;
 
+  lookAt: (target: Vector3) => void;
+
   setPosition: (value: Vector3) => void;
   setRotation: (value: Vector3) => void;
   setScale: (value: Vector3) => void;
@@ -126,6 +128,10 @@ export const makeTransformController = (unit: Unit): TransformController => {
 
     get scale() {
       return Vector3.copy(scale);
+    },
+
+    lookAt: (target: Vector3) => {
+      node.lookAt(target.x, target.y, target.z);
     },
 
     rotateX: (value: number) => {

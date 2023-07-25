@@ -5,9 +5,14 @@ import type {
   MeshStandardMaterialParameters,
   ShadowMapType,
 } from 'three';
+import type { AnyState, Store } from '@fenix-engine/utilities/store/types';
 import type { Material, Prop, Puppet, Unit } from './Units';
 import type { Vector2, Vector3 } from './Math';
 import { TickerState } from './Tools/Ticker';
+
+type WithInitialState<T> = T & {
+  initialState?: Record<string, any>;
+};
 
 /* GAME TYPES */
 export type GameConfig = {
@@ -23,22 +28,25 @@ export type StageConfig = {
 
 export type GameSettings = StageConfig & GameConfig;
 
+export type SceneConfig = WithInitialState<{
+  key: string;
+}>;
+
 /* SHARED UNIT TYPES */
 export type SkinnedObject = {
   animations: AnimationClip[];
   root: Group;
 };
 
-export type UnitConfig = {
+export type UnitConfig = WithInitialState<{
   behaviours?: string[];
-  initialState?: Record<string, any>;
   name?: string;
   position?: Vector3;
   rotation?: Vector3;
   scale?: Vector3;
   tags?: string[];
   type?: string;
-};
+}>;
 
 export type MeshUnitConfig = UnitConfig & {
   castShadow?: boolean;
@@ -54,7 +62,11 @@ export type SkinnedUnitConfig = AssetUnitConfig & {
   defaultClip: string;
 };
 
-/* OTHER UNIT TYPES */
+/* SCENE UNIT INTERFACES */
+export interface Stateful {
+  store: Store<AnyState>;
+}
+
 export interface Queryable {
   findById(id: string): Unit | null;
   findByName(name: string): Unit | null;
@@ -76,6 +88,7 @@ export interface EventHandler {
   removeAllListeners(): void;
 }
 
+/* OTHER UNIT TYPES */
 export type CameraConfig = UnitConfig & {
   angle?: Vector2;
   cameraType?: 'orthographic' | 'perspective';
@@ -105,7 +118,7 @@ export type MaterialConfig = { key?: string } & (
 );
 
 export type BehaviourController = { dispose: VoidFunction };
-export type Behaviour<T extends Unit> = (unit: T) => BehaviourController;
+export type Behaviour<T extends Unit> = (unit: T) => BehaviourController | null;
 export type BehaviourConfig =
   | {
       type?: 'unit';
