@@ -7,6 +7,7 @@ import type {
 } from 'three';
 import type { Material, Prop, Puppet, Unit } from './Units';
 import type { Vector2, Vector3 } from './Math';
+import { TickerState } from './Tools/Ticker';
 
 /* GAME TYPES */
 export type GameConfig = {
@@ -34,6 +35,7 @@ export type UnitConfig = {
   position?: Vector3;
   rotation?: Vector3;
   scale?: Vector3;
+  tags?: string[];
   type?: string;
 };
 
@@ -52,6 +54,27 @@ export type SkinnedUnitConfig = AssetUnitConfig & {
 };
 
 /* OTHER UNIT TYPES */
+export interface Queryable {
+  findById(id: string): Unit | null;
+  findByName(name: string): Unit | null;
+  findByTag(tag: string): Unit[];
+  findByType(type: string): Unit[];
+}
+
+export interface SceneUnit {
+  dispose(): void;
+  update(state: TickerState): void;
+}
+
+export type CustomEvent = `custom:${string}`;
+type EventArgs = any[];
+type EventCallback = (...args: EventArgs) => void;
+export interface EventHandler {
+  on(event: CustomEvent, callback: EventCallback): void;
+  emit(event: CustomEvent, ...args: EventArgs): void;
+  removeAllListeners(): void;
+}
+
 export type CameraConfig = UnitConfig & {
   angle?: Vector2;
   cameraType?: 'orthographic' | 'perspective';
@@ -80,7 +103,6 @@ export type MaterialConfig = { key?: string } & (
     } & MeshStandardMaterialParameters)
 );
 
-/* SHARED GAME TYPES */
 export type BehaviourController = { dispose: VoidFunction };
 export type Behaviour<T extends Unit> = (unit: T) => BehaviourController;
 export type BehaviourConfig =

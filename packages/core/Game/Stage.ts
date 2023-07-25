@@ -7,8 +7,8 @@ import { buildSceneTree } from './utils/buildSceneTree';
 
 export class Stage {
   private _config: StageConfig = {};
-  private _emptyScene = new Scene('empty');
-  private _currentScene: Scene = this._emptyScene;
+  private _emptyScene: Scene;
+  private _currentScene: Scene;
   private _scenes: Map<string, Scene> = new Map();
   private _unsubscribeResizeEvent: VoidFunction | null = null;
 
@@ -16,6 +16,10 @@ export class Stage {
 
   constructor(public readonly renderer: WebGLRenderer) {
     renderer.autoClear = false;
+
+    this._emptyScene = new Scene('empty', renderer);
+    this._currentScene = this._emptyScene;
+
     this.resize = getResizeHandler(renderer);
   }
 
@@ -43,7 +47,7 @@ export class Stage {
   }
 
   private create(id: string) {
-    const scene = new Scene(id);
+    const scene = new Scene(id, this.renderer);
     this._scenes.set(id, scene);
 
     return scene;
@@ -92,7 +96,7 @@ export class Stage {
   }
 
   public render(): void {
-    this._currentScene.render(this.renderer);
+    this._currentScene.update();
   }
 
   public setBackgroundColor(color: number | string): void {

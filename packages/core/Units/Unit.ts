@@ -5,16 +5,22 @@ import {
   BehaviourController,
   BehaviourRegistry,
 } from '../Game/registries/BehaviourRegistry';
-import { Vector3 } from '../Math';
+import {
+  CustomEvent,
+  EventHandler,
+  Queryable,
+  SceneUnit,
+  UnitConfig,
+} from '../types';
 import type { TickerState } from '../Tools/Ticker';
-import { UnitConfig } from '../types';
-import { degToRad } from 'three/src/math/MathUtils';
+import { Vector3 } from '../Math';
+import { makeTransformController } from './utils';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
   load: VoidFunction;
   update: (state: TickerState) => void;
-} & Record<`custom:${string}`, (...args: any[]) => void>;
+} & Record<CustomEvent, (...args: any[]) => void>;
 
 export type UnitEvent = keyof UnitEventCallbackMap;
 
@@ -22,26 +28,28 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  * A Unit represents any kind of element that can be placed in the scene.
  * Units can receive Behaviour scripts, which are defined by the developer.
  */
-export class Unit {
+export class Unit implements EventHandler, Queryable, SceneUnit {
   public readonly id: string;
-  public readonly type: string;
   public readonly name: string;
+  public readonly type: string;
   public readonly node = new Object3D();
   public readonly transform = makeTransformController(this);
 
+  private _behaviours = new Map<string, BehaviourController>();
   private _children = new Set<Unit>();
   private _emitter = new EventEmitter();
   private _parent: Unit | null = null;
-  private _behaviours = new Map<string, BehaviourController>();
+  private _tags: Set<string> = new Set();
 
   constructor(config?: UnitConfig) {
     const id = uuid4();
-    const { behaviours, name, position, rotation, scale, type } = {
+    const { behaviours, name, position, rotation, scale, tags, type } = {
       behaviours: [],
       name: `Unit-${id}`,
       position: Vector3.zero,
       rotation: Vector3.zero,
       scale: Vector3.one,
+      tags: [],
       type: 'unit',
       ...config,
     };
@@ -49,6 +57,7 @@ export class Unit {
     this.id = id;
     this.name = name;
     this.type = type;
+    tags.forEach((tag) => this.addTag(tag));
 
     this.transform.setPosition(position);
     this.transform.setRotation(rotation);
@@ -57,7 +66,20 @@ export class Unit {
     behaviours.forEach((key) => this.addBehaviour(key));
   }
 
-  /* Parenting */
+  /* Tags */
+  public addTag(tag: string) {
+    this._tags.add(tag);
+  }
+
+  public removeTag(tag: string) {
+    this._tags.delete(tag);
+  }
+
+  public hasTag(tag: string): boolean {
+    return this._tags.has(tag);
+  }
+
+  /* Tree */
   public get children() {
     return this._children;
   }
@@ -88,6 +110,55 @@ export class Unit {
     }
 
     this._parent = null;
+  }
+
+  /* Querying */
+  public findById(id: string): Unit | null {
+    if (this.id === id) return this;
+
+    for (const child of this.children) {
+      if (child.id === id) return child;
+      return child.findById(id);
+    }
+
+    return null;
+  }
+
+  public findByName(name: string): Unit | null {
+    if (this.name === name) return this;
+
+    for (const child of this.children) {
+      if (child.name === name) return child;
+      return child.findByName(name);
+    }
+
+    return null;
+  }
+
+  public findByType(type: string): Unit[] {
+    const units: Unit[] = [];
+
+    if (this.type === type) units.push(this);
+
+    for (const child of this.children) {
+      if (child.type === type) units.push(child);
+      units.push(...child.findByType(type));
+    }
+
+    return units;
+  }
+
+  public findByTag(tag: string): Unit[] {
+    const units: Unit[] = [];
+
+    if (this.hasTag(tag)) units.push(this);
+
+    for (const child of this.children) {
+      if (child.hasTag(tag)) units.push(child);
+      units.push(...child.findByTag(tag));
+    }
+
+    return units;
   }
 
   /* Behaviours */
@@ -134,8 +205,12 @@ export class Unit {
     this._emitter.emit(event, ...args);
   }
 
-  public emit(event: `custom:${string}`, ...args: any[]): void {
+  public emit(event: CustomEvent, ...args: any[]): void {
     this._emitEvent(event, ...args);
+  }
+
+  public removeAllListeners(): void {
+    this._emitter.removeAllListeners();
   }
 
   /* Lifecycle */
@@ -152,73 +227,3 @@ export class Unit {
     this.children.forEach((child) => child.update(state));
   }
 }
-
-export type TransformController = {
-  position: Vector3;
-  rotation: Vector3;
-  scale: Vector3;
-
-  setPosition: (value: Vector3) => void;
-  setRotation: (value: Vector3) => void;
-  setScale: (value: Vector3) => void;
-
-  rotateX: (value: number) => void;
-  rotateY: (value: number) => void;
-  rotateZ: (value: number) => void;
-};
-
-export const makeTransformController = (unit: Unit): TransformController => {
-  let position = Vector3.create();
-  let rotation = Vector3.create();
-  let scale = Vector3.create();
-
-  const node = unit.node;
-
-  return {
-    get position() {
-      return Vector3.copy(position);
-    },
-
-    get rotation() {
-      return Vector3.copy(rotation);
-    },
-
-    get scale() {
-      return Vector3.copy(scale);
-    },
-
-    rotateX: (value: number) => {
-      node.rotateX(degToRad(value));
-    },
-
-    rotateY: (value: number) => {
-      node.rotateY(degToRad(value));
-    },
-
-    rotateZ: (value: number) => {
-      node.rotateZ(degToRad(value));
-    },
-
-    setPosition: (value: Vector3) => {
-      position = Vector3.copy(value);
-
-      node.position.set(position.x, position.y, position.z);
-    },
-
-    setRotation: (value: Vector3) => {
-      rotation = Vector3.copy(value);
-
-      node.rotation.set(
-        degToRad(rotation.x),
-        degToRad(rotation.y),
-        degToRad(rotation.z)
-      );
-    },
-
-    setScale: (value: Vector3) => {
-      scale = Vector3.copy(value);
-
-      node.scale.set(scale.x, scale.y, scale.z);
-    },
-  };
-};

@@ -1,17 +1,21 @@
 import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
+import type { CustomEvent, EventHandler, Queryable, SceneUnit } from '../types';
 import { Ticker } from '../Tools/Ticker';
 import { Camera, Unit } from '../Units';
 import { Layer } from './Layer';
 
-type SceneEvent = 'dispose';
+type SceneEvent = 'dispose' | CustomEvent;
 
-export class Scene {
+export class Scene implements EventHandler, Queryable, SceneUnit {
   private _camera: Camera | null = null;
   private _layers = new Map<number, Layer>();
   private _emitter = new EventEmitter();
 
-  constructor(public readonly sceneId: string) {}
+  constructor(
+    public readonly sceneId: string,
+    private _renderer: WebGLRenderer
+  ) {}
 
   public setBackgroundColor(color: number | string): void {
     this._layers.forEach((layer) => {
@@ -49,14 +53,14 @@ export class Scene {
     });
     this._layers.clear();
 
-    this.emit('dispose');
+    this._emitEvent('dispose');
     this._emitter.removeAllListeners();
   }
 
-  public render(renderer: WebGLRenderer): void {
+  public update(): void {
     if (!this._camera) return;
 
-    renderer.clear();
+    this._renderer.clear();
     const state = Ticker.state.get();
     const camera = this._camera.camera;
 
@@ -65,8 +69,8 @@ export class Scene {
       .forEach(([_, layer]) => {
         layer.update(state);
 
-        renderer.render(layer.node, camera);
-        renderer.clearDepth();
+        this._renderer.render(layer.node, camera);
+        this._renderer.clearDepth();
       });
   }
 
@@ -79,7 +83,54 @@ export class Scene {
     };
   }
 
-  protected emit(event: SceneEvent): void {
+  protected _emitEvent(event: SceneEvent): void {
     this._emitter.emit(event);
+  }
+
+  public emit(event: CustomEvent): void {
+    this._emitEvent(event);
+  }
+
+  public removeAllListeners(): void {
+    this._emitter.removeAllListeners();
+  }
+
+  /* Queryable */
+  public findById(id: string): Unit | null {
+    for (let layer of this._layers.values()) {
+      const result = layer.findById(id);
+      if (result) return result;
+    }
+
+    return null;
+  }
+
+  public findByName(name: string): Unit | null {
+    for (let layer of this._layers.values()) {
+      const result = layer.findByName(name);
+      if (result) return result;
+    }
+
+    return null;
+  }
+
+  public findByTag(tag: string): Unit[] {
+    const results: Unit[] = [];
+
+    for (let layer of this._layers.values()) {
+      results.push(...layer.findByTag(tag));
+    }
+
+    return results;
+  }
+
+  public findByType(type: string): Unit[] {
+    const results: Unit[] = [];
+
+    for (let layer of this._layers.values()) {
+      results.push(...layer.findByType(type));
+    }
+
+    return results;
   }
 }
