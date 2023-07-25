@@ -1,15 +1,23 @@
 import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
-import { GameSettings } from '../types';
+import type { GameSettings } from '../types';
 import { loadGameManifest } from '../Data';
 import { loadSceneManifest } from '../Data/manifest';
 import { Ticker, type TickerState } from '../Tools/Ticker';
-import { MaterialRegistry, SceneRegistry } from './registries';
+import {
+  BehaviourRegistry,
+  MaterialRegistry,
+  SceneRegistry,
+} from './registries';
 import { Stage } from './Stage';
 
 export class Game {
   private _renderer: WebGLRenderer;
   private _stage: Stage;
   private _subscription: VoidFunction;
+
+  public readonly behaviours = {
+    register: BehaviourRegistry.add,
+  };
 
   constructor() {
     const renderer = new WebGLRenderer({ antialias: true });

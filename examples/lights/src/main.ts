@@ -1,6 +1,6 @@
-import { BehaviourRegistry, game } from '@fenix-engine/core';
+import { game } from '@fenix-engine/core';
 
-BehaviourRegistry.add('orbit', {
+game.behaviours.register('orbit', {
   behaviour: (unit) => {
     const unsubscribe = unit.on('update', ({ deltaTime }) => {
       unit.transform.rotateY(15 * deltaTime);

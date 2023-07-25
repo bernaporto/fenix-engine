@@ -1,7 +1,7 @@
-import { BehaviourRegistry, game } from '@fenix-engine/core';
+import { game } from '@fenix-engine/core';
 import { Vector3 } from '@fenix-engine/core/Math';
 
-BehaviourRegistry.add('bounce', {
+game.behaviours.register('bounce', {
   behaviour: (unit) => {
     const SPEED = 5;
     const SCALE = 5;
