@@ -6,7 +6,7 @@ import {
   Vector2 as THREE_Vector2,
   PerspectiveCamera,
 } from 'three';
-import { degreesToRadians, remap } from '@fenix-engine/shared/utils';
+import { degreesToRadians, remap } from '@fenix-engine/utilities/misc';
 import { Unit } from './Unit';
 import { Vector2, type Vector3 } from '../Math';
 import type { CameraConfig } from '../types';

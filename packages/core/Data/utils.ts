@@ -1,4 +1,4 @@
-import { isValidObject } from '@fenix-engine/shared/utils';
+import { isValidObject } from '@fenix-engine/utilities/misc';
 import { GameManifest, SceneManifest } from './Model';
 
 export const isGameManifest = (data: unknown): data is GameManifest =>

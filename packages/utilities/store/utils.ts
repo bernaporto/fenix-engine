@@ -1,5 +1,5 @@
 import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
-import { isNullable } from '../utils';
+import { isNullable } from '../misc';
 import type { AnyState } from './types';
 
 declare const structuredClone: <T>(value: T) => T;
@@ -49,7 +49,7 @@ export const createNestedObservableMap = <T, U>(): NestedObservableMap<
 
 export const getFromPath = <T extends AnyState, Path extends NestedPathOf<T>>(
   value: T,
-  path: Path,
+  path: Path
 ): NestedValueOf<T, Path> => {
   const pathArray = path.split('.');
 
@@ -67,7 +67,7 @@ export const getFromPath = <T extends AnyState, Path extends NestedPathOf<T>>(
 export const setOnPath = <T extends AnyState, Path extends NestedPathOf<T>>(
   state: T,
   path: Path,
-  newValue: NestedValueOf<T, Path>,
+  newValue: NestedValueOf<T, Path>
 ): void => {
   const pathArray = path.split('.');
   const lastKey = pathArray.pop() as string;
@@ -84,7 +84,7 @@ export const setOnPath = <T extends AnyState, Path extends NestedPathOf<T>>(
 
 export const deletePath = <T extends AnyState, Path extends NestedPathOf<T>>(
   state: T,
-  path: Path,
+  path: Path
 ): void => {
   try {
     const pathArray = path.split('.');
@@ -98,7 +98,7 @@ export const deletePath = <T extends AnyState, Path extends NestedPathOf<T>>(
 };
 
 export const getParentPath = <T extends AnyState, Path extends NestedPathOf<T>>(
-  path: Path,
+  path: Path
 ): NestedPathOf<T> | null => {
   const pathArray = path.split('.');
   pathArray.pop();
@@ -112,12 +112,12 @@ export const getParentPath = <T extends AnyState, Path extends NestedPathOf<T>>(
 
 export const isParentKey = <T extends AnyState, Path extends NestedPathOf<T>>(
   key: NestedPathOf<T>,
-  path: Path,
+  path: Path
 ): boolean => key !== path && path.includes(key);
 
 export const isChildKey = <T extends AnyState, Path extends NestedPathOf<T>>(
   key: NestedPathOf<T>,
-  path: Path,
+  path: Path
 ): boolean => key !== path && key.startsWith(path);
 
 export const clone = <T>(value: T): T => {
@@ -125,7 +125,7 @@ export const clone = <T>(value: T): T => {
     return structuredClone(value);
   } catch {
     throw new Error(
-      'Could not clone state. Make sure all values are serializable.',
+      'Could not clone state. Make sure all values are serializable.'
     );
   }
 };
@@ -146,7 +146,7 @@ export const log = ({
   console.groupCollapsed(
     `${baseMsg}( %c${path}`,
     'font-weight: 400; color: #cccc00;',
-    ')',
+    ')'
   );
   console.table({
     previous: {
@@ -169,7 +169,7 @@ const getCaller = () => {
 
   const caller = stack.find((line, index) => {
     if (index === 0) return false;
-    return !line.includes('shared/store');
+    return !line.includes('utilities/store');
   });
 
   return (caller ?? '').trim();

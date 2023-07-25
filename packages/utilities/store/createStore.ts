@@ -1,5 +1,5 @@
 import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
-import { isNotNullable } from '../utils';
+import { isNotNullable } from '../misc';
 import type { AnyState, Listener, Store } from './types';
 import {
   type NestedObservableMap,
@@ -56,7 +56,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
           oldValue: clone(getFromPath(oldState, path)),
           listeners: otherNotifiableKeys.reduce(
             (acc, key) => acc + listeners.get(key)?.length ?? 0,
-            listeners.get(path)?.length ?? 0,
+            listeners.get(path)?.length ?? 0
           ),
         });
       }
@@ -111,7 +111,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
             oldValue: getFromPath(oldState, path),
             listeners: notifiableKeys.reduce(
               (acc, key) => acc + (listeners.get(key)?.length ?? 0),
-              0,
+              0
             ),
           });
         }
@@ -133,21 +133,21 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 const getNotifiableKeys = <T extends AnyState, Path extends NestedPathOf<T>>(
   listeners: NestedObservableMap<T, Listener<NestedValueOf<T, Path>>>,
   path: Path,
-  predicate: (key: NestedPathOf<T>, path: Path) => boolean,
+  predicate: (key: NestedPathOf<T>, path: Path) => boolean
 ): NestedPathOf<T>[] => listeners.keys().filter((key) => predicate(key, path));
 
 const notifyListeners = <T extends AnyState, Path extends NestedPathOf<T>>(
   listeners: NestedObservableMap<T, Listener<NestedValueOf<T, Path>>>,
   state: T,
   prevState: T,
-  path: Path,
+  path: Path
 ): void => {
   listeners
     .get(path)
     ?.forEach((listener) =>
       listener(
         clone(getFromPath(state, path) as NestedValueOf<T, Path>),
-        clone(getFromPath(prevState, path) as NestedValueOf<T, Path>),
-      ),
+        clone(getFromPath(prevState, path) as NestedValueOf<T, Path>)
+      )
     );
 };

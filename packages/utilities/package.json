@@ -1,9 +1,16 @@
 {
   "name": "@fenix-engine/utilities",
   "version": "0.0.0",
-  "license": "UNLICENSED",
   "private": true,
-  "dependencies": {
-    "typescript": "^5.1.6"
+  "scripts": {
+    "lint": "tsc-files --noEmit",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "jest": "^29.6.1",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.0.2"
   }
 }

@@ -2,7 +2,7 @@ import {
   makeObservable,
   toReadonly,
   type ReadonlyObservable,
-} from '@fenix-engine/shared/reactivity';
+} from '@fenix-engine/utilities/reactivity';
 
 type LoopStatus = 'running' | 'paused';
 

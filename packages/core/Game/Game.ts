@@ -1,5 +1,5 @@
 import { WebGLRenderer, SRGBColorSpace, PCFShadowMap } from 'three';
-import { isNotNullable } from '@fenix-engine/shared/utils';
+import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import { Stage, type StageOptions } from './Stage';
 import { loadGameManifest } from '../Data';

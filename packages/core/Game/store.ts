@@ -1,4 +1,4 @@
-import { createStore } from '@fenix-engine/shared/store';
+import { createStore } from '@fenix-engine/utilities/store';
 
 type GameStore = Record<string, any>;
 
