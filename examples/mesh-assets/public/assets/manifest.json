@@ -5,7 +5,7 @@
   "scenes": [
     {
       "key": "scene",
-      "path": "/assets/scenes/scene.json"
+      "path": "assets/scenes/scene.json"
     }
   ],
   "materials": [

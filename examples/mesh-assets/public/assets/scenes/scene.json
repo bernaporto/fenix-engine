@@ -31,49 +31,49 @@
       "children": [
         {
           "type": "prop",
-          "path": "/assets/props/empty.obj",
+          "path": "assets/props/empty.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": -1, "y": 0, "z": -1 }
         },
         {
           "type": "prop",
-          "path": "/assets/props/empty.obj",
+          "path": "assets/props/empty.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": 0, "y": 0, "z": -1 }
         },
         {
           "type": "prop",
-          "path": "/assets/props/path_line.obj",
+          "path": "assets/props/path_line.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": 1, "y": 0, "z": -1 }
         },
         {
           "type": "prop",
-          "path": "/assets/props/empty.obj",
+          "path": "assets/props/empty.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": -1, "y": 0, "z": 0 }
         },
         {
           "type": "prop",
-          "path": "/assets/props/empty.obj",
+          "path": "assets/props/empty.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": 0, "y": 0, "z": 0 }
         },
         {
           "type": "prop",
-          "path": "/assets/props/path_line.obj",
+          "path": "assets/props/path_line.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": 1, "y": 0, "z": 0 }
         },
         {
           "type": "prop",
-          "path": "/assets/props/path_line.obj",
+          "path": "assets/props/path_line.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": -1, "y": 0, "z": 1 },
@@ -81,7 +81,7 @@
         },
         {
           "type": "prop",
-          "path": "/assets/props/path_line.obj",
+          "path": "assets/props/path_line.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": 0, "y": 0, "z": 1 },
@@ -89,7 +89,7 @@
         },
         {
           "type": "prop",
-          "path": "/assets/props/path_corner.obj",
+          "path": "assets/props/path_corner.obj",
           "material": "default-material",
           "receiveShadow": true,
           "position": { "x": 1, "y": 0, "z": 1 },
@@ -101,14 +101,14 @@
       "children": [
         {
           "type": "prop",
-          "path": "/assets/props/tree_pine.obj",
+          "path": "assets/props/tree_pine.obj",
           "castShadow": true,
           "material": "tree-material",
           "position": { "x": -0.5, "y": 0, "z": -0.5 }
         },
         {
           "type": "puppet",
-          "path": "/assets/puppets/goblin.glb",
+          "path": "assets/puppets/goblin.glb",
           "castShadow": true,
           "material": "default-material",
           "defaultClip": "goblin@idle",

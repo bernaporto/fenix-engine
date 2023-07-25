@@ -14,5 +14,5 @@ BehaviourRegistry.add('orbit', {
 
 game.init({
   containerId: 'game',
-  manifest: '/assets/manifest.json',
+  manifest: 'assets/manifest.json',
 });

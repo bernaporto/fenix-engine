@@ -3,9 +3,14 @@
   "version": "0.0.0",
   "private": "true",
   "workspaces": [
+    "examples/*",
     "packages/*"
   ],
   "license": "UNLICENSED",
+  "scripts": {
+    "lint": "lerna run lint",
+    "test": "lerna run test"
+  },
   "dependencies": {
     "lerna": "7.1.4"
   }
