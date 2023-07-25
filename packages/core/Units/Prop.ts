@@ -19,7 +19,7 @@ export class Prop extends Unit {
 
       applyMeshConfig(obj, unitConfig);
 
-      this.emit('load');
+      this._emitEvent('load');
     });
   }
 }

@@ -14,7 +14,8 @@ type UnitEventCallbackMap = {
   dispose: VoidFunction;
   load: VoidFunction;
   update: (state: TickerState) => void;
-};
+} & Record<`custom:${string}`, (...args: any[]) => void>;
+
 export type UnitEvent = keyof UnitEventCallbackMap;
 
 /**
@@ -122,10 +123,6 @@ export class Unit {
     };
   }
 
-  protected emit(event: UnitEvent, ...args: any[]): void {
-    this._emitter.emit(event, ...args);
-  }
-
   public on<E extends UnitEvent>(
     event: E,
     callback: UnitEventCallbackMap[E]
@@ -133,16 +130,24 @@ export class Unit {
     return this._onEvent(event, callback);
   }
 
+  protected _emitEvent(event: UnitEvent, ...args: any[]): void {
+    this._emitter.emit(event, ...args);
+  }
+
+  public emit(event: `custom:${string}`, ...args: any[]): void {
+    this._emitEvent(event, ...args);
+  }
+
   /* Lifecycle */
   public dispose() {
-    this.emit('dispose');
+    this._emitEvent('dispose');
     this._emitter.removeAllListeners();
 
     this.removeFromParent();
   }
 
   public update(state: TickerState) {
-    this.emit('update', state);
+    this._emitEvent('update', state);
 
     this.children.forEach((child) => child.update(state));
   }

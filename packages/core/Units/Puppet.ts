@@ -25,7 +25,7 @@ export class Puppet extends Unit {
       applyMeshConfig(root, meshUnitConfig);
 
       this.node.add(root);
-      this.emit('load', animations);
+      this._emitEvent('load', animations);
     });
   }
 
