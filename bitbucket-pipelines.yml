@@ -1,0 +1,14 @@
+image: node:16
+
+definitions:
+  caches:
+    nodemodules: ./node_modules
+    yarn: /usr/local/share/.cache/yarn
+
+pipelines:
+  branches:
+    master:
+      - step:
+          name: '🎁 Release Version'
+          script:
+            - "npx lerna@7.1.4 version --conventional-commits --message='chore(release): publish %s [skip ci]' --yes"
