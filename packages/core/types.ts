@@ -31,6 +31,7 @@ export type SkinnedObject = {
 
 export type UnitConfig = {
   behaviours?: string[];
+  initialState?: Record<string, any>;
   name?: string;
   position?: Vector3;
   rotation?: Vector3;

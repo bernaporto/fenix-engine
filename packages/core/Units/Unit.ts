@@ -1,6 +1,8 @@
 import EventEmitter from 'eventemitter3';
 import { Object3D } from 'three';
 import { v4 as uuid4 } from 'uuid';
+import type { AnyState, Store } from '@fenix-engine/utilities/store/types';
+import { createStore } from '@fenix-engine/utilities/store';
 import {
   BehaviourController,
   BehaviourRegistry,
@@ -35,6 +37,7 @@ export class Unit implements EventHandler, Queryable, SceneUnit {
   public readonly node = new Object3D();
   public readonly transform = makeTransformController(this);
 
+  private _store: Store<AnyState> | null = null;
   private _behaviours = new Map<string, BehaviourController>();
   private _children = new Set<Unit>();
   private _emitter = new EventEmitter();
@@ -43,7 +46,16 @@ export class Unit implements EventHandler, Queryable, SceneUnit {
 
   constructor(config?: UnitConfig) {
     const id = uuid4();
-    const { behaviours, name, position, rotation, scale, tags, type } = {
+    const {
+      behaviours,
+      initialState,
+      name,
+      position,
+      rotation,
+      scale,
+      tags,
+      type,
+    } = {
       behaviours: [],
       name: `Unit-${id}`,
       position: Vector3.zero,
@@ -59,11 +71,25 @@ export class Unit implements EventHandler, Queryable, SceneUnit {
     this.type = type;
     tags.forEach((tag) => this.addTag(tag));
 
+    initialState && this.initStore(initialState);
+
     this.transform.setPosition(position);
     this.transform.setRotation(rotation);
     this.transform.setScale(scale);
 
     behaviours.forEach((key) => this.addBehaviour(key));
+  }
+
+  /* State */
+  public get store() {
+    return this._store ?? this.initStore({});
+  }
+
+  private initStore(initialState: Record<string, any>) {
+    const store = createStore(initialState);
+    this._store = store;
+
+    return store;
   }
 
   /* Tags */
