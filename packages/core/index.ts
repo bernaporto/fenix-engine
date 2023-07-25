@@ -1,1 +1,4 @@
-export { BehaviourRegistry, Game } from './Game';
+import { Game } from './Game';
+export { BehaviourRegistry } from './Game';
+
+export const game = new Game();

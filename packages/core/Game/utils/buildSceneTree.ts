@@ -15,7 +15,7 @@ export const buildSceneTree = (scene: Scene, manifest: SceneManifest): void => {
 const buildSceneChild =
   (scene: Scene, root: Unit) =>
   (node: SceneChild): void => {
-    const { type } = node;
+    const { type = 'unit' } = node;
 
     if (!Object.keys(unitHandlerMap).includes(type)) {
       throw new Error(`Unknown unit type: ${type}`);

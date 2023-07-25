@@ -1,36 +1,21 @@
-import { WebGLRenderer, SRGBColorSpace } from 'three';
-import { isNotNullable } from '@fenix-engine/utilities/misc';
-import { Ticker, type TickerState } from '../Tools/Ticker';
-import { Stage, type StageOptions } from './Stage';
+import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
+import { GameSettings } from '../types';
 import { loadGameManifest } from '../Data';
-import { MaterialRegistry, SceneRegistry } from './registries';
 import { loadSceneManifest } from '../Data/manifest';
-import { GameSettings } from '../Data/Model';
-
-export type GameConfig = StageOptions & {
-  /**
-   * The path to the manifest file. This file must contain all game configuration info.
-   */
-  manifest: string;
-  container?: HTMLElement;
-};
+import { Ticker, type TickerState } from '../Tools/Ticker';
+import { MaterialRegistry, SceneRegistry } from './registries';
+import { Stage } from './Stage';
 
 export class Game {
   private _renderer: WebGLRenderer;
   private _stage: Stage;
   private _subscription: VoidFunction;
 
-  constructor(private options: GameConfig) {
-    const { container } = options;
-
+  constructor() {
     const renderer = new WebGLRenderer({ antialias: true });
     renderer.outputColorSpace = SRGBColorSpace;
 
-    if (isNotNullable(container)) {
-      container.appendChild(renderer.domElement);
-    }
-
-    const stage = new Stage(renderer, options);
+    const stage = new Stage(renderer);
 
     this._renderer = renderer;
     this._stage = stage;
@@ -50,9 +35,21 @@ export class Game {
     return this._stage;
   }
 
-  public async load(): Promise<void> {
-    const { manifest } = this.options;
+  public async init({
+    containerId,
+    manifest,
+  }: {
+    manifest: string;
+    containerId: string;
+  }): Promise<void> {
+    // Add renderer to DOM
+    const container = document.getElementById(containerId);
+    if (!container) {
+      throw new Error(`Container with id "${containerId}" not found`);
+    }
+    container.appendChild(this.domElement);
 
+    // Load manifest
     const {
       settings,
       scenes,
@@ -61,6 +58,7 @@ export class Game {
 
     this.applySettings(settings);
 
+    // Add resources to registry
     materials.map(({ key, ...data }) => {
       MaterialRegistry.add(key, data);
     });
@@ -72,6 +70,7 @@ export class Game {
       })
     );
 
+    // Apply game settings
     const { initialScene } = {
       ...settings,
       initialScene: scenes[0].key,
@@ -81,13 +80,16 @@ export class Game {
   }
 
   private applySettings(settings?: GameSettings) {
-    const { enableShadows = false } = settings ?? {};
+    const { enableShadows, shadowMapType, ...stageConfig } = {
+      enableShadows: false,
+      shadowMapType: 1,
+      ...settings,
+    };
 
-    if (enableShadows) {
-      this.renderer.shadowMap.enabled = true;
-      // THREE.BasicShadowMap = 0 | THREE.PCFShadowMap = 1 | THREE.PCFSoftShadowMap = 2
-      this.renderer.shadowMap.type = 1;
-    }
+    this.renderer.shadowMap.enabled = enableShadows;
+    this.renderer.shadowMap.type = shadowMapType as ShadowMapType;
+
+    this.stage.applyConfig(stageConfig);
   }
 
   private loop({ status }: TickerState) {

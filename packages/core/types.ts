@@ -3,9 +3,24 @@ import type {
   Group,
   MeshBasicMaterialParameters,
   MeshStandardMaterialParameters,
+  ShadowMapType,
 } from 'three';
 import type { Material, Prop, Puppet, Unit } from './Units';
 import type { Vector2, Vector3 } from './Math';
+
+/* GAME TYPES */
+export type GameConfig = {
+  enableShadows?: boolean;
+  initialScene?: string;
+  shadowMapType?: ShadowMapType;
+};
+
+export type StageConfig = {
+  autoResize?: boolean;
+  backgroundColor?: number | string;
+};
+
+export type GameSettings = StageConfig & GameConfig;
 
 /* SHARED UNIT TYPES */
 export type SkinnedObject = {

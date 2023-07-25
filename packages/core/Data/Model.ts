@@ -1,6 +1,7 @@
 import type {
   AssetUnitConfig,
   CameraConfig,
+  GameSettings,
   LightConfig,
   MaterialConfig,
   SkinnedUnitConfig,
@@ -19,10 +20,6 @@ type WithKey<T> = T & {
 type MaterialModel = WithKey<MaterialConfig>;
 
 /* GAME MANIFEST */
-export type GameSettings = {
-  enableShadows?: boolean;
-  initialScene?: string;
-};
 export type GameManifest = {
   scenes: WithKey<AssetModel>[];
   materials?: MaterialModel[];

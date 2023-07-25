@@ -1,33 +1,44 @@
 import type { WebGLRenderer } from 'three';
+import type { StageConfig } from '../types';
 import { getResizeHandler, hookResizeEvent } from './utils/handleResize';
 import { Scene } from './Scene';
 import { SceneRegistry } from './registries';
 import { buildSceneTree } from './utils/buildSceneTree';
 
-export type StageOptions = {
-  autoResize?: boolean;
-  backgroundColor?: number | string;
-};
-
 export class Stage {
+  private _config: StageConfig = {};
   private _emptyScene = new Scene('empty');
-  private _scenes: Map<string, Scene> = new Map();
   private _currentScene: Scene = this._emptyScene;
+  private _scenes: Map<string, Scene> = new Map();
+  private _unsubscribeResizeEvent: VoidFunction | null = null;
 
   private resize: (scene: Scene) => void;
 
-  constructor(public readonly renderer: WebGLRenderer, options?: StageOptions) {
+  constructor(public readonly renderer: WebGLRenderer) {
     renderer.autoClear = false;
+    this.resize = getResizeHandler(renderer);
+  }
 
-    const { autoResize = true, backgroundColor = 0x000000 } = options || {};
+  public applyConfig(config: StageConfig): void {
+    const stageConfig = {
+      autoResize: true,
+      backgroundColor: 0x242424,
+      ...this._config,
+      ...config,
+    };
+    this._config = stageConfig;
+
+    const { autoResize, backgroundColor } = stageConfig;
+
     this.setBackgroundColor(backgroundColor);
 
-    this.resize = getResizeHandler(renderer);
-
-    if (autoResize) {
-      hookResizeEvent(() => {
+    if (autoResize && !this._unsubscribeResizeEvent) {
+      this._unsubscribeResizeEvent = hookResizeEvent(() => {
         this.resize(this._currentScene);
       });
+    } else if (!autoResize && this._unsubscribeResizeEvent) {
+      this._unsubscribeResizeEvent();
+      this._unsubscribeResizeEvent = null;
     }
   }
 

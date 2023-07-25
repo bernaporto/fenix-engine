@@ -13,6 +13,12 @@
       "key": "default-material",
       "type": "standard",
       "vertexColors": true
+    },
+    {
+      "key": "tree-material",
+      "type": "standard",
+      "shadowSide": 2,
+      "vertexColors": true
     }
   ]
 }
