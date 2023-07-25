@@ -1,0 +1,24 @@
+{
+  "settings": {
+    "enableShadows": true
+  },
+  "scenes": [
+    {
+      "key": "scene",
+      "path": "assets/scenes/scene.json"
+    }
+  ],
+  "materials": [
+    {
+      "key": "default-material",
+      "type": "standard",
+      "vertexColors": true
+    },
+    {
+      "key": "double-sided-material",
+      "type": "standard",
+      "shadowSide": 2,
+      "vertexColors": true
+    }
+  ]
+}

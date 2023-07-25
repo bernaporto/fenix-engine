@@ -1,3 +1,5 @@
+import { lerp } from '@fenix-engine/utilities/misc';
+
 export type Vector3 = {
   x: number;
   y: number;
@@ -103,5 +105,21 @@ export const Vector3 = {
       y: Boolean(a.y) ? b : 0,
       z: Boolean(a.z) ? b : 0,
     };
+  },
+
+  lerp: (a: Vector3, b: Vector3, t: number): Vector3 => {
+    return {
+      x: lerp(a.x, b.x, t),
+      y: lerp(a.y, b.y, t),
+      z: lerp(a.z, b.z, t),
+    };
+  },
+
+  distance: (a: Vector3, b: Vector3): number => {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    const dz = a.z - b.z;
+
+    return Math.sqrt(dx * dx + dy * dy + dz * dz);
   },
 };
