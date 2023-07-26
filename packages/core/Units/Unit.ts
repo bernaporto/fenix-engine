@@ -8,13 +8,14 @@ import {
 import {
   CustomEvent,
   EventHandler,
+  Eventable,
   Queryable,
   SceneUnit,
   UnitConfig,
 } from '../types';
 import type { TickerState } from '../Tools/Ticker';
 import { Vector3 } from '../Math';
-import { makeTransformController } from './utils';
+import { makeEventHandler, makeTransformController } from './utils';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -28,10 +29,11 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  * A Unit represents any kind of element that can be placed in the scene.
  * Units can receive Behaviour scripts, which are defined by the developer.
  */
-export class Unit implements EventHandler, Queryable, SceneUnit {
+export class Unit implements Eventable, Queryable, SceneUnit {
   public readonly id: string;
   public readonly name: string;
   public readonly type: string;
+  public readonly events: EventHandler<UnitEvent, CustomEvent>;
   public readonly node = new Object3D();
   public readonly properties: Record<string, any> = {};
   public readonly transform = makeTransformController(this);
@@ -43,6 +45,8 @@ export class Unit implements EventHandler, Queryable, SceneUnit {
   private _tags: Set<string> = new Set();
 
   constructor(config?: UnitConfig) {
+    this.events = makeEventHandler(this._emitter);
+
     const id = uuid4();
     const {
       behaviours,
@@ -196,34 +200,8 @@ export class Unit implements EventHandler, Queryable, SceneUnit {
   }
 
   /* Events */
-  protected _onEvent(
-    event: string,
-    callback: (...args: any[]) => void
-  ): VoidFunction {
-    this._emitter.on(event, callback);
-
-    return () => {
-      this._emitter.off(event, callback);
-    };
-  }
-
-  public on<E extends UnitEvent>(
-    event: E,
-    callback: UnitEventCallbackMap[E]
-  ): VoidFunction {
-    return this._onEvent(event, callback);
-  }
-
   protected _emitEvent(event: UnitEvent, ...args: any[]): void {
     this._emitter.emit(event, ...args);
-  }
-
-  public emit(event: CustomEvent, ...args: any[]): void {
-    this._emitEvent(event, ...args);
-  }
-
-  public removeAllListeners(): void {
-    this._emitter.removeAllListeners();
   }
 
   /* Lifecycle */

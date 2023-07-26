@@ -3,6 +3,7 @@ import { Color, WebGLRenderer } from 'three';
 import type {
   CustomEvent,
   EventHandler,
+  Eventable,
   Queryable,
   SceneConfig,
   SceneUnit,
@@ -10,22 +11,26 @@ import type {
 import { Ticker } from '../Tools/Ticker';
 import { Camera, Unit } from '../Units';
 import { Layer } from './Layer';
+import { makeEventHandler } from '../Units/utils';
 
 type SceneEvent = 'dispose' | CustomEvent;
 
-export class Scene implements EventHandler, Queryable, SceneUnit {
-  public readonly sceneId: string;
+export class Scene implements Eventable, Queryable, SceneUnit {
+  public readonly events: EventHandler<SceneEvent, CustomEvent>;
   public readonly properties: Record<string, any> = {};
+  public readonly sceneId: string;
 
   private _camera: Camera | null = null;
   private _emitter = new EventEmitter();
   private _layers = new Map<number, Layer>();
 
   constructor(config: SceneConfig, private _renderer: WebGLRenderer) {
+    this.events = makeEventHandler(this._emitter);
+
     const { key, properties } = config;
 
-    this.sceneId = key;
     this.properties = Object.freeze(properties ?? {});
+    this.sceneId = key;
   }
 
   /* Background */
@@ -87,24 +92,8 @@ export class Scene implements EventHandler, Queryable, SceneUnit {
   }
 
   /* Events */
-  public on(event: SceneEvent, callback: VoidFunction): VoidFunction {
-    this._emitter.addListener(event, callback);
-
-    return () => {
-      this._emitter.removeListener(event, callback);
-    };
-  }
-
   protected _emitEvent(event: SceneEvent): void {
     this._emitter.emit(event);
-  }
-
-  public emit(event: CustomEvent): void {
-    this._emitEvent(event);
-  }
-
-  public removeAllListeners(): void {
-    this._emitter.removeAllListeners();
   }
 
   /* Queryable */

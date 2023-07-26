@@ -1,6 +1,11 @@
 import EventEmitter from 'eventemitter3';
 import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
-import type { GameSettings } from '../types';
+import type {
+  CustomEvent,
+  EventHandler,
+  Eventable,
+  GameSettings,
+} from '../types';
 import { loadGameManifest } from '../Data';
 import { loadSceneManifest } from '../Data/manifest';
 import { Ticker, type TickerState } from '../Tools/Ticker';
@@ -10,13 +15,20 @@ import {
   SceneRegistry,
 } from './registries';
 import { Stage } from './Stage';
+import { makeEventHandler } from '../Units/utils';
 
-type GameEvents = 'load' | 'beforeRender' | 'afterRender' | 'destroy';
+type GameEvent =
+  | 'load'
+  | 'beforeRender'
+  | 'afterRender'
+  | 'destroy'
+  | CustomEvent;
 
-export class Game {
+export class Game implements Eventable {
   private _emitter = new EventEmitter();
   private _subscription: VoidFunction;
 
+  public readonly events: EventHandler<GameEvent, CustomEvent>;
   public readonly renderer: WebGLRenderer;
   public readonly stage: Stage;
   public readonly ticker = Ticker;
@@ -25,6 +37,8 @@ export class Game {
   };
 
   constructor() {
+    this.events = makeEventHandler(this._emitter);
+
     const renderer = new WebGLRenderer({ antialias: true });
     renderer.outputColorSpace = SRGBColorSpace;
 
@@ -103,11 +117,11 @@ export class Game {
   private loop({ status }: TickerState) {
     if (status === 'paused') return;
 
-    this._emitter.emit('beforeRender');
+    this._emitEvent('beforeRender');
 
     this.stage.render();
 
-    this._emitter.emit('afterRender');
+    this._emitEvent('afterRender');
   }
 
   public destroy() {
@@ -115,14 +129,12 @@ export class Game {
     this.renderer.dispose();
     this._subscription();
 
-    this._emitter.emit('destroy');
+    this._emitEvent('destroy');
     this._emitter.removeAllListeners();
   }
 
   /* Events */
-  public on(event: GameEvents, callback: VoidFunction): VoidFunction {
-    this._emitter.on(event, callback);
-
-    return () => this._emitter.off(event, callback);
+  private _emitEvent(event: GameEvent): void {
+    this._emitter.emit(event);
   }
 }

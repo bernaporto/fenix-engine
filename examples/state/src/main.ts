@@ -4,7 +4,7 @@ import Stats from 'stats.js';
 
 game.behaviours.register('orbit', {
   behaviour: (unit) => {
-    unit.on('update', ({ deltaTime }) => {
+    unit.events.on('update', ({ deltaTime }) => {
       unit.transform.rotateY(-6 * deltaTime);
     });
 
@@ -24,9 +24,9 @@ game.behaviours.register('pathFollower', {
       speed: 0.8,
     });
 
-    puppet.on('load', () => puppet.puppeteer.play('goblin@run'));
+    puppet.events.on('load', () => puppet.puppeteer.play('goblin@run'));
 
-    puppet.on('update', ({ deltaTime }) => {
+    puppet.events.on('update', ({ deltaTime }) => {
       if (!pathFollower) return;
 
       const { done, nextNodePos, position, travelledDistance } =
@@ -55,5 +55,5 @@ const stats = new Stats();
 stats.showPanel(0);
 document.body.appendChild(stats.dom);
 
-game.on('beforeRender', () => stats.begin());
-game.on('afterRender', () => stats.end());
+game.events.on('beforeRender', () => stats.begin());
+game.events.on('afterRender', () => stats.end());

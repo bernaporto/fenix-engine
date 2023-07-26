@@ -52,7 +52,7 @@ const makePuppeteer = (puppet: Puppet, defaultClip?: string): Puppeteer => {
     // This is a typescript hack. We know that animations will be sent by the emitter,
     // but they are not exposed to the outside world.
     // @ts-ignore
-    puppet.on('load', (animations: AnimationClip[]) => {
+    puppet.events.on('load', (animations: AnimationClip[]) => {
       animations.forEach((animation) => {
         const action = mixer.clipAction(animation);
         actions.set(animation.name, action);

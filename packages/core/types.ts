@@ -76,14 +76,15 @@ export interface SceneUnit {
 
 export type CustomEvent = `custom:${string}`;
 type EventArgs = any[];
-type EventCallback = (...args: EventArgs) => void;
-export interface EventHandler {
-  on(event: CustomEvent, callback: EventCallback): void;
-  // TODO: improve event handling
-  // on(event: CustomEvent, callback: EventCallback): VoidFunction;
-  // once(event: CustomEvent, callback: EventCallback): VoidFunction;
-  emit(event: CustomEvent, ...args: EventArgs): void;
-  removeAllListeners(): void;
+export type EventCallback = (...args: EventArgs) => void;
+export type Eventable = {
+  events: EventHandler<string>;
+};
+export interface EventHandler<T extends string, U extends string = T> {
+  on(event: T, callback: EventCallback): VoidFunction;
+  once(event: T, callback: EventCallback): VoidFunction;
+  emit(event: U, ...args: EventArgs): void;
+  clear(): void;
 }
 
 /* OTHER UNIT TYPES */
