@@ -5,13 +5,12 @@ import type {
   MeshStandardMaterialParameters,
   ShadowMapType,
 } from 'three';
-import type { AnyState, Store } from '@fenix-engine/utilities/store/types';
 import type { Material, Prop, Puppet, Unit } from './Units';
 import type { Vector2, Vector3 } from './Math';
 import { TickerState } from './Tools/Ticker';
 
-type WithInitialState<T> = T & {
-  initialState?: Record<string, any>;
+type WithCustomProperties<T> = T & {
+  properties?: Record<string, any>;
 };
 
 /* GAME TYPES */
@@ -28,7 +27,7 @@ export type StageConfig = {
 
 export type GameSettings = StageConfig & GameConfig;
 
-export type SceneConfig = WithInitialState<{
+export type SceneConfig = WithCustomProperties<{
   key: string;
 }>;
 
@@ -38,7 +37,7 @@ export type SkinnedObject = {
   root: Group;
 };
 
-export type UnitConfig = WithInitialState<{
+export type UnitConfig = WithCustomProperties<{
   behaviours?: string[];
   name?: string;
   position?: Vector3;
@@ -63,10 +62,6 @@ export type SkinnedUnitConfig = AssetUnitConfig & {
 };
 
 /* SCENE UNIT INTERFACES */
-export interface Stateful {
-  store: Store<AnyState>;
-}
-
 export interface Queryable {
   findById(id: string): Unit | null;
   findByName(name: string): Unit | null;
@@ -84,6 +79,9 @@ type EventArgs = any[];
 type EventCallback = (...args: EventArgs) => void;
 export interface EventHandler {
   on(event: CustomEvent, callback: EventCallback): void;
+  // TODO: improve event handling
+  // on(event: CustomEvent, callback: EventCallback): VoidFunction;
+  // once(event: CustomEvent, callback: EventCallback): VoidFunction;
   emit(event: CustomEvent, ...args: EventArgs): void;
   removeAllListeners(): void;
 }

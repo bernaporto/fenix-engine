@@ -1,8 +1,6 @@
 import EventEmitter from 'eventemitter3';
 import { Object3D } from 'three';
 import { v4 as uuid4 } from 'uuid';
-import type { AnyState, Store } from '@fenix-engine/utilities/store/types';
-import { createStore } from '@fenix-engine/utilities/store';
 import {
   BehaviourController,
   BehaviourRegistry,
@@ -12,7 +10,6 @@ import {
   EventHandler,
   Queryable,
   SceneUnit,
-  Stateful,
   UnitConfig,
 } from '../types';
 import type { TickerState } from '../Tools/Ticker';
@@ -31,14 +28,14 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  * A Unit represents any kind of element that can be placed in the scene.
  * Units can receive Behaviour scripts, which are defined by the developer.
  */
-export class Unit implements EventHandler, Queryable, SceneUnit, Stateful {
+export class Unit implements EventHandler, Queryable, SceneUnit {
   public readonly id: string;
   public readonly name: string;
   public readonly type: string;
   public readonly node = new Object3D();
+  public readonly properties: Record<string, any> = {};
   public readonly transform = makeTransformController(this);
 
-  private _store: Store<AnyState> | null = null;
   private _behaviours = new Map<string, BehaviourController>();
   private _children = new Set<Unit>();
   private _emitter = new EventEmitter();
@@ -49,9 +46,9 @@ export class Unit implements EventHandler, Queryable, SceneUnit, Stateful {
     const id = uuid4();
     const {
       behaviours,
-      initialState,
       name,
       position,
+      properties,
       rotation,
       scale,
       tags,
@@ -70,27 +67,14 @@ export class Unit implements EventHandler, Queryable, SceneUnit, Stateful {
     this.id = id;
     this.name = name;
     this.type = type;
+    this.properties = Object.freeze(properties ?? {});
     tags.forEach((tag) => this.addTag(tag));
-
-    initialState && this.initStore(initialState);
 
     this.transform.setPosition(position);
     this.transform.setRotation(rotation);
     this.transform.setScale(scale);
 
     behaviours.forEach((key) => this.addBehaviour(key));
-  }
-
-  /* State */
-  public get store() {
-    return this._store ?? this.initStore({});
-  }
-
-  private initStore(initialState: Record<string, any>) {
-    const store = createStore(initialState);
-    this._store = store;
-
-    return store;
   }
 
   /* Tags */

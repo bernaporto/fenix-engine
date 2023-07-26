@@ -1,14 +1,11 @@
 import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
-import { AnyState, Store } from '@fenix-engine/utilities/store/types';
-import { createStore } from '@fenix-engine/utilities/store';
 import type {
   CustomEvent,
   EventHandler,
   Queryable,
   SceneConfig,
   SceneUnit,
-  Stateful,
 } from '../types';
 import { Ticker } from '../Tools/Ticker';
 import { Camera, Unit } from '../Units';
@@ -16,30 +13,19 @@ import { Layer } from './Layer';
 
 type SceneEvent = 'dispose' | CustomEvent;
 
-export class Scene implements EventHandler, Queryable, SceneUnit, Stateful {
+export class Scene implements EventHandler, Queryable, SceneUnit {
   public readonly sceneId: string;
+  public readonly properties: Record<string, any> = {};
 
   private _camera: Camera | null = null;
   private _emitter = new EventEmitter();
   private _layers = new Map<number, Layer>();
-  private _store: Store<AnyState> | null = null;
 
   constructor(config: SceneConfig, private _renderer: WebGLRenderer) {
-    const { key, initialState } = config;
+    const { key, properties } = config;
 
     this.sceneId = key;
-    initialState && this.initStore(initialState);
-  }
-  /* State */
-  public get store() {
-    return this._store ?? this.initStore({});
-  }
-
-  private initStore(initialState: Record<string, any>) {
-    const store = createStore(initialState);
-    this._store = store;
-
-    return store;
+    this.properties = Object.freeze(properties ?? {});
   }
 
   /* Background */
