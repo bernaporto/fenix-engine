@@ -1,6 +1,6 @@
 import { game } from '@fenix-engine/core';
 import { PathFollower } from '@fenix-engine/services/Pathfinding';
-import type { Vector3 } from '@fenix-engine/core/Math';
+import Stats from 'stats.js';
 
 game.behaviours.register('orbit', {
   behaviour: (unit) => {
@@ -18,7 +18,7 @@ game.behaviours.register('pathFollower', {
     const currentScene = game.stage.currentScene;
     if (!currentScene) return null;
 
-    const path = currentScene.store.get('path') as Vector3[];
+    const path = currentScene.properties.path ?? [];
     const pathFollower = new PathFollower({
       path,
       speed: 0.8,
@@ -50,3 +50,10 @@ game.init({
   containerId: 'game',
   manifest: 'assets/manifest.json',
 });
+
+const stats = new Stats();
+stats.showPanel(0);
+document.body.appendChild(stats.dom);
+
+game.on('beforeRender', () => stats.begin());
+game.on('afterRender', () => stats.end());
