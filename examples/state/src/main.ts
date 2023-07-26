@@ -1,5 +1,5 @@
 import { game } from '@fenix-engine/core';
-import { PathFollower } from '@fenix-engine/services/Pathfinding';
+import { PathFollower } from '@fenix-engine/services/Path';
 import Stats from 'stats.js';
 
 game.behaviours.register('orbit', {
