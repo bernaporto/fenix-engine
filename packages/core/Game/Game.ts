@@ -1,3 +1,4 @@
+import EventEmitter from 'eventemitter3';
 import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
 import type { GameSettings } from '../types';
 import { loadGameManifest } from '../Data';
@@ -10,11 +11,15 @@ import {
 } from './registries';
 import { Stage } from './Stage';
 
+type GameEvents = 'load' | 'beforeRender' | 'afterRender' | 'destroy';
+
 export class Game {
-  private _renderer: WebGLRenderer;
-  private _stage: Stage;
+  private _emitter = new EventEmitter();
   private _subscription: VoidFunction;
 
+  public readonly renderer: WebGLRenderer;
+  public readonly stage: Stage;
+  public readonly ticker = Ticker;
   public readonly behaviours = {
     register: BehaviourRegistry.add,
   };
@@ -25,24 +30,18 @@ export class Game {
 
     const stage = new Stage(renderer);
 
-    this._renderer = renderer;
-    this._stage = stage;
+    this.renderer = renderer;
+    this.stage = stage;
 
     this._subscription = Ticker.state.subscribe(this.loop.bind(this));
   }
 
+  /* Getters */
   public get domElement() {
     return this.renderer.domElement;
   }
 
-  public get renderer() {
-    return this._renderer;
-  }
-
-  public get stage() {
-    return this._stage;
-  }
-
+  /* Initialization */
   public async init({
     containerId,
     manifest,
@@ -100,15 +99,30 @@ export class Game {
     this.stage.applyConfig(stageConfig);
   }
 
+  /* Lifecycle */
   private loop({ status }: TickerState) {
     if (status === 'paused') return;
 
-    this._stage.render();
+    this._emitter.emit('beforeRender');
+
+    this.stage.render();
+
+    this._emitter.emit('afterRender');
   }
 
   public destroy() {
-    this._stage.currentScene?.dispose();
-    this._renderer.dispose();
+    this.stage.currentScene?.dispose();
+    this.renderer.dispose();
     this._subscription();
+
+    this._emitter.emit('destroy');
+    this._emitter.removeAllListeners();
+  }
+
+  /* Events */
+  public on(event: GameEvents, callback: VoidFunction): VoidFunction {
+    this._emitter.on(event, callback);
+
+    return () => this._emitter.off(event, callback);
   }
 }
