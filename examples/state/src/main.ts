@@ -1,22 +1,24 @@
 import { game } from '@fenix-engine/core';
+import { TickerState } from '@fenix-engine/core/Tools/Ticker';
+import type { Unit } from '@fenix-engine/core/Units';
+import type { BehaviourController } from '@fenix-engine/core/types';
 import { PathFollower } from '@fenix-engine/services/Path';
 import Stats from 'stats.js';
 
-game.behaviours.register('orbit', {
-  behaviour: (unit) => {
-    unit.events.on('update', ({ deltaTime }) => {
-      unit.transform.rotateY(-6 * deltaTime);
-    });
+class OrbitCamera implements BehaviourController {
+  constructor(private unit: Unit) {}
 
-    return null;
-  },
-});
+  onUpdate({ deltaTime }: TickerState) {
+    this.unit.transform.rotateY(-6 * deltaTime);
+  }
+}
 
+game.behaviours.register('orbit', { behaviour: OrbitCamera });
 game.behaviours.register('pathFollower', {
   type: 'puppet',
   behaviour: (puppet) => {
     const currentScene = game.stage.currentScene;
-    if (!currentScene) return null;
+    if (!currentScene) return;
 
     const path = currentScene.properties.path ?? [];
     const pathFollower = new PathFollower({
@@ -26,23 +28,23 @@ game.behaviours.register('pathFollower', {
 
     puppet.events.on('load', () => puppet.puppeteer.play('goblin@run'));
 
-    puppet.events.on('update', ({ deltaTime }) => {
-      if (!pathFollower) return;
+    return {
+      onUpdate: ({ deltaTime }) => {
+        if (!pathFollower) return;
 
-      const { done, nextNodePos, position, travelledDistance } =
-        pathFollower.getNextPosition(deltaTime, puppet.transform.position);
+        const { done, nextNodePos, position, travelledDistance } =
+          pathFollower.getNextPosition(deltaTime, puppet.transform.position);
 
-      puppet.transform.setPosition(position);
-      puppet.transform.lookAt(nextNodePos);
+        puppet.transform.setPosition(position);
+        puppet.transform.lookAt(nextNodePos);
 
-      pathFollower.setTravelledDistance(travelledDistance);
+        pathFollower.setTravelledDistance(travelledDistance);
 
-      if (done) {
-        pathFollower.setTravelledDistance(0);
-      }
-    });
-
-    return null;
+        if (done) {
+          pathFollower.setTravelledDistance(0);
+        }
+      },
+    };
   },
 });
 

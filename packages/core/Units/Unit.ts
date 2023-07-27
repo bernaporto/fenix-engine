@@ -6,6 +6,8 @@ import {
   BehaviourRegistry,
 } from '../Game/registries/BehaviourRegistry';
 import {
+  Behaviour,
+  BehaviourClass,
   CustomEvent,
   EventHandler,
   Eventable,
@@ -178,15 +180,19 @@ export class Unit implements Eventable, Queryable, SceneUnit {
 
   /* Behaviours */
   public addBehaviour(key: string) {
-    const behaviour = BehaviourRegistry.get(key);
+    const Behaviour = BehaviourRegistry.get(key);
 
-    if (!behaviour) {
+    if (!Behaviour || typeof Behaviour !== 'function') {
       throw new Error(`Behaviour not found for key: ${key}`);
     }
 
-    const controller = behaviour(this);
+    const controller = isBehaviourClass(Behaviour)
+      ? new Behaviour(this)
+      : Behaviour(this);
+
     if (controller) {
       this._behaviours.set(key, controller);
+      controller.onAttach?.();
     }
   }
 
@@ -194,7 +200,7 @@ export class Unit implements Eventable, Queryable, SceneUnit {
     const controller = this._behaviours.get(key);
 
     if (controller) {
-      controller.dispose();
+      controller.onDetach?.();
       this._behaviours.delete(key);
     }
   }
@@ -216,5 +222,14 @@ export class Unit implements Eventable, Queryable, SceneUnit {
     this._emitEvent('update', state);
 
     this.children.forEach((child) => child.update(state));
+
+    this._behaviours.forEach((controller) => controller.onUpdate?.(state));
   }
 }
+
+/* UTILS */
+const isBehaviourClass = <T extends Unit>(
+  value: Behaviour<T>
+): value is BehaviourClass<T> => {
+  return 'prototype' in value;
+};

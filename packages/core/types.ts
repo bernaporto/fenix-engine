@@ -116,8 +116,17 @@ export type MaterialConfig = { key?: string } & (
     } & MeshStandardMaterialParameters)
 );
 
-export type BehaviourController = { dispose: VoidFunction };
-export type Behaviour<T extends Unit> = (unit: T) => BehaviourController | null;
+/* BEHAVIOUR TYPES */
+export type BehaviourController = {
+  onAttach?: VoidFunction;
+  onDetach?: VoidFunction;
+  onUpdate?: (state: TickerState) => void;
+};
+export type BehaviourClass<T extends Unit> = new (
+  unit: T
+) => BehaviourController;
+type BehaviourFn<T extends Unit> = (unit: T) => BehaviourController | void;
+export type Behaviour<T extends Unit> = BehaviourClass<T> | BehaviourFn<T>;
 export type BehaviourConfig =
   | {
       type?: 'unit';
