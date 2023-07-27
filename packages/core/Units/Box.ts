@@ -1,5 +1,5 @@
 import { BoxGeometry, Mesh } from 'three';
-import type { MeshUnitConfig } from '../types';
+import type { MeshUnitConfig } from '../@types';
 import { Unit } from './Unit';
 import { applyMeshConfig } from './utils';
 
@@ -17,6 +17,7 @@ export class Box extends Unit {
       width: 1,
       height: 1,
       depth: 1,
+      type: 'box',
       ...config,
     };
 

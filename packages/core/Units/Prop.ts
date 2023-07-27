@@ -1,6 +1,6 @@
 import type { Object3D } from 'three';
+import type { AssetUnitConfig } from '../@types';
 import { PropAssetRegistry } from '../Game/registries';
-import type { AssetUnitConfig } from '../types';
 import { applyMeshConfig } from './utils';
 import { Unit } from './Unit';
 
@@ -9,7 +9,10 @@ import { Unit } from './Unit';
  */
 export class Prop extends Unit {
   constructor({ path, ...unitConfig }: AssetUnitConfig) {
-    super(unitConfig);
+    super({
+      type: 'prop',
+      ...unitConfig,
+    });
 
     const assetPromise =
       PropAssetRegistry.get(path) ?? PropAssetRegistry.add(path, path);

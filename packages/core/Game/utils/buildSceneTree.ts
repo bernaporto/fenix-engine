@@ -1,6 +1,6 @@
 import { Box, Camera, Light, Plane, Prop, Puppet, Unit } from '../../Units';
 import type { SceneChild, SceneManifest } from '../../Data/Model';
-import type { Scene } from '../Scene';
+import type { Scene, SceneItem } from '../../Scene';
 
 export const buildSceneTree = (scene: Scene, manifest: SceneManifest): void => {
   const { tree } = manifest;
@@ -13,7 +13,7 @@ export const buildSceneTree = (scene: Scene, manifest: SceneManifest): void => {
 };
 
 const buildSceneChild =
-  (scene: Scene, root: Unit) =>
+  (scene: Scene, root: SceneItem) =>
   (node: SceneChild): void => {
     const { type = 'unit' } = node;
 

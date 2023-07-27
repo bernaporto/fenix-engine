@@ -3,7 +3,7 @@ import {
   MeshBasicMaterial,
   MeshStandardMaterial,
 } from 'three';
-import type { MaterialConfig } from '../types';
+import { MaterialConfig } from '../@types';
 import { MaterialRegistry } from '../Game/registries';
 
 const materialConstructorMap = {

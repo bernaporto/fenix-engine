@@ -5,46 +5,8 @@ import type {
   PointLight,
 } from 'three';
 import { Mesh } from 'three';
-import { degreesToRadians } from '@fenix-engine/utilities/misc';
-import type {
-  EventCallback,
-  EventHandler,
-  LightConfig,
-  MeshUnitConfig,
-} from '../types';
-import { Vector3 } from '../Math';
+import type { LightConfig, MeshUnitConfig } from '../@types';
 import { Material } from './Material';
-import type { Unit } from './Unit';
-import EventEmitter from 'eventemitter3';
-
-/* EVENT UTILS */
-export const makeEventHandler = <T extends string, U extends string = T>(
-  emitter = new EventEmitter()
-): EventHandler<T, U> => {
-  const getOffFn = (event: T, callback: EventCallback) => () => {
-    emitter.off(event, callback);
-  };
-
-  return {
-    on: (event, callback) => {
-      emitter.on(event, callback);
-      return getOffFn(event, callback);
-    },
-
-    once: (event, callback) => {
-      emitter.once(event, callback);
-      return getOffFn(event, callback);
-    },
-
-    emit: (event, ...args) => {
-      emitter.emit(event, ...args);
-    },
-
-    clear: () => {
-      emitter.removeAllListeners();
-    },
-  };
-};
 
 /* MESH UTILS */
 export const applyMeshConfig = (
@@ -125,82 +87,4 @@ export const applyLightConfig = (
   light.shadow &&
     ((light.shadow.mapSize.width = shadowMapWidth),
     (light.shadow.mapSize.height = shadowMapHeight));
-};
-
-/* TRANSFORM UTILS */
-
-export type TransformController = {
-  position: Vector3;
-  rotation: Vector3;
-  scale: Vector3;
-
-  lookAt: (target: Vector3) => void;
-
-  setPosition: (value: Vector3) => void;
-  setRotation: (value: Vector3) => void;
-  setScale: (value: Vector3) => void;
-
-  rotateX: (value: number) => void;
-  rotateY: (value: number) => void;
-  rotateZ: (value: number) => void;
-};
-
-export const makeTransformController = (unit: Unit): TransformController => {
-  let position = Vector3.create();
-  let rotation = Vector3.create();
-  let scale = Vector3.create();
-
-  const node = unit.node;
-
-  return {
-    get position() {
-      return Vector3.copy(position);
-    },
-
-    get rotation() {
-      return Vector3.copy(rotation);
-    },
-
-    get scale() {
-      return Vector3.copy(scale);
-    },
-
-    lookAt: (target: Vector3) => {
-      node.lookAt(target.x, target.y, target.z);
-    },
-
-    rotateX: (value: number) => {
-      node.rotateX(degreesToRadians(value));
-    },
-
-    rotateY: (value: number) => {
-      node.rotateY(degreesToRadians(value));
-    },
-
-    rotateZ: (value: number) => {
-      node.rotateZ(degreesToRadians(value));
-    },
-
-    setPosition: (value: Vector3) => {
-      position = Vector3.copy(value);
-
-      node.position.set(position.x, position.y, position.z);
-    },
-
-    setRotation: (value: Vector3) => {
-      rotation = Vector3.copy(value);
-
-      node.rotation.set(
-        degreesToRadians(rotation.x),
-        degreesToRadians(rotation.y),
-        degreesToRadians(rotation.z)
-      );
-    },
-
-    setScale: (value: Vector3) => {
-      scale = Vector3.copy(value);
-
-      node.scale.set(scale.x, scale.y, scale.z);
-    },
-  };
 };

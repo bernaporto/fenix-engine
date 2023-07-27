@@ -7,7 +7,7 @@ import type {
   SceneConfig,
   SkinnedUnitConfig,
   UnitConfig,
-} from '../types';
+} from '../@types/config';
 
 export type AssetModel = {
   path: string;

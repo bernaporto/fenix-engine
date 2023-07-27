@@ -1,21 +1,21 @@
 import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
+import { Camera, Unit } from '../Units';
 import type {
   CustomEvent,
+  EventEnabled,
   EventHandler,
-  Eventable,
+  LifecycleEnabled,
   Queryable,
   SceneConfig,
-  SceneUnit,
-} from '../types';
+} from '../@types';
+import { makeEventHandler } from '../utils';
 import { Ticker } from '../Tools/Ticker';
-import { Camera, Unit } from '../Units';
 import { Layer } from './Layer';
-import { makeEventHandler } from '../Units/utils';
 
 type SceneEvent = 'dispose' | CustomEvent;
 
-export class Scene implements Eventable, Queryable, SceneUnit {
+export class Scene implements EventEnabled, LifecycleEnabled {
   public readonly events: EventHandler<SceneEvent, CustomEvent>;
   public readonly properties: Record<string, any> = {};
   public readonly sceneId: string;
@@ -51,13 +51,13 @@ export class Scene implements Eventable, Queryable, SceneUnit {
   }
 
   /* Parenting */
-  public append(unit: Unit): void {
-    this.getLayer(0).append(unit);
+  public append(...units: Unit[]): void {
+    this.getLayer(0).append(...units);
   }
 
   public getLayer(layerId: number): Layer {
     if (!this._layers.has(layerId)) {
-      this._layers.set(layerId, new Layer(layerId));
+      this._layers.set(layerId, new Layer());
     }
 
     return this._layers.get(layerId) as Layer;
@@ -97,39 +97,39 @@ export class Scene implements Eventable, Queryable, SceneUnit {
   }
 
   /* Queryable */
-  public findById(id: string): Unit | null {
+  public findById(id: string): Queryable | null {
     for (let layer of this._layers.values()) {
-      const result = layer.findById(id);
+      const result = layer.query.findById(id);
       if (result) return result;
     }
 
     return null;
   }
 
-  public findByName(name: string): Unit | null {
+  public findByName(name: string): Queryable | null {
     for (let layer of this._layers.values()) {
-      const result = layer.findByName(name);
+      const result = layer.query.findByName(name);
       if (result) return result;
     }
 
     return null;
   }
 
-  public findByTag(tag: string): Unit[] {
-    const results: Unit[] = [];
+  public findByTag(tag: string): Queryable[] {
+    const results: Queryable[] = [];
 
     for (let layer of this._layers.values()) {
-      results.push(...layer.findByTag(tag));
+      results.push(...layer.query.findByTag(tag));
     }
 
     return results;
   }
 
-  public findByType(type: string): Unit[] {
-    const results: Unit[] = [];
+  public findByType(type: string): Queryable[] {
+    const results: Queryable[] = [];
 
     for (let layer of this._layers.values()) {
-      results.push(...layer.findByType(type));
+      results.push(...layer.query.findByType(type));
     }
 
     return results;

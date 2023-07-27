@@ -1,0 +1,10 @@
+import type { TickerState } from '../Tools/Ticker';
+import type { Unit } from '../Units';
+
+export type BehaviourController = {
+  onAttach?: VoidFunction;
+  onDetach?: VoidFunction;
+  onUpdate?: (state: TickerState) => void;
+};
+
+export type Behaviour = <T extends Unit>(unit: T) => BehaviourController | void;

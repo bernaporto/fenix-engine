@@ -1,7 +1,7 @@
 import { AmbientLight, DirectionalLight, PointLight } from 'three';
-import { Unit } from './Unit';
-import type { LightConfig } from '../types';
+import type { LightConfig } from '../@types';
 import { applyLightConfig } from './utils';
+import { Unit } from './Unit';
 
 export class Light extends Unit {
   private _light: AmbientLight | DirectionalLight | PointLight;
@@ -15,6 +15,7 @@ export class Light extends Unit {
       distance: 0,
       intensity: 1,
       lightType: 'point',
+      type: 'light',
       ...config,
     };
 

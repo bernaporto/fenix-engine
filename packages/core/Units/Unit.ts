@@ -1,23 +1,24 @@
 import EventEmitter from 'eventemitter3';
-import { Object3D } from 'three';
-import { v4 as uuid4 } from 'uuid';
 import {
   BehaviourController,
   BehaviourRegistry,
 } from '../Game/registries/BehaviourRegistry';
 import {
-  Behaviour,
-  BehaviourClass,
   CustomEvent,
   EventHandler,
-  Eventable,
+  EventEnabled,
   Queryable,
-  SceneUnit,
+  QueryEnabled,
   UnitConfig,
-} from '../types';
+} from '../@types';
 import type { TickerState } from '../Tools/Ticker';
 import { Vector3 } from '../Math';
-import { makeEventHandler, makeTransformController } from './utils';
+import {
+  makeEventHandler,
+  makeQueryHandler,
+  makeTransformController,
+} from '../utils';
+import { SceneItem } from '../Scene';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -31,25 +32,25 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  * A Unit represents any kind of element that can be placed in the scene.
  * Units can receive Behaviour scripts, which are defined by the developer.
  */
-export class Unit implements Eventable, Queryable, SceneUnit {
-  public readonly id: string;
+export class Unit
+  extends SceneItem
+  implements EventEnabled, Queryable, QueryEnabled
+{
   public readonly name: string;
   public readonly type: string;
   public readonly events: EventHandler<UnitEvent, CustomEvent>;
-  public readonly node = new Object3D();
   public readonly properties: Record<string, any> = {};
+  public readonly query = makeQueryHandler(this);
   public readonly transform = makeTransformController(this);
 
   private _behaviours = new Map<string, BehaviourController>();
-  private _children = new Set<Unit>();
   private _emitter = new EventEmitter();
-  private _parent: Unit | null = null;
   private _tags: Set<string> = new Set();
 
   constructor(config?: UnitConfig) {
+    super();
     this.events = makeEventHandler(this._emitter);
 
-    const id = uuid4();
     const {
       behaviours,
       name,
@@ -61,7 +62,7 @@ export class Unit implements Eventable, Queryable, SceneUnit {
       type,
     } = {
       behaviours: [],
-      name: `Unit-${id}`,
+      name: `Unit-${this.id}`,
       position: Vector3.zero,
       rotation: Vector3.zero,
       scale: Vector3.one,
@@ -70,7 +71,6 @@ export class Unit implements Eventable, Queryable, SceneUnit {
       ...config,
     };
 
-    this.id = id;
     this.name = name;
     this.type = type;
     this.properties = Object.freeze(properties ?? {});
@@ -96,88 +96,6 @@ export class Unit implements Eventable, Queryable, SceneUnit {
     return this._tags.has(tag);
   }
 
-  /* Tree */
-  public get children() {
-    return this._children;
-  }
-
-  public append(child: Unit) {
-    child._parent = this;
-
-    this._children.add(child);
-    this.node.add(child.node);
-  }
-
-  public remove(child: Unit) {
-    child.removeFromParent();
-    child.node.removeFromParent();
-
-    this._children.delete(child);
-  }
-
-  public setParent(parent: Unit) {
-    this.removeFromParent();
-
-    parent.append(this);
-  }
-
-  public removeFromParent() {
-    if (this._parent) {
-      this._parent.remove(this);
-    }
-
-    this._parent = null;
-  }
-
-  /* Querying */
-  public findById(id: string): Unit | null {
-    if (this.id === id) return this;
-
-    for (const child of this.children) {
-      if (child.id === id) return child;
-      return child.findById(id);
-    }
-
-    return null;
-  }
-
-  public findByName(name: string): Unit | null {
-    if (this.name === name) return this;
-
-    for (const child of this.children) {
-      if (child.name === name) return child;
-      return child.findByName(name);
-    }
-
-    return null;
-  }
-
-  public findByType(type: string): Unit[] {
-    const units: Unit[] = [];
-
-    if (this.type === type) units.push(this);
-
-    for (const child of this.children) {
-      if (child.type === type) units.push(child);
-      units.push(...child.findByType(type));
-    }
-
-    return units;
-  }
-
-  public findByTag(tag: string): Unit[] {
-    const units: Unit[] = [];
-
-    if (this.hasTag(tag)) units.push(this);
-
-    for (const child of this.children) {
-      if (child.hasTag(tag)) units.push(child);
-      units.push(...child.findByTag(tag));
-    }
-
-    return units;
-  }
-
   /* Behaviours */
   public addBehaviour(key: string) {
     const Behaviour = BehaviourRegistry.get(key);
@@ -186,9 +104,7 @@ export class Unit implements Eventable, Queryable, SceneUnit {
       throw new Error(`Behaviour not found for key: ${key}`);
     }
 
-    const controller = isBehaviourClass(Behaviour)
-      ? new Behaviour(this)
-      : Behaviour(this);
+    const controller = Behaviour(this);
 
     if (controller) {
       this._behaviours.set(key, controller);
@@ -211,25 +127,18 @@ export class Unit implements Eventable, Queryable, SceneUnit {
   }
 
   /* Lifecycle */
-  public dispose() {
+  public override dispose() {
     this._emitEvent('dispose');
     this._emitter.removeAllListeners();
 
-    this.removeFromParent();
+    super.dispose();
   }
 
-  public update(state: TickerState) {
+  public override update(state: TickerState) {
     this._emitEvent('update', state);
 
-    this.children.forEach((child) => child.update(state));
+    super.update(state);
 
     this._behaviours.forEach((controller) => controller.onUpdate?.(state));
   }
 }
-
-/* UTILS */
-const isBehaviourClass = <T extends Unit>(
-  value: Behaviour<T>
-): value is BehaviourClass<T> => {
-  return 'prototype' in value;
-};

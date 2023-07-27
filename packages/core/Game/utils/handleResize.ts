@@ -1,5 +1,5 @@
 import type { WebGLRenderer } from 'three';
-import type { Scene } from '../Scene';
+import type { Scene } from '../../Scene';
 
 export const hookResizeEvent = (handleResize: VoidFunction): VoidFunction => {
   handleResize();

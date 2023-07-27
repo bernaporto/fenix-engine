@@ -1,11 +1,11 @@
 import type { AnimationAction, AnimationClip, Group } from 'three';
 import { AnimationMixer } from 'three';
 import { clone as cloneSkeleton } from 'three/examples/jsm/utils/SkeletonUtils';
-import type { SkinnedObject, SkinnedUnitConfig } from '../types';
+import { PuppetAssetRegistry } from '../Game/registries';
+import type { SkinnedObject, SkinnedUnitConfig } from '../@types';
+import { TickerState } from '../Tools/Ticker';
 import { applyMeshConfig } from './utils';
 import { Unit } from './Unit';
-import { PuppetAssetRegistry } from '../Game/registries';
-import { TickerState } from '../Tools/Ticker';
 
 /**
  * A Puppet is a unit with a skinned mesh child that is animated by a skeleton
@@ -14,7 +14,10 @@ export class Puppet extends Unit {
   public readonly puppeteer: Puppeteer;
 
   constructor({ path, defaultClip, ...meshUnitConfig }: SkinnedUnitConfig) {
-    super(meshUnitConfig);
+    super({
+      type: 'puppet',
+      ...meshUnitConfig,
+    });
 
     this.puppeteer = makePuppeteer(this, defaultClip);
 

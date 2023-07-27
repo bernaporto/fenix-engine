@@ -7,9 +7,9 @@ import {
   PerspectiveCamera,
 } from 'three';
 import { degreesToRadians, remap } from '@fenix-engine/utilities/misc';
-import { Unit } from './Unit';
+import type { CameraConfig } from '../@types';
 import { Vector2, type Vector3 } from '../Math';
-import type { CameraConfig } from '../types';
+import { Unit } from './Unit';
 
 const raycaster = new Raycaster();
 
@@ -26,6 +26,7 @@ export class Camera extends Unit {
       distance: 0,
       fov: 60,
       zoom: 1,
+      type: 'camera',
       ...config,
     };
 

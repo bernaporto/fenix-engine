@@ -1,5 +1,5 @@
 import { PlaneGeometry, Mesh } from 'three';
-import type { MeshUnitConfig } from '../types';
+import type { MeshUnitConfig } from '../@types';
 import { Unit } from './Unit';
 import { applyMeshConfig } from './utils';
 
@@ -15,6 +15,7 @@ export class Plane extends Unit {
     const { width, height, ...meshUnitConfig } = {
       width: 1,
       height: 1,
+      type: 'plane',
       ...config,
     };
 

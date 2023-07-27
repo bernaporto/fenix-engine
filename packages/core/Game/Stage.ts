@@ -1,7 +1,7 @@
 import type { WebGLRenderer } from 'three';
-import type { StageConfig } from '../types';
+import { Scene } from '../Scene';
+import type { StageConfig } from '../@types/config';
 import { getResizeHandler, hookResizeEvent } from './utils/handleResize';
-import { Scene } from './Scene';
 import { SceneRegistry } from './registries';
 import { buildSceneTree } from './utils/buildSceneTree';
 

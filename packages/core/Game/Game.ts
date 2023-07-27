@@ -2,10 +2,11 @@ import EventEmitter from 'eventemitter3';
 import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
 import type {
   CustomEvent,
+  EventEnabled,
   EventHandler,
-  Eventable,
   GameSettings,
-} from '../types';
+} from '../@types';
+import { makeEventHandler } from '../utils';
 import { loadGameManifest } from '../Data';
 import { loadSceneManifest } from '../Data/manifest';
 import { Ticker, type TickerState } from '../Tools/Ticker';
@@ -15,7 +16,6 @@ import {
   SceneRegistry,
 } from './registries';
 import { Stage } from './Stage';
-import { makeEventHandler } from '../Units/utils';
 
 type GameEvent =
   | 'load'
@@ -24,7 +24,7 @@ type GameEvent =
   | 'destroy'
   | CustomEvent;
 
-export class Game implements Eventable {
+export class Game implements EventEnabled {
   private _emitter = new EventEmitter();
   private _subscription: VoidFunction;
 

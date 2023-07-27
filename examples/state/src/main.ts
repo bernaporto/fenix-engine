@@ -1,51 +1,46 @@
 import { game } from '@fenix-engine/core';
-import { TickerState } from '@fenix-engine/core/Tools/Ticker';
-import type { Unit } from '@fenix-engine/core/Units';
-import type { BehaviourController } from '@fenix-engine/core/types';
+import { Puppet } from '@fenix-engine/core/Units';
 import { PathFollower } from '@fenix-engine/services/Path';
 import Stats from 'stats.js';
 
-class OrbitCamera implements BehaviourController {
-  constructor(private unit: Unit) {}
+game.behaviours.register('orbit', (unit) => ({
+  onUpdate: ({ deltaTime }) => unit.transform.rotateY(-6 * deltaTime),
+}));
 
-  onUpdate({ deltaTime }: TickerState) {
-    this.unit.transform.rotateY(-6 * deltaTime);
+game.behaviours.register('pathFollower', (unit) => {
+  if (!(unit instanceof Puppet)) return;
+
+  const currentScene = game.stage.currentScene;
+  if (!currentScene) return;
+
+  const path = currentScene.properties.path;
+
+  if (!path) {
+    throw new Error('No path found in scene properties');
   }
-}
 
-game.behaviours.register('orbit', { behaviour: OrbitCamera });
-game.behaviours.register('pathFollower', {
-  type: 'puppet',
-  behaviour: (puppet) => {
-    const currentScene = game.stage.currentScene;
-    if (!currentScene) return;
+  const pathFollower = new PathFollower({
+    path,
+    speed: 0.8,
+  });
 
-    const path = currentScene.properties.path ?? [];
-    const pathFollower = new PathFollower({
-      path,
-      speed: 0.8,
-    });
+  unit.events.on('load', () => unit.puppeteer.play('goblin@run'));
 
-    puppet.events.on('load', () => puppet.puppeteer.play('goblin@run'));
+  return {
+    onUpdate: ({ deltaTime }) => {
+      const { done, nextNodePos, position, travelledDistance } =
+        pathFollower.getNextPosition(deltaTime, unit.transform.position);
 
-    return {
-      onUpdate: ({ deltaTime }) => {
-        if (!pathFollower) return;
+      unit.transform.setPosition(position);
+      unit.transform.lookAt(nextNodePos);
 
-        const { done, nextNodePos, position, travelledDistance } =
-          pathFollower.getNextPosition(deltaTime, puppet.transform.position);
+      pathFollower.setTravelledDistance(travelledDistance);
 
-        puppet.transform.setPosition(position);
-        puppet.transform.lookAt(nextNodePos);
-
-        pathFollower.setTravelledDistance(travelledDistance);
-
-        if (done) {
-          pathFollower.setTravelledDistance(0);
-        }
-      },
-    };
-  },
+      if (done) {
+        pathFollower.setTravelledDistance(0);
+      }
+    },
+  };
 });
 
 game.init({

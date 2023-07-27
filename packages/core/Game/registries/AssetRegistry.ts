@@ -1,7 +1,7 @@
 import type { Object3D } from 'three';
 import { makeRegistry } from './makeRegistry';
 import { Loader } from '../../Loader';
-import { SkinnedObject } from '../../types';
+import { SkinnedObject } from '../../@types/shared';
 
 export const PropAssetRegistry = makeRegistry<string, Promise<Object3D>>({
   process: (path) => Loader.loadObject(path),
