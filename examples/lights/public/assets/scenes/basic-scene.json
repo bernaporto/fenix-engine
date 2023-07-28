@@ -1,6 +1,6 @@
 {
   "key": "basic-scene",
-  "tree": [
+  "hierarchy": [
     {
       "type": "camera",
       "cameraType": "perspective",

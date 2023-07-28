@@ -1,6 +1,6 @@
 {
   "key": "basic-scene",
-  "tree": [
+  "hierarchy": [
     {
       "type": "camera",
       "angle": { "x": 45, "y": 45 },
