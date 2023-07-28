@@ -19,12 +19,5 @@ export const PrefabAssetRegistry = makeRegistry<
   PrefabConfig,
   Promise<PrefabManifest>
 >({
-  process: async ({ path, ...sceneUnitConfig }) => {
-    const manifest = (await loadPrefabManifest(path)) as PrefabManifest;
-
-    return {
-      ...manifest,
-      ...sceneUnitConfig,
-    };
-  },
+  process: async ({ path }) => loadPrefabManifest(path),
 });

@@ -131,7 +131,11 @@ export class Unit
       throw new Error(`Behaviour not found for key: ${key}`);
     }
 
+    // Remove previous behaviour if exists
+    this.removeBehaviour(key);
+
     const controller = Behaviour(this);
+    this.events.once('load', () => controller?.onLoad?.());
 
     if (controller) {
       this._behaviours.set(key, controller);

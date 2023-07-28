@@ -1,6 +1,6 @@
 import type { PrefabConfig } from '../@types';
 import { PrefabAssetRegistry } from '../Game/registries';
-// import { buildHierarchy } from '../utils';
+import { buildHierarchy } from '../utils';
 import { Unit } from './Unit';
 
 export class Prefab extends Unit {
@@ -12,9 +12,10 @@ export class Prefab extends Unit {
       PrefabAssetRegistry.add(path, { path, ...unitConfig });
 
     prefabPromise.then((prefab) => {
-      // buildHierarchy(prefab, () => this);
+      buildHierarchy(prefab, () => this);
 
       this.applyConfig(prefab);
+      this._emitEvent('load');
     });
   }
 }

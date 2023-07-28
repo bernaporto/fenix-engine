@@ -26,9 +26,11 @@ game.behaviours.register('pathFollower', (unit) => {
     speed: 0.8,
   });
 
-  unit.events.on('load', () => unit.puppeteer.play('goblin@run'));
-
   return {
+    onLoad: () => {
+      unit.puppeteer.play('goblin@run');
+    },
+
     onUpdate: ({ deltaTime }) => {
       const { done, nextNodePos, position, travelledDistance } =
         pathFollower.getNextPosition(deltaTime, unit.transform.position);
@@ -45,8 +47,8 @@ game.behaviours.register('pathFollower', (unit) => {
   };
 });
 
-game.behaviours.register('consoleProperties', (unit) => ({
-  onAttach: () => {
+game.behaviours.register('logProperties', (unit) => ({
+  onLoad: () => {
     console.log(unit.properties);
   },
 }));

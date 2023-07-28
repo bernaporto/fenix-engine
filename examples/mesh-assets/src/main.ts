@@ -1,16 +1,10 @@
 import { game } from '@fenix-engine/core';
 
-game.behaviours.register('orbit', {
-  behaviour: (unit) => {
-    const unsubscribe = unit.on('update', ({ deltaTime }) => {
-      unit.transform.rotateY(10 * deltaTime);
-    });
-
-    return {
-      dispose: unsubscribe,
-    };
+game.behaviours.register('orbit', (unit) => ({
+  onUpdate: ({ deltaTime }) => {
+    unit.transform.rotateY(15 * deltaTime);
   },
-});
+}));
 
 game.init({
   containerId: 'game',
