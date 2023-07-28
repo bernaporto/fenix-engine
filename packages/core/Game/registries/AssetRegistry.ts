@@ -1,7 +1,9 @@
 import type { Object3D } from 'three';
-import { makeRegistry } from './makeRegistry';
 import { Loader } from '../../Loader';
-import { SkinnedObject } from '../../@types/shared';
+import { loadPrefabManifest } from '../../Data/manifest';
+import type { PrefabManifest } from '../../Data/Model';
+import type { PrefabConfig, SkinnedObject } from '../../@types';
+import { makeRegistry } from './makeRegistry';
 
 export const PropAssetRegistry = makeRegistry<string, Promise<Object3D>>({
   process: (path) => Loader.loadObject(path),
@@ -12,3 +14,17 @@ export const PuppetAssetRegistry = makeRegistry<string, Promise<SkinnedObject>>(
     process: (path) => Loader.loadSkinnedObject(path),
   }
 );
+
+export const PrefabAssetRegistry = makeRegistry<
+  PrefabConfig,
+  Promise<PrefabManifest>
+>({
+  process: async ({ path, ...sceneUnitConfig }) => {
+    const manifest = (await loadPrefabManifest(path)) as PrefabManifest;
+
+    return {
+      ...manifest,
+      ...sceneUnitConfig,
+    };
+  },
+});

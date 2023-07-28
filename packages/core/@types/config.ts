@@ -38,6 +38,10 @@ export type MaterialConfig = { key?: string } & (
 );
 
 // UNITS
+export type AssetConfig = {
+  path: string;
+};
+
 export type UnitConfig = CustomProperties &
   Partial<Transformable> &
   Partial<Omit<Queryable, 'id'>> & {
@@ -50,9 +54,7 @@ export type MeshUnitConfig = UnitConfig & {
   receiveShadow?: boolean;
 };
 
-export type AssetUnitConfig = MeshUnitConfig & {
-  path: string;
-};
+export type AssetUnitConfig = MeshUnitConfig & AssetConfig;
 
 export type SkinnedUnitConfig = AssetUnitConfig & {
   defaultClip: string;
@@ -78,3 +80,6 @@ export type LightConfig = UnitConfig & {
   shadowMapWidth?: number;
   shadowMapHeight?: number;
 };
+
+// PREFAB
+export type PrefabConfig = AssetConfig & UnitConfig;

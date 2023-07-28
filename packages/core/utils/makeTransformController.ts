@@ -4,9 +4,9 @@ import { Vector3 } from '../Math';
 import type { TransformController } from '../@types';
 
 export const makeTransformController = (unit: Unit): TransformController => {
-  let position = Vector3.create();
-  let rotation = Vector3.create();
-  let scale = Vector3.create();
+  let position = Vector3.zero;
+  let rotation = Vector3.zero;
+  let scale = Vector3.one;
 
   return {
     get position() {

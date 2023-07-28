@@ -1,6 +1,6 @@
 import { Loader } from '../Loader';
-import { GameManifest, SceneManifest } from './Model';
-import { isGameManifest, isSceneManifest } from './utils';
+import { GameManifest, PrefabManifest, SceneManifest } from './Model';
+import { isGameManifest, isPrefabManifest, isSceneManifest } from './utils';
 
 const loadManifest =
   <T>(key: string, validate: (data: unknown) => data is T) =>
@@ -14,7 +14,6 @@ const loadManifest =
 
       return data;
     } catch (error) {
-      console.log(error);
       throw new Error(
         `Failed to load ${key} manifest file from path: ${path}`,
         { cause: error }
@@ -29,4 +28,8 @@ export const loadGameManifest = loadManifest<GameManifest>(
 export const loadSceneManifest = loadManifest<SceneManifest>(
   'scene',
   isSceneManifest
+);
+export const loadPrefabManifest = loadManifest<PrefabManifest>(
+  'prefab',
+  isPrefabManifest
 );

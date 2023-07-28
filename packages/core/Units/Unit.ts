@@ -12,7 +12,6 @@ import {
   UnitConfig,
 } from '../@types';
 import type { TickerState } from '../Tools/Ticker';
-import { Vector3 } from '../Math';
 import {
   makeEventHandler,
   makeQueryHandler,
@@ -36,21 +35,25 @@ export class Unit
   extends SceneItem
   implements EventEnabled, Queryable, QueryEnabled
 {
-  public readonly name: string;
-  public readonly type: string;
   public readonly events: EventHandler<UnitEvent, CustomEvent>;
-  public readonly properties: Record<string, any> = {};
   public readonly query = makeQueryHandler(this);
   public readonly transform = makeTransformController(this);
 
   private _behaviours = new Map<string, BehaviourController>();
   private _emitter = new EventEmitter();
+  private _name: string = `Unit-${this.id}`;
+  private _properties: Record<string, any> = {};
   private _tags: Set<string> = new Set();
+  private _type: string = 'unit';
 
   constructor(config?: UnitConfig) {
     super();
     this.events = makeEventHandler(this._emitter);
 
+    this.applyConfig(config ?? {});
+  }
+
+  protected applyConfig(config: UnitConfig): void {
     const {
       behaviours,
       name,
@@ -62,18 +65,18 @@ export class Unit
       type,
     } = {
       behaviours: [],
-      name: `Unit-${this.id}`,
-      position: Vector3.zero,
-      rotation: Vector3.zero,
-      scale: Vector3.one,
+      name: this.name,
+      position: this.transform.position,
+      rotation: this.transform.rotation,
+      scale: this.transform.scale,
       tags: [],
-      type: 'unit',
+      type: this.type,
       ...config,
     };
 
-    this.name = name;
-    this.type = type;
-    this.properties = Object.freeze(properties ?? {});
+    this._name = name;
+    this._type = type;
+    this._properties = properties ?? {};
     tags.forEach((tag) => this.addTag(tag));
 
     this.transform.setPosition(position);
@@ -81,6 +84,30 @@ export class Unit
     this.transform.setScale(scale);
 
     behaviours.forEach((key) => this.addBehaviour(key));
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get type(): string {
+    return this._type;
+  }
+
+  get properties(): Record<string, any> {
+    return this._properties;
+  }
+
+  protected setName(name: string) {
+    this._name = name;
+  }
+
+  protected setType(type: string) {
+    this._type = type;
+  }
+
+  protected setProperty(key: string, value: unknown) {
+    this.properties[key] = value;
   }
 
   /* Tags */

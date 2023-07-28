@@ -3,6 +3,7 @@ export { Camera } from './Camera';
 export { Light } from './Light';
 export { Material } from './Material';
 export { Plane } from './Plane';
+export { Prefab } from './Prefab';
 export { Prop } from './Prop';
 export { Puppet } from './Puppet';
 export { Unit } from './Unit';
