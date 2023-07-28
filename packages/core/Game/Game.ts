@@ -8,7 +8,6 @@ import type {
 } from '../@types';
 import { makeEventHandler } from '../utils';
 import { loadGameManifest } from '../Data';
-import { loadSceneManifest } from '../Data/manifest';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import {
   BehaviourRegistry,
@@ -80,16 +79,13 @@ export class Game implements EventEnabled {
     this.applySettings(settings);
 
     // Add resources to registry
-    materials.map(({ key, ...data }) => {
+    materials.forEach(({ key, ...data }) => {
       MaterialRegistry.add(key, data);
     });
 
-    await Promise.all(
-      scenes.map(async ({ key, path }) => {
-        const data = await loadSceneManifest(path);
-        SceneRegistry.add(key, data);
-      })
-    );
+    scenes.forEach(({ key, path }) => {
+      SceneRegistry.add(key, { path });
+    });
 
     // Apply game settings
     const { initialScene } = {

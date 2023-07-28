@@ -37,7 +37,7 @@ export class Stage {
     }
   }
 
-  public load(key: string): Scene {
+  public async load(key: string): Promise<Scene> {
     if (this._currentScene) {
       this._currentScene.dispose();
     }
@@ -45,7 +45,9 @@ export class Stage {
     const scene = new Scene(key, this.renderer);
     this._currentScene = scene;
 
-    scene.events.on('load', () => this.resize(scene));
+    await scene.load();
+
+    this.resize(scene);
 
     return scene;
   }

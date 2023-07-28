@@ -29,16 +29,21 @@ export class Scene implements EventEnabled, LifecycleEnabled {
     private _renderer: WebGLRenderer
   ) {
     this.events = makeEventHandler(this._emitter);
-
-    const sceneData = SceneRegistry.get(sceneId);
-    if (!sceneData) {
-      throw new Error(`Scene "${sceneId}" not found`);
-    }
-
-    this.loadScene(sceneData);
   }
 
-  private loadScene(config: SceneManifest): void {
+  public async load(): Promise<void> {
+    const sceneDataPromise = SceneRegistry.get(this.sceneId);
+    if (!sceneDataPromise) {
+      throw new Error(`Scene "${this.sceneId}" not found`);
+    }
+
+    const sceneData = await sceneDataPromise;
+
+    this.buildScene(sceneData);
+    this._emitEvent('load');
+  }
+
+  private buildScene(config: SceneManifest): void {
     const { properties } = config;
 
     this._properties = Object.freeze(properties ?? {});
@@ -46,20 +51,15 @@ export class Scene implements EventEnabled, LifecycleEnabled {
     const getLayerFromConfig = (node: SceneChild) =>
       ('layer' in node && node.layer) || 0;
 
-    // Build hierarchy in next tick to avoid dependency issues
-    setTimeout(() => {
-      buildHierarchy(
-        config,
-        (node) => this.getLayer(getLayerFromConfig(node)),
-        (item) => {
-          if (item instanceof Camera) {
-            this.setCamera(item);
-          }
+    buildHierarchy(
+      config,
+      (node) => this.getLayer(getLayerFromConfig(node)),
+      (item) => {
+        if (item instanceof Camera) {
+          this.setCamera(item);
         }
-      );
-
-      this._emitEvent('load');
-    });
+      }
+    );
   }
 
   public get properties(): Record<string, any> {
