@@ -2,14 +2,11 @@ import type { WebGLRenderer } from 'three';
 import { Scene } from '../Scene';
 import type { StageConfig } from '../@types/config';
 import { getResizeHandler, hookResizeEvent } from './utils/handleResize';
-import { SceneRegistry } from './registries';
-import { buildSceneTree } from './utils/buildSceneTree';
 
 export class Stage {
   private _config: StageConfig = {};
   private _currentScene: Scene | null = null;
   private _unsubscribeResizeEvent: VoidFunction | null = null;
-
   private resize: (scene: Scene) => void;
 
   constructor(public readonly renderer: WebGLRenderer) {
@@ -41,21 +38,14 @@ export class Stage {
   }
 
   public load(key: string): Scene {
-    const sceneData = SceneRegistry.get(key);
-
-    if (!sceneData) {
-      throw new Error(`Scene "${key}" not found`);
-    }
-
     if (this._currentScene) {
       this._currentScene.dispose();
     }
 
-    const scene = new Scene(sceneData, this.renderer);
+    const scene = new Scene(key, this.renderer);
     this._currentScene = scene;
 
-    buildSceneTree(scene, sceneData);
-    this.resize(scene);
+    scene.events.on('load', () => this.resize(scene));
 
     return scene;
   }

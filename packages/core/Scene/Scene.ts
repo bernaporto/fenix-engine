@@ -1,5 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
+import { buildHierarchy, makeEventHandler } from '../utils';
 import { Camera, Unit } from '../Units';
 import type {
   CustomEvent,
@@ -7,30 +8,62 @@ import type {
   EventHandler,
   LifecycleEnabled,
   Queryable,
-  SceneConfig,
 } from '../@types';
-import { makeEventHandler } from '../utils';
+import type { SceneChild, SceneManifest } from '../Data/Model';
 import { Ticker } from '../Tools/Ticker';
 import { Layer } from './Layer';
+import { SceneRegistry } from '../Game/registries';
 
-type SceneEvent = 'dispose' | CustomEvent;
+type SceneEvent = 'load' | 'dispose' | CustomEvent;
 
 export class Scene implements EventEnabled, LifecycleEnabled {
   public readonly events: EventHandler<SceneEvent, CustomEvent>;
-  public readonly properties: Record<string, any> = {};
-  public readonly sceneId: string;
 
   private _camera: Camera | null = null;
   private _emitter = new EventEmitter();
   private _layers = new Map<number, Layer>();
+  private _properties: Record<string, any> = {};
 
-  constructor(config: SceneConfig, private _renderer: WebGLRenderer) {
+  constructor(
+    public readonly sceneId: string,
+    private _renderer: WebGLRenderer
+  ) {
     this.events = makeEventHandler(this._emitter);
 
-    const { key, properties } = config;
+    const sceneData = SceneRegistry.get(sceneId);
+    if (!sceneData) {
+      throw new Error(`Scene "${sceneId}" not found`);
+    }
 
-    this.properties = Object.freeze(properties ?? {});
-    this.sceneId = key;
+    this.loadScene(sceneData);
+  }
+
+  private loadScene(config: SceneManifest): void {
+    const { properties } = config;
+
+    this._properties = Object.freeze(properties ?? {});
+
+    const getLayerFromConfig = (node: SceneChild) =>
+      ('layer' in node && node.layer) || 0;
+
+    // Build hierarchy in next tick to avoid dependency issues
+    setTimeout(() => {
+      buildHierarchy(
+        config,
+        (node) => this.getLayer(getLayerFromConfig(node)),
+        (item) => {
+          if (item instanceof Camera) {
+            this.setCamera(item);
+          }
+        }
+      );
+
+      this._emitEvent('load');
+    });
+  }
+
+  public get properties(): Record<string, any> {
+    return this._properties;
   }
 
   /* Background */
@@ -45,9 +78,8 @@ export class Scene implements EventEnabled, LifecycleEnabled {
     return this._camera;
   }
 
-  public setCamera(camera: Camera, layer = 0): void {
+  public setCamera(camera: Camera): void {
     this._camera = camera;
-    this.getLayer(layer).append(camera);
   }
 
   /* Parenting */
