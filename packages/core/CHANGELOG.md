@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.1.0...v0.2.0) (2023-07-28)
+
+
+### Features
+
+* add Prefab ([45b551f](http://bitbucket.org/bernaporto/fenix-engine/commits/45b551fc4a032cd95ed4df54022c4c6b039de979))
+
+
+
+
+
 # 0.1.0 (2023-07-28)
 
 
