@@ -93,18 +93,13 @@ type GameplayStats = {
   waveStatus: 'idle' | 'running' | 'finished';
 };
 
-type SelectedItemState = {
+type SelectedItem = {
   type: TowerType;
   position: Vector2;
   level?: number;
 };
 
 export type SelectableItem = TowerType;
-
-type SelectedItem = {
-  key: string;
-  state: null | SelectedItemState;
-};
 
 type GameplayState = {
   stats: GameplayStats;

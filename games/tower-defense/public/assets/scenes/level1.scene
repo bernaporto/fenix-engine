@@ -4142,78 +4142,6 @@
             "tile"
           ],
           "material": "default-material",
-          "path": "assets/props/theme/default/tower_slot.obj",
-          "receiveShadow": true,
-          "position": {
-            "x": 8.5,
-            "y": 0,
-            "z": 8.5
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          }
-        },
-        {
-          "type": "prop",
-          "tags": [
-            "tile"
-          ],
-          "material": "default-material",
-          "path": "assets/props/theme/default/tower_slot.obj",
-          "receiveShadow": true,
-          "position": {
-            "x": 9.5,
-            "y": 0,
-            "z": 8.5
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          }
-        },
-        {
-          "type": "prop",
-          "tags": [
-            "tile"
-          ],
-          "material": "default-material",
-          "path": "assets/props/theme/default/tower_slot.obj",
-          "receiveShadow": true,
-          "position": {
-            "x": 10.5,
-            "y": 0,
-            "z": 8.5
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          }
-        },
-        {
-          "type": "prop",
-          "tags": [
-            "tile"
-          ],
-          "material": "default-material",
           "path": "assets/props/theme/default/line.obj",
           "receiveShadow": true,
           "position": {
@@ -5082,78 +5010,6 @@
           "receiveShadow": true,
           "position": {
             "x": 7.5,
-            "y": 0,
-            "z": 10.5
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          }
-        },
-        {
-          "type": "prop",
-          "tags": [
-            "tile"
-          ],
-          "material": "default-material",
-          "path": "assets/props/theme/default/tower_slot.obj",
-          "receiveShadow": true,
-          "position": {
-            "x": 8.5,
-            "y": 0,
-            "z": 10.5
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          }
-        },
-        {
-          "type": "prop",
-          "tags": [
-            "tile"
-          ],
-          "material": "default-material",
-          "path": "assets/props/theme/default/tower_slot.obj",
-          "receiveShadow": true,
-          "position": {
-            "x": 9.5,
-            "y": 0,
-            "z": 10.5
-          },
-          "rotation": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          }
-        },
-        {
-          "type": "prop",
-          "tags": [
-            "tile"
-          ],
-          "material": "default-material",
-          "path": "assets/props/theme/default/tower_slot.obj",
-          "receiveShadow": true,
-          "position": {
-            "x": 10.5,
             "y": 0,
             "z": 10.5
           },
@@ -30142,6 +29998,165 @@
           "material": "double-sided-material",
           "type": "prop",
           "path": "assets/props/theme/default/tree_pine.obj"
+        }
+      ]
+    },
+    {
+      "layer": 0,
+      "type": "unit",
+      "behaviours": [
+        "interactable"
+      ],
+      "children": [
+        {
+          "type": "prop",
+          "tags": [
+            "tile",
+            "tower_slot"
+          ],
+          "material": "default-material",
+          "path": "assets/props/theme/default/tower_slot.obj",
+          "receiveShadow": true,
+          "position": {
+            "x": 8.5,
+            "y": 0,
+            "z": 8.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "type": "prop",
+          "tags": [
+            "tile",
+            "tower_slot"
+          ],
+          "material": "default-material",
+          "path": "assets/props/theme/default/tower_slot.obj",
+          "receiveShadow": true,
+          "position": {
+            "x": 9.5,
+            "y": 0,
+            "z": 8.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "type": "prop",
+          "tags": [
+            "tile",
+            "tower_slot"
+          ],
+          "material": "default-material",
+          "path": "assets/props/theme/default/tower_slot.obj",
+          "receiveShadow": true,
+          "position": {
+            "x": 10.5,
+            "y": 0,
+            "z": 8.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "type": "prop",
+          "tags": [
+            "tile",
+            "tower_slot"
+          ],
+          "material": "default-material",
+          "path": "assets/props/theme/default/tower_slot.obj",
+          "receiveShadow": true,
+          "position": {
+            "x": 8.5,
+            "y": 0,
+            "z": 10.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "type": "prop",
+          "tags": [
+            "tile",
+            "tower_slot"
+          ],
+          "material": "default-material",
+          "path": "assets/props/theme/default/tower_slot.obj",
+          "receiveShadow": true,
+          "position": {
+            "x": 9.5,
+            "y": 0,
+            "z": 10.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
+        },
+        {
+          "type": "prop",
+          "tags": [
+            "tile",
+            "tower_slot"
+          ],
+          "material": "default-material",
+          "path": "assets/props/theme/default/tower_slot.obj",
+          "receiveShadow": true,
+          "position": {
+            "x": 10.5,
+            "y": 0,
+            "z": 10.5
+          },
+          "rotation": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "scale": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+          }
         }
       ]
     },

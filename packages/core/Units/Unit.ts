@@ -18,7 +18,11 @@ import {
   makeTransformController,
 } from '../utils';
 import { SceneItem } from '../Scene';
-import { PropertiesHandler, getPropertiesHandler } from './utils';
+import {
+  PropertiesHandler,
+  assignUnitToNode,
+  getPropertiesHandler,
+} from './utils';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -53,6 +57,7 @@ export class Unit
     this.properties = getPropertiesHandler(config?.properties ?? {});
 
     this.applyConfig(config ?? {});
+    assignUnitToNode(this);
   }
 
   protected applyConfig(config: UnitConfig): void {
@@ -87,6 +92,11 @@ export class Unit
     this.transform.setScale(scale);
 
     behaviours.forEach((key) => this.addBehaviour(key));
+  }
+
+  /* Getters */
+  get behaviours(): string[] {
+    return [...this._behaviours.keys()];
   }
 
   get name(): string {
@@ -134,7 +144,6 @@ export class Unit
 
     if (controller) {
       this._behaviours.set(key, controller);
-      controller.onAttach?.();
     }
   }
 

@@ -14,6 +14,7 @@ import {
 import type { LightConfig, MeshUnitConfig } from '../@types';
 import { Material } from './Material';
 import { Vector3 } from '../Math';
+import { Unit } from '.';
 
 /* MESH UTILS */
 export const applyMeshConfig = (
@@ -158,4 +159,21 @@ export const getPropertiesHandler = (
       setOnPath(store, path, clone(value));
     },
   };
+};
+
+/* MISC UTILS */
+export const assignUnitToNode = (unit: Unit) => {
+  unit.node.userData.unit = unit;
+};
+
+export const findNodeUnit = (node: Object3D): Unit | null => {
+  if (node.userData.unit) {
+    return node.userData.unit;
+  }
+
+  if (node.parent) {
+    return findNodeUnit(node.parent);
+  }
+
+  return null;
 };

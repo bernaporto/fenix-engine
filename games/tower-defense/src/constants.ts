@@ -19,12 +19,21 @@ export const Constants = {
 };
 
 export enum BehaviourType {
+  // Camera
   Draggable = 'draggable',
   Zoomable = 'zoomable',
+  // Enemy
   EnemyPuppeteer = 'enemyPuppeteer',
   EnemyLifecycleManager = 'enemyLifecycleManager',
   PathFollower = 'pathFollower',
+  // Gameplay
+  Interactable = 'interactable',
   WaveController = 'waveController',
+  // Tower
   TowerController = 'towerController',
   TowerSlotManager = 'towerSlotManager',
+}
+
+export enum CustomEventType {
+  OnClick = 'custom:onClick',
 }

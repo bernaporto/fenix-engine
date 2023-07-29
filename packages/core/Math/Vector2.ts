@@ -92,4 +92,9 @@ export const Vector2 = {
     x: clamp(min.x, max.x, a.x),
     y: clamp(min.y, max.y, a.y),
   }),
+
+  floor: (a: Vector2): Vector2 => ({
+    x: Math.floor(a.x),
+    y: Math.floor(a.y),
+  }),
 };

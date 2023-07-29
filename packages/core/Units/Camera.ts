@@ -6,11 +6,15 @@ import {
   Vector2 as THREE_Vector2,
   PerspectiveCamera,
 } from 'three';
-import { degreesToRadians, remap } from '@fenix-engine/utilities/misc';
+import {
+  degreesToRadians,
+  isNotNullable,
+  remap,
+} from '@fenix-engine/utilities/misc';
 import type { CameraConfig } from '../@types';
 import { Vector2, type Vector3 } from '../Math';
 import { Unit } from './Unit';
-import { resizeCamera } from './utils';
+import { findNodeUnit, resizeCamera } from './utils';
 
 const raycaster = new Raycaster();
 
@@ -111,17 +115,16 @@ export class Camera extends Unit {
     resizeCamera(this._camera, aspect);
   }
 
-  public raycast(normalizedMousePos: Vector2, root: Unit): Vector3[] {
+  public raycast(normalizedMousePos: Vector2, root: Unit): Unit[] {
     raycaster.setFromCamera(
       new THREE_Vector2(normalizedMousePos.x, normalizedMousePos.y),
       this._camera
     );
 
-    return raycaster.intersectObjects([root.node], true).map(({ point }) => ({
-      x: point.x,
-      y: point.y,
-      z: point.z,
-    }));
+    return raycaster
+      .intersectObjects([root.node], true)
+      .map(({ object }) => findNodeUnit(object as Object3D))
+      .filter(isNotNullable);
   }
 
   public worldToScreen(worldPos: Vector3, canvas: HTMLCanvasElement): Vector2 {

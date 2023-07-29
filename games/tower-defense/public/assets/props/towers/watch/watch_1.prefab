@@ -9,6 +9,7 @@
     "towerController"
   ],
   "properties": {
+    "type": "watch",
     "range": 4,
     "cooldown": 1,
     "cost": 10,

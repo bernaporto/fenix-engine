@@ -7,6 +7,6 @@ import { registerTowerBehaviours } from './tower';
 export const registerBehaviours = (mouse: MouseHandler) => {
   registerCameraBehaviours(mouse);
   registerEnemyBehaviours();
-  registerGameplayBehaviours();
+  registerGameplayBehaviours(mouse);
   registerTowerBehaviours();
 };
