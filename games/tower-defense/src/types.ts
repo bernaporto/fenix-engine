@@ -45,7 +45,7 @@ export type WaveData = Wave[];
 
 export type LevelState = {
   path: Vector2[];
-  totalHealth: number;
+  totalDefense: number;
   totalWaves: number;
 };
 
@@ -96,7 +96,7 @@ export type GameplayConfig = {
 type GameplayStats = {
   coins: number;
   currentWave: number;
-  health: number;
+  defense: number;
   waveStatus: 'idle' | 'running' | 'finished';
 };
 

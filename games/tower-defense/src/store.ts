@@ -1,7 +1,6 @@
 import { createStore } from '@fenix-engine/utilities/store';
 import { Vector2 } from '@fenix-engine/core/Math';
 import type { GameState } from './types';
-import { TDConstants } from './constants';
 
 export const store = createStore<GameState>({
   loopState: 'preLoad',
@@ -21,7 +20,7 @@ export const store = createStore<GameState>({
 
   level: {
     path: [],
-    totalHealth: TDConstants.LEVEL_HEALTH,
+    totalDefense: 0,
     totalWaves: 0,
   },
 
@@ -31,9 +30,9 @@ export const store = createStore<GameState>({
       towers: {},
     },
     stats: {
-      coins: TDConstants.INITIAL_COINS,
+      coins: 0,
       currentWave: 0,
-      health: TDConstants.LEVEL_HEALTH,
+      defense: 0,
       waveStatus: 'idle',
     },
     selected: null,

@@ -4,8 +4,7 @@ import { hookKeyboardInput, hookMouseInput } from './input';
 // import { loadGameConfig } from './utils/loadGameConfig';
 import { store } from '../store';
 import { registerBehaviours } from './behaviours/registerBehaviours';
-import { getProperty } from './helpers';
-import { Scene } from '@fenix-engine/core/Scene';
+import { loadLevel } from './utils/loadLevel';
 
 export const initGame = async (containerId: string) => {
   store.set('loopState', 'load');
@@ -24,12 +23,5 @@ export const initGame = async (containerId: string) => {
   store.set('loopState', 'onMenu');
 
   // const loadLevel = getLoadLevelFn(app.stage, mouse);
-  setupLevelProperties(await game.stage.load(initialScene ?? 'main'));
-
-  store.set('loopState', 'onGame');
-};
-
-const setupLevelProperties = (scene: Scene) => {
-  store.set('level.path', getProperty(scene, 'path'));
-  store.set('level.totalHealth', getProperty(scene, 'totalHealth'));
+  loadLevel(initialScene ?? 'main');
 };

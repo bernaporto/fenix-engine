@@ -3,7 +3,7 @@ import { Timer } from '@fenix-engine/services/Time';
 import { Unit } from '@fenix-engine/core/Units';
 import { EnemyGroup, EnemyPack, WaveData } from '@/types';
 import { store } from '@/store';
-import { TDConstants } from '@/constants';
+import { Constants } from '@/constants';
 import { Enemy } from '../units/Enemy';
 import { getGenerator, iterateOnList } from '../utils/iterate';
 import { getProperty } from '../helpers';
@@ -13,7 +13,6 @@ const timer = new Timer();
 
 export const waveController: Behaviour = (unit) => {
   const waves = getProperty<WaveData>(unit, 'waves');
-
   const waveController = createWaveController(waves, unit, timer);
 
   store.set('level.totalWaves', waves.length);
@@ -29,12 +28,12 @@ export const waveController: Behaviour = (unit) => {
     false
   );
 
-  unit.events.on('dispose', () => {
-    timer.clear();
-    unsubscribe();
-  });
-
-  return {};
+  return {
+    onDetach: () => {
+      timer.clear();
+      unsubscribe();
+    },
+  };
 };
 
 export const createWaveController = (
@@ -62,7 +61,7 @@ export const createWaveController = (
       list: packs,
       handleItem: (pack, nextPack) => {
         handleEnemyGroups(pack.enemies, () => {
-          timer.setTimer(nextPack, TDConstants.INTERVAL_ENEMY_PACK);
+          timer.setTimer(nextPack, Constants.INTERVAL_ENEMY_PACK);
         });
       },
     });
@@ -76,7 +75,7 @@ export const createWaveController = (
       list: enemies,
       handleItem: (enemyGroup, nextGroup) => {
         handleEnemyGroup(enemyGroup, () => {
-          timer.setTimer(nextGroup, TDConstants.INTERVAL_ENEMY_GROUP);
+          timer.setTimer(nextGroup, Constants.INTERVAL_ENEMY_GROUP);
         });
       },
     });
@@ -97,7 +96,7 @@ export const createWaveController = (
         root.append(enemy);
         handleEnemyLifecycle(enemy);
 
-        timer.setTimer(nextEnemy, TDConstants.INTERVAL_ENEMY_SPAWN);
+        timer.setTimer(nextEnemy, Constants.INTERVAL_ENEMY_SPAWN);
       },
     });
   };
