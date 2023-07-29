@@ -1,0 +1,32 @@
+import { Behaviour } from '@fenix-engine/core/@types';
+import { PathFollower } from '@fenix-engine/services/Path';
+import { Vector3 } from '@fenix-engine/core/Math';
+import { EnemyData } from '@/types';
+import { getCurrentScene, getProperty } from '../helpers';
+
+export const pathFollower: Behaviour = (unit) => {
+  const scene = getCurrentScene();
+  const path = getProperty<Vector3[]>(scene, 'path');
+  const stats = getProperty<EnemyData['stats']>(unit, 'stats');
+
+  const pathFollower = new PathFollower({
+    path,
+    speed: stats.speed * 0.2,
+  });
+
+  return {
+    onUpdate: ({ deltaTime }) => {
+      const { done, nextNodePos, position, travelledDistance } =
+        pathFollower.getNextPosition(deltaTime, unit.transform.position);
+
+      unit.transform.setPosition(position);
+      unit.transform.lookAt(nextNodePos);
+
+      pathFollower.setTravelledDistance(travelledDistance);
+
+      if (done) {
+        unit.dispose();
+      }
+    },
+  };
+};

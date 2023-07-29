@@ -1,0 +1,35 @@
+{
+  "type": "puppet",
+  "tags": [
+    "enemy",
+    "orc"
+  ],
+  "behaviours": [
+    "animated",
+    "pathFollower"
+  ],
+  "properties": {
+    "name": "Orc",
+    "type": "orc",
+    "description": "Common enemy. More resistent than a Goblin.",
+    "stats": {
+      "damage": 1,
+      "health": 15,
+      "speed": 2,
+      "reward": 2
+    }
+  },
+  "hierarchy": [
+    {
+      "type": "puppet",
+      "path": "assets/puppets/orc.glb",
+      "material": "default-material",
+      "castShadow": true,
+      "scale": {
+        "x": 0.2,
+        "y": 0.2,
+        "z": 0.2
+      }
+    }
+  ]
+}

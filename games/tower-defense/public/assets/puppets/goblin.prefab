@@ -1,0 +1,35 @@
+{
+  "type": "puppet",
+  "tags": [
+    "enemy",
+    "goblin"
+  ],
+  "behaviours": [
+    "animated",
+    "pathFollower"
+  ],
+  "properties": {
+    "name": "Goblin",
+    "type": "goblin",
+    "description": "Most common enemy.",
+    "stats": {
+      "damage": 1,
+      "health": 10,
+      "speed": 2,
+      "reward": 1
+    }
+  },
+  "hierarchy": [
+    {
+      "type": "puppet",
+      "path": "assets/puppets/goblin.glb",
+      "material": "default-material",
+      "castShadow": true,
+      "scale": {
+        "x": 0.2,
+        "y": 0.2,
+        "z": 0.2
+      }
+    }
+  ]
+}
