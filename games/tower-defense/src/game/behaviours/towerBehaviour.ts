@@ -24,7 +24,7 @@ export const towerBehaviour: Behaviour = (unit) => {
   return {};
 };
 
-// TODO: This should be done on the model
+// TODO: This should be done in the model
 const adjustPosition = (unit: Unit) => {
   unit.transform.setPosition(
     Vector3.add(unit.transform.position, {

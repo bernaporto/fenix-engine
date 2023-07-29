@@ -2,11 +2,11 @@ import { Behaviour } from '@fenix-engine/core/@types';
 import { PathFollower } from '@fenix-engine/services/Path';
 import { Vector3 } from '@fenix-engine/core/Math';
 import { EnemyData } from '@/types';
-import { getCurrentScene, getProperty } from '../helpers';
+import { store } from '@/store';
+import { getProperty } from '../helpers';
 
 export const pathFollower: Behaviour = (unit) => {
-  const scene = getCurrentScene();
-  const path = getProperty<Vector3[]>(scene, 'path');
+  const path = store.get('level.path') as Vector3[];
   const stats = getProperty<EnemyData['stats']>(unit, 'stats');
 
   const pathFollower = new PathFollower({

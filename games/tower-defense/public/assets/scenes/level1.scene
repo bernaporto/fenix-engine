@@ -42,7 +42,8 @@
         "y": 0,
         "z": 3.5
       }
-    ]
+    ],
+    "totalHealth": 10
   },
   "hierarchy": [
     {

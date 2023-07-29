@@ -2,16 +2,19 @@ import { positive } from '@fenix-engine/utilities/misc';
 import { store } from '@/store';
 import { Enemy } from '../units/Enemy';
 import { getProperty } from './getProperty';
+import { EnemyData } from '@/types';
 
 export const handleEnemyLifecycle = (enemy: Enemy) => {
   enemy.events.on('dispose', () => {
-    const isDead = getProperty<number>(enemy, 'health') <= 0;
+    const { damage, health, reward } = getProperty<EnemyData['stats']>(
+      enemy,
+      'stats'
+    );
+    const isDead = health <= 0;
 
     // you win coins
     if (isDead) {
       const currCoins = store.get('gameplay.stats.coins');
-      const reward = getProperty<number>(enemy, 'reward');
-
       store.set('gameplay.stats.coins', currCoins + reward);
 
       return;
@@ -19,11 +22,7 @@ export const handleEnemyLifecycle = (enemy: Enemy) => {
 
     // you lose health
     const currHealth = store.get('gameplay.stats.health');
-
-    store.set(
-      'gameplay.stats.health',
-      positive(currHealth - getProperty<number>(enemy, 'damage'))
-    );
+    store.set('gameplay.stats.health', positive(currHealth - damage));
   });
 };
 
@@ -38,7 +37,7 @@ export const handleGameLifecycle = (): VoidFunction => {
     store.subscribe('gameplay.stats.waveStatus', (status) => {
       if (status === 'finished') {
         const currWave = store.get('gameplay.stats.currentWave');
-        const totalWaves = store.get('level.waves').length;
+        const totalWaves = store.get('level.totalWaves');
 
         if (currWave === totalWaves) {
           store.set('loopState', 'onGameWin');

@@ -9,20 +9,21 @@ import type {
   LifecycleEnabled,
   Queryable,
 } from '../@types';
+import { getPropertiesHandler } from '../Units/utils';
 import type { SceneChild, SceneManifest } from '../Data/Model';
+import { SceneRegistry } from '../Game/registries';
 import { Ticker } from '../Tools/Ticker';
 import { Layer } from './Layer';
-import { SceneRegistry } from '../Game/registries';
 
 type SceneEvent = 'load' | 'dispose' | CustomEvent;
 
 export class Scene implements EventEnabled, LifecycleEnabled {
   public readonly events: EventHandler<SceneEvent, CustomEvent>;
+  public readonly properties = getPropertiesHandler({});
 
   private _camera: Camera | null = null;
   private _emitter = new EventEmitter();
   private _layers = new Map<number, Layer>();
-  private _properties: Record<string, any> = {};
 
   constructor(
     public readonly sceneId: string,
@@ -46,7 +47,7 @@ export class Scene implements EventEnabled, LifecycleEnabled {
   private buildScene(config: SceneManifest): void {
     const { properties } = config;
 
-    this._properties = Object.freeze(properties ?? {});
+    this.properties.setState(properties ?? {});
 
     const getLayerFromConfig = (node: SceneChild) =>
       ('layer' in node && node.layer) || 0;
@@ -60,10 +61,6 @@ export class Scene implements EventEnabled, LifecycleEnabled {
         }
       }
     );
-  }
-
-  public get properties(): Record<string, any> {
-    return this._properties;
   }
 
   /* Background */

@@ -18,6 +18,7 @@ import {
   makeTransformController,
 } from '../utils';
 import { SceneItem } from '../Scene';
+import { PropertiesHandler, getPropertiesHandler } from './utils';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -36,19 +37,20 @@ export class Unit
   implements EventEnabled, Queryable, QueryEnabled
 {
   public readonly events: EventHandler<UnitEvent, CustomEvent>;
+  public readonly properties: PropertiesHandler;
   public readonly query = makeQueryHandler(this);
   public readonly transform = makeTransformController(this);
 
   private _behaviours = new Map<string, BehaviourController>();
   private _emitter = new EventEmitter();
   private _name: string = `Unit-${this.id}`;
-  private _properties: Record<string, any> = {};
   private _tags: Set<string> = new Set();
   private _type: string = 'unit';
 
   constructor(config?: UnitConfig) {
     super();
     this.events = makeEventHandler(this._emitter);
+    this.properties = getPropertiesHandler(config?.properties ?? {});
 
     this.applyConfig(config ?? {});
   }
@@ -67,6 +69,7 @@ export class Unit
       behaviours: [],
       name: this.name,
       position: this.transform.position,
+      properties: {},
       rotation: this.transform.rotation,
       scale: this.transform.scale,
       tags: [],
@@ -76,7 +79,7 @@ export class Unit
 
     this._name = name;
     this._type = type;
-    this._properties = properties ?? {};
+    this.properties.setState(properties);
     tags.forEach((tag) => this.addTag(tag));
 
     this.transform.setPosition(position);
@@ -94,20 +97,12 @@ export class Unit
     return this._type;
   }
 
-  get properties(): Record<string, any> {
-    return this._properties;
-  }
-
   protected setName(name: string) {
     this._name = name;
   }
 
   protected setType(type: string) {
     this._type = type;
-  }
-
-  protected setProperty(key: string, value: unknown) {
-    this.properties[key] = value;
   }
 
   /* Tags */

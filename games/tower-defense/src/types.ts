@@ -46,7 +46,7 @@ export type WaveData = Wave[];
 export type LevelState = {
   path: Vector2[];
   totalHealth: number;
-  waves: WaveData;
+  totalWaves: number;
 };
 
 // GAMEPLAY

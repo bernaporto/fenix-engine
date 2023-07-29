@@ -6,7 +6,7 @@ export const getProperty = <T>(
   property: string,
   fallback?: T
 ): T => {
-  const value = node.properties[property];
+  const value = node.properties.get(property);
 
   if (value === undefined) {
     if (fallback === undefined) {

@@ -22,7 +22,7 @@ export const store = createStore<GameState>({
   level: {
     path: [],
     totalHealth: TDConstants.LEVEL_HEALTH,
-    waves: [],
+    totalWaves: 0,
   },
 
   gameplay: {

@@ -6,6 +6,11 @@ import type {
   PointLight,
 } from 'three';
 import { Mesh, PerspectiveCamera } from 'three';
+import {
+  clone,
+  getFromPath,
+  setOnPath,
+} from '@fenix-engine/utilities/store/utils';
 import type { LightConfig, MeshUnitConfig } from '../@types';
 import { Material } from './Material';
 import { Vector3 } from '../Math';
@@ -126,4 +131,31 @@ const resizeOrthographicCamera = (
   camera.top = viewSize / 2;
   camera.bottom = -viewSize / 2;
   camera.updateProjectionMatrix();
+};
+
+/* PROPERTY UTILS */
+export type PropertiesHandler = {
+  setState: (properties: Record<string, any>) => void;
+  get: <T = unknown>(path: string) => T;
+  set: (path: string, value: unknown) => void;
+};
+
+export const getPropertiesHandler = (
+  properties: Record<string, any>
+): PropertiesHandler => {
+  const store = clone(properties);
+
+  return {
+    setState: (newProperties) => {
+      Object.assign(store, clone(newProperties));
+    },
+
+    get: (path) => {
+      return getFromPath(clone(store), path);
+    },
+
+    set: (path, value) => {
+      setOnPath(store, path, clone(value));
+    },
+  };
 };
