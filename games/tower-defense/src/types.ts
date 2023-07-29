@@ -129,12 +129,11 @@ export type GameState = {
   loopState:
     | 'preLoad'
     | 'load'
-    | 'onMenu'
-    | 'onLevelSelect'
-    | 'onGame'
-    | 'onPause'
-    | 'onGameOver'
-    | 'onGameWin';
+    | 'inMenu'
+    | 'inGame'
+    | 'paused'
+    | 'gameOver'
+    | 'gameWin';
   camera: CameraState;
   debug: DebugState;
   level: LevelState;

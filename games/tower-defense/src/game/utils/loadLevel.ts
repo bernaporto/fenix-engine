@@ -39,5 +39,5 @@ const setupLevel = (scene: Scene) => {
   scene.camera.addBehaviour(BehaviourType.Draggable);
   scene.camera.addBehaviour(BehaviourType.Zoomable);
 
-  store.set('loopState', 'onGame');
+  store.set('loopState', 'inGame');
 };

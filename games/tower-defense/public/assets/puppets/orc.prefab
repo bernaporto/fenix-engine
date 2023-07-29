@@ -6,6 +6,7 @@
   ],
   "behaviours": [
     "enemyPuppeteer",
+    "enemyLifecycleManager",
     "pathFollower"
   ],
   "properties": {

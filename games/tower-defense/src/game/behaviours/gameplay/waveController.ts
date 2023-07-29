@@ -1,13 +1,11 @@
 import { Behaviour } from '@fenix-engine/core/@types';
 import { Timer } from '@fenix-engine/services/Time';
-import { Unit } from '@fenix-engine/core/Units';
+import { Prefab, Unit } from '@fenix-engine/core/Units';
 import { EnemyGroup, EnemyPack, WaveData } from '@/types';
 import { store } from '@/store';
 import { Constants } from '@/constants';
-import { Enemy } from '../units/Enemy';
-import { getGenerator, iterateOnList } from '../utils/iterate';
-import { getProperty } from '../helpers';
-import { handleEnemyLifecycle } from '../helpers/lifecycle';
+import { getGenerator, iterateOnList } from '@/game/utils/iterate';
+import { getProperty } from '@/game/helpers';
 
 const timer = new Timer();
 
@@ -44,8 +42,8 @@ export const createWaveController = (
   next: VoidFunction;
 } => {
   const wavesGen = getGenerator(waves);
-  const enemies = new Set<Enemy>();
-  const removeEnemy = (enemy: Enemy) => {
+  const enemies = new Set<Unit>();
+  const removeEnemy = (enemy: Unit) => {
     enemies.delete(enemy);
     if (enemies.size === 0) {
       store.set(
@@ -91,10 +89,11 @@ export const createWaveController = (
       onceDone,
       list,
       handleItem: (_, nextEnemy) => {
-        const enemy = new Enemy(type);
+        const enemy = new Prefab({
+          path: `assets/puppets/${type}.prefab`,
+        });
 
         root.append(enemy);
-        handleEnemyLifecycle(enemy);
 
         timer.setTimer(nextEnemy, Constants.INTERVAL_ENEMY_SPAWN);
       },
@@ -118,7 +117,7 @@ export const createWaveController = (
 
       handleEnemyPacks(packs, () => {
         root.children.forEach((child) => {
-          if (child instanceof Enemy) {
+          if (child instanceof Prefab) {
             enemies.add(child);
             child.events.on('dispose', () => removeEnemy(child));
           }

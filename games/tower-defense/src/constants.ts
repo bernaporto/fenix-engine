@@ -22,6 +22,7 @@ export enum BehaviourType {
   Draggable = 'draggable',
   Zoomable = 'zoomable',
   EnemyPuppeteer = 'enemyPuppeteer',
+  EnemyLifecycleManager = 'enemyLifecycleManager',
   PathFollower = 'pathFollower',
   WaveController = 'waveController',
   TowerController = 'towerController',

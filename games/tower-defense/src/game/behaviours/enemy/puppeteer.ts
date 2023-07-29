@@ -3,7 +3,7 @@ import { Puppet } from '@fenix-engine/core/Units';
 import { EnemyType } from '@/types';
 import { getProperty } from '@/game/helpers';
 
-export const enemyPuppeteer: Behaviour = (unit) => {
+export const puppeteer: Behaviour = (unit) => {
   const type = getProperty<EnemyType>(unit, 'type');
 
   return {

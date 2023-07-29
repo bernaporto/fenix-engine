@@ -1,16 +1,16 @@
 import { game } from '@fenix-engine/core';
-// import { getLoadLevelFn } from './level/loadLevel';
+import { store } from '@/store';
+import { hookGameLifecycleEvents } from './helpers/lifecycle';
 import { hookKeyboardInput, hookMouseInput } from './input';
-// import { loadGameConfig } from './utils/loadGameConfig';
-import { store } from '../store';
-import { registerBehaviours } from './behaviours/registerBehaviours';
 import { loadLevel } from './utils/loadLevel';
+import { registerBehaviours } from './behaviours/registerBehaviours';
 
 export const initGame = async (containerId: string) => {
   store.set('loopState', 'load');
 
   const mouse = hookMouseInput(game.renderer.domElement);
   hookKeyboardInput();
+  hookGameLifecycleEvents();
 
   registerBehaviours(mouse);
 
@@ -19,9 +19,9 @@ export const initGame = async (containerId: string) => {
     manifest: 'assets/game.manifest',
   });
 
-  // TODO: create menu scene
-  store.set('loopState', 'onMenu');
+  // TODO: create menu scene...
+  store.set('loopState', 'inMenu');
 
-  // const loadLevel = getLoadLevelFn(app.stage, mouse);
+  // ...to allow players to start the game
   loadLevel(initialScene ?? 'main');
 };

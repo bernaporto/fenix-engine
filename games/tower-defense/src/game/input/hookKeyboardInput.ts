@@ -10,16 +10,12 @@ export const hookKeyboardInput = (): VoidFunction => {
           const gameState = store.get('loopState');
 
           switch (gameState) {
-            case 'onGame':
-              store.set('loopState', 'onPause');
+            case 'inGame':
+              store.set('loopState', 'paused');
               break;
 
-            case 'onPause':
-              store.set('loopState', 'onGame');
-              break;
-
-            default:
-              // do nothing
+            case 'paused':
+              store.set('loopState', 'inGame');
               break;
           }
         },
