@@ -1,5 +1,5 @@
 import type { AnimationClip, Group, Object3D } from 'three';
-import type { SkinnedObject } from '../types';
+import type { SkinnedObject } from '../@types';
 import { loadingManager } from './loadingManager';
 
 type ProgressListener = (event: ProgressEvent<EventTarget>) => void;

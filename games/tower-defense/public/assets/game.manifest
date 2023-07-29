@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "enableShadows": true,
+    "shadowMapType": 1
+  },
+  "scenes": [
+    {
+      "key": "level1",
+      "path": "assets/scenes/level1.scene"
+    }
+  ],
+  "materials": [
+    {
+      "key": "default-material",
+      "type": "standard",
+      "vertexColors": true
+    },
+    {
+      "key": "double-sided-material",
+      "type": "standard",
+      "shadowSide": 2,
+      "vertexColors": true
+    }
+  ]
+}
