@@ -44,6 +44,10 @@ export type Wave = {
 export type WaveData = Wave[];
 
 export type LevelState = {
+  boundaries: {
+    min: Vector2;
+    max: Vector2;
+  };
   path: Vector2[];
   totalDefense: number;
   totalWaves: number;

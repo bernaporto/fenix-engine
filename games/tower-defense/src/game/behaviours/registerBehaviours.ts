@@ -1,17 +1,20 @@
 import { game } from '@fenix-engine/core';
-import { animated } from './animated';
-import { pathFollower } from './pathFollower';
-import { towerBehaviour } from './towerBehaviour';
+import type { MouseHandler } from '@fenix-engine/services/Input/MouseHandler';
+import { BehaviourType } from '@/constants';
+import { enemyPuppeteer } from './enemy/enemyPuppeteer';
+import { pathFollower } from './enemy/pathFollower';
+import { towerController } from './tower/towerController';
 import { waveController } from './waveController';
+import { draggable } from './camera/draggable';
+import { zoomable } from './camera/zoomable';
 
-export const registerBehaviours = () => {
+export const registerBehaviours = (mouse: MouseHandler) => {
   const register = game.behaviours.register;
 
-  register('animated', animated);
-  register('waveController', waveController);
-  register('pathFollower', pathFollower);
-  register('tower', towerBehaviour);
-  register('orbit', (unit) => ({
-    onUpdate: ({ deltaTime }) => unit.transform.rotateY(-6 * deltaTime),
-  }));
+  register(BehaviourType.Draggable, draggable(mouse));
+  register(BehaviourType.Zoomable, zoomable(mouse));
+  register(BehaviourType.EnemyPuppeteer, enemyPuppeteer);
+  register(BehaviourType.PathFollower, pathFollower);
+  register(BehaviourType.TowerController, towerController);
+  register(BehaviourType.WaveController, waveController);
 };

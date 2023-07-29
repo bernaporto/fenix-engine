@@ -1,9 +1,9 @@
 import { Behaviour } from '@fenix-engine/core/@types';
 import { Puppet } from '@fenix-engine/core/Units';
 import { EnemyType } from '@/types';
-import { getProperty } from '../helpers';
+import { getProperty } from '@/game/helpers';
 
-export const animated: Behaviour = (unit) => {
+export const enemyPuppeteer: Behaviour = (unit) => {
   const type = getProperty<EnemyType>(unit, 'type');
 
   return {

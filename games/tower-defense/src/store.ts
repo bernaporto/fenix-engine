@@ -19,6 +19,10 @@ export const store = createStore<GameState>({
   },
 
   level: {
+    boundaries: {
+      min: Vector2.zero,
+      max: Vector2.zero,
+    },
     path: [],
     totalDefense: 0,
     totalWaves: 0,

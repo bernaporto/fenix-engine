@@ -9,15 +9,15 @@ import { loadLevel } from './utils/loadLevel';
 export const initGame = async (containerId: string) => {
   store.set('loopState', 'load');
 
-  registerBehaviours();
+  const mouse = hookMouseInput(game.renderer.domElement);
+  hookKeyboardInput();
+
+  registerBehaviours(mouse);
 
   const { initialScene } = await game.init({
     containerId,
     manifest: 'assets/game.manifest',
   });
-
-  const mouse = hookMouseInput(game.renderer.domElement);
-  hookKeyboardInput();
 
   // TODO: create menu scene
   store.set('loopState', 'onMenu');

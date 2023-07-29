@@ -15,8 +15,9 @@ import { resizeCamera } from './utils';
 const raycaster = new Raycaster();
 
 export class Camera extends Unit {
-  private _joint: Object3D;
+  private _angle: Vector2;
   private _camera: OrthographicCamera | PerspectiveCamera;
+  private _joint: Object3D;
 
   constructor(config?: CameraConfig) {
     super(config);
@@ -31,6 +32,8 @@ export class Camera extends Unit {
       ...config,
     };
 
+    this._angle = angle;
+
     const { camera, joint } = createCamera(cameraType);
     this._camera = camera;
     this._joint = joint;
@@ -42,11 +45,24 @@ export class Camera extends Unit {
     this.setZoom(zoom);
   }
 
+  public get angle() {
+    return this._angle;
+  }
+
   public get camera() {
     return this._camera;
   }
 
+  public get distance() {
+    return this._camera.position.z;
+  }
+
+  public get zoom() {
+    return this.camera.zoom;
+  }
+
   public setAngle(angle: Vector2) {
+    this._angle = angle;
     this._joint.rotation.set(0, 0, 0);
     this._joint.rotateOnAxis(
       new THREE_Vector3(1, 0, 0),

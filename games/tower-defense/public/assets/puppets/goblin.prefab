@@ -5,7 +5,7 @@
     "goblin"
   ],
   "behaviours": [
-    "animated",
+    "enemyPuppeteer",
     "pathFollower"
   ],
   "properties": {

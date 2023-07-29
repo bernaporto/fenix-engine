@@ -2,7 +2,7 @@ import { Behaviour } from '@fenix-engine/core/@types';
 import { Prop, Unit } from '@fenix-engine/core/Units';
 import { Vector3 } from '@fenix-engine/core/Math';
 
-export const towerBehaviour: Behaviour = (unit) => {
+export const towerController: Behaviour = (unit) => {
   const towersAt = [
     { x: 9.5, y: 0, z: 10.5 },
     { x: 9.5, y: 0, z: 8.5 },

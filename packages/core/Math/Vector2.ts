@@ -1,3 +1,5 @@
+import { clamp } from '@fenix-engine/utilities/misc';
+
 export type Vector2 = {
   x: number;
   y: number;
@@ -85,4 +87,9 @@ export const Vector2 = {
       y: a.y / length,
     };
   },
+
+  clamp: (a: Vector2, min: Vector2, max: Vector2): Vector2 => ({
+    x: clamp(min.x, max.x, a.x),
+    y: clamp(min.y, max.y, a.y),
+  }),
 };

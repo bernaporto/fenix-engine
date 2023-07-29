@@ -5,7 +5,7 @@
     "orc"
   ],
   "behaviours": [
-    "animated",
+    "enemyPuppeteer",
     "pathFollower"
   ],
   "properties": {
