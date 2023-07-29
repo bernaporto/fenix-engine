@@ -1,0 +1,138 @@
+import type { Vector2, Vector3 } from '@fenix-engine/core/Math';
+
+export type EnemyType = 'goblin' | 'orc' | 'goblin-runner' | 'armored-orc';
+
+export type TowerType =
+  | 'empty'
+  | 'watch'
+  | 'trebouchet'
+  | 'ice'
+  | 'flame-thrower'
+  | 'tesla'
+  | 'poison';
+
+// CAMERA
+type CameraState = {
+  boundaries: {
+    min: Vector2;
+    max: Vector2;
+  };
+
+  position: Vector2;
+  zoom: number;
+};
+
+// DEBUG
+export type DebugState = {
+  towers: boolean;
+};
+
+// LEVEL
+export type EnemyGroup = {
+  count: number;
+  type: EnemyType;
+};
+
+export type EnemyPack = {
+  enemies: EnemyGroup[];
+};
+
+export type Wave = {
+  packs: EnemyPack[];
+};
+
+export type WaveData = Wave[];
+
+export type LevelState = {
+  path: Vector2[];
+  totalHealth: number;
+  waves: WaveData;
+};
+
+// GAMEPLAY
+type UnitData<T, U> = {
+  description: string;
+  name: string;
+  type: T;
+  stats: U;
+  icon?: string;
+};
+
+export type EnemyData = UnitData<
+  EnemyType,
+  {
+    damage: number;
+    health: number;
+    speed: number;
+    reward: number;
+  }
+>;
+
+export type ProjectileData = {
+  damage: number;
+  initialAngle: number;
+  speed: number;
+  startPosition: Vector3;
+  targetOffset: Vector3;
+};
+
+export type TowerData = UnitData<
+  TowerType,
+  {
+    cooldown: number;
+    cost: number;
+    range: number;
+    projectile: ProjectileData;
+  }
+> & {
+  upgrades: Record<string, number>[];
+};
+
+export type GameplayConfig = {
+  enemies: Record<string, EnemyData>;
+  towers: Record<string, TowerData>;
+};
+
+type GameplayStats = {
+  coins: number;
+  currentWave: number;
+  health: number;
+  waveStatus: 'idle' | 'running' | 'finished';
+};
+
+type SelectedItemState = {
+  type: TowerType;
+  position: Vector2;
+  level?: number;
+};
+
+export type SelectableItem = TowerType;
+
+type SelectedItem = {
+  key: string;
+  state: null | SelectedItemState;
+};
+
+type GameplayState = {
+  config: GameplayConfig;
+  stats: GameplayStats;
+  selected: null | SelectedItem;
+  towerSlots: Record<string, TowerType>;
+};
+
+// GAME STATE
+export type GameState = {
+  loopState:
+    | 'preLoad'
+    | 'load'
+    | 'onMenu'
+    | 'onLevelSelect'
+    | 'onGame'
+    | 'onPause'
+    | 'onGameOver'
+    | 'onGameWin';
+  camera: CameraState;
+  debug: DebugState;
+  level: LevelState;
+  gameplay: GameplayState;
+};

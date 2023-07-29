@@ -1,8 +1,4 @@
-import { game } from '@fenix-engine/core';
-
 import './style.css';
+import { initGame } from './game/initGame';
 
-game.init({
-  containerId: 'game',
-  manifest: 'assets/game.manifest',
-});
+initGame('game');
