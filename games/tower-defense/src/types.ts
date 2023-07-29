@@ -11,17 +11,6 @@ export type TowerType =
   | 'tesla'
   | 'poison';
 
-// CAMERA
-type CameraState = {
-  boundaries: {
-    min: Vector2;
-    max: Vector2;
-  };
-
-  position: Vector2;
-  zoom: number;
-};
-
 // DEBUG
 export type DebugState = {
   towers: boolean;
@@ -118,10 +107,8 @@ type SelectedItem = {
 };
 
 type GameplayState = {
-  config: GameplayConfig;
   stats: GameplayStats;
   selected: null | SelectedItem;
-  towerSlots: Record<string, TowerType>;
 };
 
 // GAME STATE
@@ -134,7 +121,6 @@ export type GameState = {
     | 'paused'
     | 'gameOver'
     | 'gameWin';
-  camera: CameraState;
   debug: DebugState;
   level: LevelState;
   gameplay: GameplayState;

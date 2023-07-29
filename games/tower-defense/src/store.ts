@@ -5,15 +5,6 @@ import type { GameState } from './types';
 export const store = createStore<GameState>({
   loopState: 'preLoad',
 
-  camera: {
-    boundaries: {
-      min: Vector2.zero,
-      max: Vector2.zero,
-    },
-    position: Vector2.zero,
-    zoom: 3,
-  },
-
   debug: {
     towers: import.meta.env.DEV,
   },
@@ -29,10 +20,6 @@ export const store = createStore<GameState>({
   },
 
   gameplay: {
-    config: {
-      enemies: {},
-      towers: {},
-    },
     stats: {
       coins: 0,
       currentWave: 0,
@@ -40,7 +27,6 @@ export const store = createStore<GameState>({
       waveStatus: 'idle',
     },
     selected: null,
-    towerSlots: {},
   },
 });
 

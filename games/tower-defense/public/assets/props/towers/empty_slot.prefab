@@ -1,0 +1,15 @@
+{
+  "type": "prefab",
+  "tags": [
+    "tower",
+    "towerSlot"
+  ],
+  "hierarchy": [
+    {
+      "type": "prop",
+      "path": "assets/props/towers/empty_slot.obj",
+      "castShadow": true,
+      "material": "double-sided-material"
+    }
+  ]
+}

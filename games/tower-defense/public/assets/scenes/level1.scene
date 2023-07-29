@@ -52,7 +52,7 @@
   "hierarchy": [
     {
       "type": "prefab",
-      "path": "assets/scenes/level1-spawner.prefab"
+      "path": "assets/scenes/level1_spawner.prefab"
     },
     {
       "type": "unit",
@@ -30186,7 +30186,7 @@
             "type": "tower"
           },
           "behaviours": [
-            "towerController"
+            "towerSlotManager"
           ],
           "position": {
             "x": 10.5,
@@ -30203,7 +30203,7 @@
             "type": "tower"
           },
           "behaviours": [
-            "towerController"
+            "towerSlotManager"
           ],
           "position": {
             "x": 8.5,
@@ -30217,7 +30217,7 @@
             "dummy"
           ],
           "behaviours": [
-            "towerController"
+            "towerSlotManager"
           ],
           "properties": {
             "type": "tower"
@@ -30234,7 +30234,7 @@
             "dummy"
           ],
           "behaviours": [
-            "towerController"
+            "towerSlotManager"
           ],
           "properties": {
             "type": "tower"
@@ -30251,7 +30251,7 @@
             "dummy"
           ],
           "behaviours": [
-            "towerController"
+            "towerSlotManager"
           ],
           "properties": {
             "type": "tower"
@@ -30269,7 +30269,7 @@
             "dummy"
           ],
           "behaviours": [
-            "towerController"
+            "towerSlotManager"
           ],
           "properties": {
             "type": "tower"

@@ -26,4 +26,5 @@ export enum BehaviourType {
   PathFollower = 'pathFollower',
   WaveController = 'waveController',
   TowerController = 'towerController',
+  TowerSlotManager = 'towerSlotManager',
 }

@@ -1,5 +1,5 @@
 {
-  "type": "puppet",
+  "type": "prefab",
   "tags": [
     "enemy",
     "orc"
@@ -10,15 +10,11 @@
     "pathFollower"
   ],
   "properties": {
-    "name": "Orc",
     "type": "orc",
-    "description": "Common enemy. More resistent than a Goblin.",
-    "stats": {
-      "damage": 1,
-      "health": 15,
-      "speed": 2,
-      "reward": 2
-    }
+    "damage": 1,
+    "health": 15,
+    "speed": 2,
+    "reward": 2
   },
   "hierarchy": [
     {

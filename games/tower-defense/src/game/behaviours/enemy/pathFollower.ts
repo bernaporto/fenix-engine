@@ -2,17 +2,16 @@ import { Behaviour } from '@fenix-engine/core/@types';
 import { PathFollower } from '@fenix-engine/services/Path';
 import { Vector3 } from '@fenix-engine/core/Math';
 import { Constants } from '@/constants';
-import { EnemyData } from '@/types';
 import { getProperty } from '@/game/helpers';
 import { store } from '@/store';
 
 export const pathFollower: Behaviour = (unit) => {
   const path = store.get('level.path') as Vector3[];
-  const stats = getProperty<EnemyData['stats']>(unit, 'stats');
+  const speed = getProperty<number>(unit, 'speed');
 
   const pathFollower = new PathFollower({
     path,
-    speed: stats.speed * Constants.ENEMY_SPEED_MULTIPLIER,
+    speed: speed * Constants.ENEMY_SPEED_MULTIPLIER,
   });
 
   return {

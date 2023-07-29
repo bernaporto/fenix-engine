@@ -1,5 +1,5 @@
 {
-  "type": "puppet",
+  "type": "prefab",
   "tags": [
     "enemy",
     "goblin"
@@ -10,15 +10,11 @@
     "pathFollower"
   ],
   "properties": {
-    "name": "Goblin",
     "type": "goblin",
-    "description": "Most common enemy.",
-    "stats": {
-      "damage": 1,
-      "health": 10,
-      "speed": 2,
-      "reward": 1
-    }
+    "damage": 1,
+    "health": 10,
+    "speed": 2,
+    "reward": 1
   },
   "hierarchy": [
     {
