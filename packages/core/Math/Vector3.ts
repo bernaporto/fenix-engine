@@ -122,4 +122,7 @@ export const Vector3 = {
 
     return Math.sqrt(dx * dx + dy * dy + dz * dz);
   },
+
+  equals: (a: Vector3, b: Vector3): boolean =>
+    a.x === b.x && a.y === b.y && a.z === b.z,
 };

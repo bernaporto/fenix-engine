@@ -1,6 +1,6 @@
 import { AmbientLight, DirectionalLight, PointLight } from 'three';
 import type { LightConfig } from '../@types';
-import { applyLightConfig } from './utils';
+import { applyLightConfig, resizeCamera } from './utils';
 import { Unit } from './Unit';
 
 export class Light extends Unit {
@@ -33,6 +33,15 @@ export class Light extends Unit {
 
   setConfig(config: LightConfig): void {
     applyLightConfig(this._light, config);
+
+    this.resize(1);
+  }
+
+  // TODO: Resize shadow camera on window resize
+  public resize(aspect: number) {
+    if (!this._light.castShadow || !this._light.shadow) return;
+
+    resizeCamera(this._light.shadow.camera, aspect, 40);
   }
 }
 

@@ -6,8 +6,8 @@ import type {
   EventHandler,
   GameSettings,
 } from '../@types';
-import { makeEventHandler } from '../utils';
 import { loadGameManifest } from '../Data';
+import { makeEventHandler } from '../utils';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import {
   BehaviourRegistry,
@@ -61,7 +61,7 @@ export class Game implements EventEnabled {
   }: {
     manifest: string;
     containerId: string;
-  }): Promise<void> {
+  }): Promise<GameSettings> {
     // Add renderer to DOM
     const container = document.getElementById(containerId);
     if (!container) {
@@ -88,12 +88,10 @@ export class Game implements EventEnabled {
     });
 
     // Apply game settings
-    const { initialScene } = {
+    return {
       ...settings,
       initialScene: scenes[0].key,
     };
-
-    this.stage.load(initialScene);
   }
 
   private applySettings(settings?: GameSettings) {

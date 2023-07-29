@@ -10,6 +10,7 @@ import { degreesToRadians, remap } from '@fenix-engine/utilities/misc';
 import type { CameraConfig } from '../@types';
 import { Vector2, type Vector3 } from '../Math';
 import { Unit } from './Unit';
+import { resizeCamera } from './utils';
 
 const raycaster = new Raycaster();
 
@@ -137,33 +138,4 @@ const createCamera = (
   joint.name = 'camera_joint';
 
   return { camera, joint };
-};
-
-const resizeCamera = (
-  camera: OrthographicCamera | PerspectiveCamera,
-  aspect: number,
-  viewSize = 20
-) => {
-  if (camera instanceof PerspectiveCamera) {
-    resizePerspectiveCamera(camera, aspect);
-  } else {
-    resizeOrthographicCamera(camera, aspect, viewSize);
-  }
-};
-
-const resizePerspectiveCamera = (camera: PerspectiveCamera, aspect: number) => {
-  camera.aspect = aspect;
-  camera.updateProjectionMatrix();
-};
-
-const resizeOrthographicCamera = (
-  camera: OrthographicCamera,
-  aspect: number,
-  viewSize: number
-) => {
-  camera.left = (-aspect * viewSize) / 2;
-  camera.right = (aspect * viewSize) / 2;
-  camera.top = viewSize / 2;
-  camera.bottom = -viewSize / 2;
-  camera.updateProjectionMatrix();
 };

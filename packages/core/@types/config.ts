@@ -5,7 +5,7 @@ import type {
 } from 'three';
 import type { Material } from '../Units';
 import type { Queryable } from './queries';
-import type { Vector2 } from '../Math';
+import type { Vector2, Vector3 } from '../Math';
 import type { CustomProperties } from './shared';
 import type { Transformable } from './transform';
 
@@ -79,6 +79,7 @@ export type LightConfig = UnitConfig & {
   lightType?: 'ambient' | 'directional' | 'point';
   shadowMapWidth?: number;
   shadowMapHeight?: number;
+  target?: Vector3;
 };
 
 // PREFAB

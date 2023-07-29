@@ -2,11 +2,13 @@ import type {
   AmbientLight,
   DirectionalLight,
   Object3D,
+  OrthographicCamera,
   PointLight,
 } from 'three';
-import { Mesh } from 'three';
+import { Mesh, PerspectiveCamera } from 'three';
 import type { LightConfig, MeshUnitConfig } from '../@types';
 import { Material } from './Material';
+import { Vector3 } from '../Math';
 
 /* MESH UTILS */
 export const applyMeshConfig = (
@@ -23,18 +25,18 @@ export const applyMeshConfig = (
     ...config,
   };
 
-  const material = getMaterial(materialConfig);
-
-  if (material === null) {
-    throw new Error(`Material "${materialConfig}" not found`);
-  }
-
   const applyConfig = (child: Object3D) => {
     if (isMesh(child)) {
-      material && (child.material = material.build());
-
       child.castShadow = castShadow;
       child.receiveShadow = receiveShadow;
+
+      const material = getMaterial(materialConfig);
+
+      if (material === null) {
+        throw new Error(`Material "${materialConfig}" not found`);
+      }
+
+      material && (child.material = material.build());
     }
   };
 
@@ -68,6 +70,7 @@ export const applyLightConfig = (
     intensity,
     shadowMapWidth,
     shadowMapHeight,
+    target,
   }: LightConfig = {
     castShadow: false,
     color: '#ffffff',
@@ -76,6 +79,7 @@ export const applyLightConfig = (
     intensity: 1,
     shadowMapWidth: 512,
     shadowMapHeight: 512,
+    target: Vector3.zero,
     ...config,
   };
 
@@ -87,4 +91,39 @@ export const applyLightConfig = (
   light.shadow &&
     ((light.shadow.mapSize.width = shadowMapWidth),
     (light.shadow.mapSize.height = shadowMapHeight));
+
+  if ('target' in light) {
+    light.target.position.set(target.x, target.y, target.z);
+    light.target.updateMatrixWorld();
+  }
+};
+
+/* CAMERA UTILS */
+export const resizeCamera = (
+  camera: OrthographicCamera | PerspectiveCamera,
+  aspect: number,
+  viewSize = 20
+) => {
+  if (camera instanceof PerspectiveCamera) {
+    resizePerspectiveCamera(camera, aspect);
+  } else {
+    resizeOrthographicCamera(camera, aspect, viewSize);
+  }
+};
+
+const resizePerspectiveCamera = (camera: PerspectiveCamera, aspect: number) => {
+  camera.aspect = aspect;
+  camera.updateProjectionMatrix();
+};
+
+const resizeOrthographicCamera = (
+  camera: OrthographicCamera,
+  aspect: number,
+  viewSize: number
+) => {
+  camera.left = (-aspect * viewSize) / 2;
+  camera.right = (aspect * viewSize) / 2;
+  camera.top = viewSize / 2;
+  camera.bottom = -viewSize / 2;
+  camera.updateProjectionMatrix();
 };

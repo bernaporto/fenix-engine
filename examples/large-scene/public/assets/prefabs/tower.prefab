@@ -1,0 +1,44 @@
+{
+  "type": "tower",
+  "name": "watch-tower",
+  "properties": {
+    "damage": 2,
+    "range": 2,
+    "rate": 1,
+    "cost": 10,
+    "description": "A watch tower that shoots arrows at enemies.",
+    "icon": "assets/icons/watch-tower.png",
+    "projectile": "assets/projectiles/arrow.obj"
+  },
+  "tags": [
+    "tower",
+    "watch",
+    "arrow",
+    "archer",
+    "defense"
+  ],
+  "hierarchy": [
+    {
+      "type": "prop",
+      "path": "assets/props/tower_slot.obj",
+      "material": "default-material",
+      "receiveShadow": true,
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "prop",
+      "path": "assets/props/watch.obj",
+      "material": "double-sided-material",
+      "castShadow": true,
+      "position": {
+        "x": 0,
+        "y": -0.03,
+        "z": 0
+      }
+    }
+  ]
+}
