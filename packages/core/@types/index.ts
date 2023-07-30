@@ -1,6 +1,6 @@
-export * from './behaviour';
-export * from './config';
-export * from './events';
-export * from './queries';
-export * from './shared';
-export * from './transform';
+export type * from './behaviour';
+export type * from './config';
+export type * from './events';
+export type * from './queries';
+export type * from './shared';
+export type * from './transform';

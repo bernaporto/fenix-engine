@@ -19,6 +19,7 @@ type GltfObject = {
 };
 
 type Loader = {
+  loadXML(url: string, onProgress?: ProgressListener): Promise<string>;
   loadJSON<T>(url: string, onProgress?: ProgressListener): Promise<T>;
   loadObject(url: string, onProgress?: ProgressListener): Promise<Object3D>;
   loadSkinnedObject(
@@ -55,6 +56,7 @@ const initLoader = (): Loader => {
   };
 
   return {
+    loadXML: (...args) => load<string>(...args),
     loadJSON: (...args) => load<any>(...args).then(JSON.parse),
     loadObject: (...args) => load<Object3D>(...args),
     loadSkinnedObject: (...args) => load<GltfObject>(...args).then(unwrapGltf),
