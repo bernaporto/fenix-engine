@@ -1,5 +1,6 @@
 export interface UIComponent {
   readonly tagName: string;
+  readonly allowedAttributes: string[];
 }
 
 export class UIComponent extends HTMLElement {
@@ -18,17 +19,5 @@ export class UIComponent extends HTMLElement {
 
   protected build(): void {
     this.appendChild(this.cloneTemplate());
-  }
-
-  public connectedCallback(): void {
-    console.log('connectedCallback');
-  }
-
-  public disconnectedCallback(): void {
-    console.log('disconnectedCallback');
-  }
-
-  public attributeChangedCallback(): void {
-    console.log('adoptedCallback');
   }
 }

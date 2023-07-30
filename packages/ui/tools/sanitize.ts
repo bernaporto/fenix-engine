@@ -1,9 +1,64 @@
 import sanitizeHtml from 'sanitize-html';
+import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { components } from '../components';
 
 export const sanitize = (uiString: string): string => {
   return sanitizeHtml(uiString, {
-    allowedTags: components.map((Component) => Component.tagName),
-    allowedAttributes: {},
+    allowedTags: getAllowedTags(),
+    allowedAttributes: getAllowedAttributes(),
   });
+};
+
+const getAllowedTags = (): string[] =>
+  components.map((Component) => getTagName(Component)).filter(isNotNullable);
+
+const defaultAllowedAttributes = [
+  'id',
+  'class',
+  'style',
+  'width',
+  'height',
+  'margin',
+  'padding',
+];
+
+const getAllowedAttributes = (): Record<string, string[]> =>
+  components.reduce(
+    (acc, Component) => {
+      const tagName = getTagName(Component);
+      const allowedAttributes = getComponentAttributes(Component);
+
+      if (tagName === null) return acc;
+
+      return {
+        ...acc,
+        [tagName]: allowedAttributes,
+      };
+    },
+    {
+      '*': defaultAllowedAttributes,
+    } as Record<string, string[]>
+  );
+
+/* UTILS */
+const getTagName = (Component: (typeof components)[number]): string | null => {
+  if ('tagName' in Component) {
+    return Component.tagName;
+  }
+
+  console.warn('Component does not have a tagName', Component);
+
+  return null;
+};
+
+const getComponentAttributes = (
+  Component: (typeof components)[number]
+): string[] => {
+  if ('allowedAttributes' in Component) {
+    return Component.allowedAttributes;
+  }
+
+  console.warn('Component does not have allowedAttributes', Component);
+
+  return [];
 };

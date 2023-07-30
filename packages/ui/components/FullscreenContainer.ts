@@ -1,7 +1,8 @@
 import { UIComponent } from './UIComponent';
 
 export class FullscreenContainer extends UIComponent {
-  public static readonly tagName = 'fnx-fullscreen-container';
+  static readonly tagName = 'fnx-fullscreen-container';
+  static readonly allowedAttributes: never[] = [];
 
   constructor() {
     super();

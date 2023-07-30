@@ -1,7 +1,14 @@
 import { UIComponent } from './UIComponent';
+import { ButtonAttributes } from './types';
 
 export class Button extends UIComponent {
-  public static readonly tagName = 'fnx-button';
+  static readonly tagName = 'fnx-button';
+  static readonly allowedAttributes: (keyof ButtonAttributes)[] = [
+    'disabled',
+    'onClick',
+    'size',
+    'variant',
+  ];
 
   constructor() {
     super();

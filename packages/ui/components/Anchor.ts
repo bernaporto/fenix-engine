@@ -1,7 +1,15 @@
 import { UIComponent } from './UIComponent';
+import { AnchorAttributes } from './types';
 
 export class Anchor extends UIComponent {
-  public static readonly tagName = 'fnx-anchor';
+  static readonly tagName = 'fnx-anchor';
+  static readonly allowedAttributes: (keyof AnchorAttributes)[] = [
+    'preset',
+    'top',
+    'left',
+    'bottom',
+    'right',
+  ];
 
   constructor() {
     super();
