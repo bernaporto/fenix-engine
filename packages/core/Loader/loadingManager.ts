@@ -6,7 +6,10 @@ export const loadingManager = new LoadingManager();
 
 /* JSON files */
 const jsonLoader = new FileLoader(loadingManager);
-loadingManager.addHandler(/\.(json|xml|manifest|prefab|scene)$/i, jsonLoader);
+loadingManager.addHandler(
+  /\.(json|html|manifest|prefab|scene|xml)$/i,
+  jsonLoader
+);
 
 /* 3D Models */
 const objLoader = new OBJLoader(loadingManager);

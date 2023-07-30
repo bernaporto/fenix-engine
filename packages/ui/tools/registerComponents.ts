@@ -1,7 +1,7 @@
-import { Button } from './Button';
+import { components } from '../components';
 
 export const registerComponents = () => {
-  [Button].forEach((Component) => {
+  components.forEach((Component) => {
     customElements.define(Component.tagName, Component);
   });
 };

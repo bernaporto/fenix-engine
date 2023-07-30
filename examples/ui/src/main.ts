@@ -24,7 +24,7 @@ game.init({
 ui.render(
   {
     containerId: 'ui',
-    path: 'assets/ui/main.xml',
+    path: 'assets/ui/main.html',
   },
   {
     angle: store.getReadable('angle'),

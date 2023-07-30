@@ -1,4 +1,4 @@
-import { sanitize } from '../components';
+import { sanitize } from '../tools';
 import type { UIContainerConfig } from '../@types';
 import { ContextRegistry, UIRegistry } from './registry';
 

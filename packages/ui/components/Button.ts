@@ -6,11 +6,7 @@ export class Button extends UIComponent {
   constructor() {
     super();
 
-    this.build();
-  }
-
-  protected override build(): void {
-    this.innerHTML = `
+    this._template.innerHTML = `
       <button>
         <slot></slot>
       </button>

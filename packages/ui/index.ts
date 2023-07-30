@@ -1,4 +1,4 @@
-import { registerComponents } from './components';
+import { registerComponents } from './tools';
 import { UIRenderer } from './core';
 
 registerComponents();

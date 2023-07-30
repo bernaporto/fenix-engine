@@ -1,9 +1,9 @@
 import sanitizeHtml from 'sanitize-html';
-import { Button } from './Button';
+import { components } from '../components';
 
 export const sanitize = (uiString: string): string => {
   return sanitizeHtml(uiString, {
-    allowedTags: [Button.tagName],
+    allowedTags: components.map((Component) => Component.tagName),
     allowedAttributes: {},
   });
 };
