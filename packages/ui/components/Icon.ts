@@ -2,7 +2,7 @@ import { getClasses, getTagName } from './tools';
 import type { IconAttributes } from './types';
 import { UIComponent } from './UIComponent';
 
-const tagName = getTagName('text');
+const tagName = getTagName('icon');
 
 export class Icon extends UIComponent {
   static readonly tagName = tagName;

@@ -1,4 +1,4 @@
-import { isNullable } from '@fenix-engine/utilities/misc';
+import { isNullable, isValidObject } from '@fenix-engine/utilities/misc';
 import type { AnyContext } from '../@types';
 import {
   CONTAINER_KEY_ATTR,
@@ -6,6 +6,7 @@ import {
   ATTRIBUTE_PREFIX,
   TAG_NAME_PREFIX,
 } from '../constants';
+import { ReadonlyObservable } from '@fenix-engine/utilities/reactivity';
 
 // TODO: find a better way to apply context without traversing the DOM
 export const getContextKey = (startEl: HTMLElement): string => {
@@ -67,6 +68,30 @@ export const getAttributes = <T extends Record<string, unknown>>(
   );
 };
 
+export const getTextContent = (element: HTMLElement): string => {
+  return [...element.childNodes]
+    .map((child) => {
+      if (child.nodeType !== Node.TEXT_NODE) return '';
+
+      return child.textContent ?? '';
+    })
+    .join('')
+    .trim();
+};
+
+/* CONTEXT */
+export const getContextKeys = (content: string): string[] => {
+  const keys = new Set<string>();
+
+  content.replace(DATA_BINDING_REGEX, (_, key) => {
+    keys.add(key);
+
+    return '';
+  });
+
+  return [...keys];
+};
+
 export const applyContext = (template: string, context: AnyContext): string => {
   return template.replace(DATA_BINDING_REGEX, (_, key) => {
     const value = context[key];
@@ -78,3 +103,13 @@ export const applyContext = (template: string, context: AnyContext): string => {
     return String(value);
   });
 };
+
+/* VALIDATORS */
+export const isReadonlyObservable = (
+  value: unknown
+): value is ReadonlyObservable<unknown> =>
+  isValidObject(value) &&
+  'subscribe' in value &&
+  typeof value.subscribe === 'function' &&
+  'get' in value &&
+  typeof value.get === 'function';
