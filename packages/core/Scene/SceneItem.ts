@@ -1,5 +1,4 @@
 import { Mesh, Object3D } from 'three';
-import { v4 as uuid4 } from 'uuid';
 import type { LifecycleEnabled } from '../@types';
 import { TickerState } from '../Tools/Ticker';
 
@@ -11,7 +10,7 @@ export class SceneItem implements LifecycleEnabled {
   private _parent: SceneItem | null = null;
 
   constructor() {
-    this.id = uuid4();
+    this.id = crypto.randomUUID();
     this.node = new Object3D();
   }
 

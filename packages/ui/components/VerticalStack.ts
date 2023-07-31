@@ -1,17 +1,16 @@
-import { UIComponent } from './UIComponent';
+import { getClasses, getTagName } from './tools';
 import type { StackAttributes } from './types';
+import { UIComponent } from './UIComponent';
+
+const tagName = getTagName('vstack');
 
 export class VerticalStack extends UIComponent {
-  static readonly tagName = 'fnx-vstack';
+  static readonly tagName = tagName;
   static readonly allowedAttributes: (keyof StackAttributes)[] = ['spacing'];
 
-  constructor() {
-    super();
-
-    this._template.innerHTML = `
-      <div class="fnx-vstack">
-        <slot></slot>
-      </div>
-    `;
-  }
+  protected override _baseTemplate = `
+    <div class="${getClasses(tagName, ['spacing'])}">
+      <slot></slot>
+    </div>
+  `;
 }

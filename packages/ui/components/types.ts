@@ -14,10 +14,6 @@ export type VariantType = 'default' | 'ghost' | 'rounded';
 
 export type AnchorAttributes = {
   preset: AnchorPresetType;
-  top: number;
-  left: number;
-  right: number;
-  bottom: number;
 };
 
 export type ButtonAttributes = {

@@ -12,8 +12,9 @@ export {
   randomInt,
   step,
 } from './number';
-export { deepEqual, traverse } from './object';
 export { compareArrays, sampleMany, sampleOne } from './array';
 export { debounce } from './debounce';
+export { deepEqual, traverse } from './object';
 export { getErrorMessage } from './error';
 export { isNotNullable, isNullable, isValidObject } from './type';
+export { randomCharacters } from './random';

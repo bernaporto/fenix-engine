@@ -1,23 +1,16 @@
+import { getClasses, getTagName } from './tools';
+import type { AnchorAttributes } from './types';
 import { UIComponent } from './UIComponent';
-import { AnchorAttributes } from './types';
+
+const tagName = getTagName('anchor');
 
 export class Anchor extends UIComponent {
-  static readonly tagName = 'fnx-anchor';
-  static readonly allowedAttributes: (keyof AnchorAttributes)[] = [
-    'preset',
-    'top',
-    'left',
-    'bottom',
-    'right',
-  ];
+  static readonly tagName = tagName;
+  static readonly allowedAttributes: (keyof AnchorAttributes)[] = ['preset'];
 
-  constructor() {
-    super();
-
-    this._template.innerHTML = `
-      <a>
-        <slot></slot>
-      </a>
-    `;
-  }
+  protected override _baseTemplate = `
+    <div class="${getClasses(tagName, ['preset'])}">
+      <slot></slot>
+    </div>
+  `;
 }

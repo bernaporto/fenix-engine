@@ -1,16 +1,15 @@
+import { getClasses, getTagName } from './tools';
 import { UIComponent } from './UIComponent';
 
+const tagName = getTagName('center');
+
 export class Center extends UIComponent {
-  public static readonly tagName = 'fnx-center';
+  static readonly tagName = tagName;
   static readonly allowedAttributes: never[] = [];
 
-  constructor() {
-    super();
-
-    this._template.innerHTML = `
-      <div class="fnx-center">
-        <slot></slot>
-      </div>
-    `;
-  }
+  protected override _baseTemplate = `
+    <div class="${getClasses(tagName)}">
+      <slot></slot>
+    </div>
+  `;
 }

@@ -1,8 +1,11 @@
+import type { ButtonAttributes } from './types';
+import { getClasses, getTagName } from './tools';
 import { UIComponent } from './UIComponent';
-import { ButtonAttributes } from './types';
+
+const tagName = getTagName('button');
 
 export class Button extends UIComponent {
-  static readonly tagName = 'fnx-button';
+  static readonly tagName = tagName;
   static readonly allowedAttributes: (keyof ButtonAttributes)[] = [
     'disabled',
     'onClick',
@@ -10,13 +13,12 @@ export class Button extends UIComponent {
     'variant',
   ];
 
-  constructor() {
-    super();
-
-    this._template.innerHTML = `
-      <button>
-        <slot></slot>
-      </button>
-    `;
-  }
+  protected override _baseTemplate = `
+    <button class="${getClasses(tagName, [
+      'size',
+      'variant',
+    ])}" disabled="{{disabled}}" onclick={{onClick}}>
+      <slot></slot>
+    </button>
+  `;
 }

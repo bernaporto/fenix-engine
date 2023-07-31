@@ -1,20 +1,17 @@
-import { UIComponent } from './UIComponent';
+import { getClasses, getTagName } from './tools';
 import type { IconAttributes } from './types';
+import { UIComponent } from './UIComponent';
+
+const tagName = getTagName('text');
 
 export class Icon extends UIComponent {
-  static readonly tagName = 'fnx-icon';
+  static readonly tagName = tagName;
   static readonly allowedAttributes: (keyof IconAttributes)[] = [
     'path',
     'size',
   ];
 
-  constructor() {
-    super();
-
-    this._template.innerHTML = `
-      <span class="fnx-icon">
-        <slot></slot>
-      </span>
-    `;
-  }
+  protected override _baseTemplate = `
+    <img class="${getClasses(tagName, ['size'])} src={{path}}"/>
+  `;
 }
