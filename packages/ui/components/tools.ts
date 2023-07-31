@@ -38,14 +38,30 @@ export const getContextKey = (startEl: HTMLElement): string => {
 export const getTagName = (baseName: string): string =>
   `${TAG_NAME_PREFIX}${baseName}`;
 
-export const getClasses = (baseClass: string, modifiers?: string[]): string => {
-  if (!modifiers) {
+export const getClassName = (blocks: string[], modifier?: string): string => {
+  const baseClass = blocks.join('__');
+
+  if (!modifier) {
     return baseClass;
   }
 
+  return `${baseClass}--${modifier}`;
+};
+
+export const getClasses = (
+  blocks: string | string[],
+  modifiers?: string[]
+): string => {
+  const blockList = [blocks].flat();
+
+  if (!modifiers) {
+    return getClassName(blockList);
+  }
+
   return modifiers.reduce((acc, modifier) => {
-    return `${acc} ${baseClass}--{{${getAttrName(modifier)}}}`;
-  }, baseClass);
+    const className = getClassName(blockList, `{{${getAttrName(modifier)}}}`);
+    return `${acc} ${className}`;
+  }, getClassName(blockList));
 };
 
 export const getAttrName = (attrName: string): string =>
@@ -77,6 +93,18 @@ export const getTextContent = (element: HTMLElement): string => {
     })
     .join('')
     .trim();
+};
+
+export const getDataAttributeName = (attrName: string): string =>
+  `data-fnx-${attrName}`;
+
+export const getDataAttributes = (attributes: string[]) => {
+  return attributes.reduce((acc, attr) => {
+    const attrName = getAttrName(attr);
+    const dataAttrName = getDataAttributeName(attr);
+
+    return `${acc} ${dataAttrName}="{{${attrName}}}"`;
+  }, '');
 };
 
 /* CONTEXT */

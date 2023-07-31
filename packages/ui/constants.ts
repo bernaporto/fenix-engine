@@ -3,7 +3,7 @@ export const CONTAINER_KEY_ATTR = 'data-container-key';
 export const DATA_BINDING_REGEX = /{{(.*?)}}/g;
 export const TAG_NAME_PREFIX = 'fnx-';
 
-export const ALLOWED_STYLE_ATTRIBUTES = [
+export const ALLOWED_ATTRIBUTES = [
   'id',
   'class',
   'style',
@@ -11,4 +11,5 @@ export const ALLOWED_STYLE_ATTRIBUTES = [
   'height',
   'margin',
   'padding',
+  'onClick',
 ];

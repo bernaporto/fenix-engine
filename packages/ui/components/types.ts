@@ -10,17 +10,29 @@ export type AnchorPresetType =
   | 'right-center';
 
 export type SizeType = 'small' | 'medium' | 'large' | 'xl';
+export type TextWeightType = 'light' | 'regular' | 'bold' | 'black';
 export type VariantType = 'default' | 'ghost' | 'rounded';
 
 export type AnchorAttributes = {
   preset: AnchorPresetType;
 };
 
+export type BoxAttributes = {
+  bg: string;
+};
+
 export type ButtonAttributes = {
   disabled: boolean;
-  onClick: VoidFunction;
+  onclick: VoidFunction;
   size: SizeType;
   variant: VariantType;
+};
+
+export type FlexAttributes = {
+  direction: 'row' | 'column';
+  align: 'start' | 'center' | 'end';
+  justify: 'start' | 'center' | 'end';
+  spacing: number;
 };
 
 export type IconAttributes = {
@@ -30,6 +42,7 @@ export type IconAttributes = {
 
 export type TextAttributes = {
   size: SizeType;
+  weight: TextWeightType;
 };
 
 export type StackAttributes = {

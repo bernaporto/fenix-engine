@@ -9,19 +9,18 @@ import {
   getTextContent,
   isReadonlyObservable,
 } from './tools';
-
-export interface UIComponent {
-  readonly allowedAttributes: string[];
-}
+import { applyStyles } from '../tools/style';
 
 export class UIComponent extends HTMLElement {
-  protected _baseTemplate: string = '';
-  protected _context: AnyContext = {};
-  protected _originalContent: string = '';
-  protected _shadow = this.attachShadow({ mode: 'open' });
-  protected _template = document.createElement('template');
+  protected baseTemplate: string = '';
+  protected defaultStyles: string = '';
+  protected initialContext: AnyContext = {};
 
+  private _context: AnyContext = {};
+  private _originalContent: string = '';
+  private _shadow = this.attachShadow({ mode: 'open' });
   private _subscriptions = new Set<VoidFunction>();
+  private _template = document.createElement('template');
 
   constructor() {
     super();
@@ -35,12 +34,13 @@ export class UIComponent extends HTMLElement {
       setOnPath(this._context, key, value);
     };
 
+    const workingContext = { ...this.initialContext, ...context };
     const usedKeys = [
-      ...getContextKeys(this._baseTemplate),
+      ...getContextKeys(this.baseTemplate),
       ...getContextKeys(getTextContent(this)),
     ];
 
-    Object.entries(context).forEach(([key, value]) => {
+    Object.entries(workingContext).forEach(([key, value]) => {
       if (!usedKeys.includes(key)) return;
 
       if (!isReadonlyObservable(value)) {
@@ -82,7 +82,7 @@ export class UIComponent extends HTMLElement {
     const attributes = getAttributes(this);
 
     // Apply context to the template
-    this._template.innerHTML = applyContext(this._baseTemplate, {
+    this._template.innerHTML = applyContext(this.baseTemplate, {
       ...attributes,
       ...this._context,
     });
@@ -97,6 +97,11 @@ export class UIComponent extends HTMLElement {
     // Mount the shadow DOM
     const content = this._template.content.cloneNode(true);
     this._shadow.appendChild(content);
+
+    // Apply styles
+    if (this.defaultStyles) {
+      applyStyles(this._shadow, this.defaultStyles);
+    }
   }
 
   private resetContent(): void {

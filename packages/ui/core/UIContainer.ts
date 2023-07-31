@@ -1,8 +1,8 @@
+import { randomCharacters } from '@fenix-engine/utilities/misc';
 import { CONTAINER_KEY_ATTR } from '../constants';
 import { sanitize } from '../tools';
 import type { UIContainerConfig } from '../@types';
 import { ContextRegistry, UIRegistry } from './registry';
-import { randomCharacters } from '@fenix-engine/utilities/misc';
 
 export class UIContainer {
   private _element: HTMLElement;

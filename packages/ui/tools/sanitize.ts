@@ -1,6 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import { isNotNullable } from '@fenix-engine/utilities/misc';
-import { ALLOWED_STYLE_ATTRIBUTES } from '../constants';
+import { ALLOWED_ATTRIBUTES } from '../constants';
 import { components } from '../components';
 
 export const sanitize = (uiString: string): string => {
@@ -27,7 +27,7 @@ const getAllowedAttributes = (): Record<string, string[]> =>
       };
     },
     {
-      '*': ALLOWED_STYLE_ATTRIBUTES,
+      '*': ALLOWED_ATTRIBUTES,
     } as Record<string, string[]>
   );
 

@@ -1,4 +1,28 @@
-<fnx-vstack spacing="2">
-  <fnx-text size="large">Static data</fnx-text>
-  <fnx-text size="large">Dynamic data: {{counter}}</fnx-text>
-</fnx-vstack>
+<fnx-fullscreen-container padding="2">
+  <fnx-flex align="center" bg="#666" padding="1" spacing="2">
+    <fnx-anchor preset="top-center">
+      <fnx-text size="large">Flex Row</fnx-text>
+
+      <fnx-flex bg="#666" justify="center" padding="1" spacing="2">
+        <fnx-text>Counter:</fnx-text>
+        <fnx-text>{{counter}}</fnx-text>
+      </fnx-flex>
+    </fnx-anchor>
+  </fnx-flex>
+
+  <fnx-flex align="center" bg="#666" padding="1" spacing="2">
+    <fnx-anchor preset="center">
+      <fnx-text size="large">Flex Column</fnx-text>
+
+      <fnx-flex bg="#666" direction="column" padding="1" spacing="2">
+        <fnx-text size="small">Small text</fnx-text>
+        <fnx-text size="medium">Medium text</fnx-text>
+        <fnx-text size="large">Large text</fnx-text>
+      </fnx-flex>
+    </fnx-anchor>
+  </fnx-flex>
+
+  <fnx-anchor preset="bottom-center">
+    <fnx-button onclick="{{onClickButton}}" disabled="true">Button</fnx-button>
+  </fnx-anchor>
+</fnx-fullscreen-container>

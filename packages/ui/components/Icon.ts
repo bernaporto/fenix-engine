@@ -11,7 +11,7 @@ export class Icon extends UIComponent {
     'size',
   ];
 
-  protected override _baseTemplate = `
-    <img class="${getClasses(tagName, ['size'])} src={{path}}"/>
+  protected override baseTemplate = `
+    <img class="${getClasses(tagName, ['size'])}" src="{{path}}"/>
   `;
 }
