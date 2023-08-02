@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.2.0...v0.3.0) (2023-08-02)
+
+
+### Features
+
+* add large-scene example project ([7a4d18c](http://bitbucket.org/bernaporto/fenix-engine/commits/7a4d18c68d9a41282689e2bd42e236724c2d184f))
+* add ui package with basic implementation ([6f96c31](http://bitbucket.org/bernaporto/fenix-engine/commits/6f96c31c6935a6b19d1f50dd65ebb46768b8267e))
+* **TD:** add click interaction ([214037e](http://bitbucket.org/bernaporto/fenix-engine/commits/214037eade0312567de4d72239f0d77abd7cd07b))
+* **TD:** implement camera controls ([986f739](http://bitbucket.org/bernaporto/fenix-engine/commits/986f739fe729a175e6c4355c9933ce51a9e035c9))
+* **ui:** add components basic implementation ([97850e8](http://bitbucket.org/bernaporto/fenix-engine/commits/97850e8909976d0ca150b8b88b9328a65f619953))
+* **ui:** implement basic data binding ([77cfe06](http://bitbucket.org/bernaporto/fenix-engine/commits/77cfe064ad2cde5c0a5bcb0bc4531f1f267387e8))
+
+
+
+
+
 # [0.2.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.1.0...v0.2.0) (2023-07-28)
 
 

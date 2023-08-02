@@ -1,0 +1,12 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [0.3.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.2.0...v0.3.0) (2023-08-02)
+
+
+### Features
+
+* add large-scene example project ([7a4d18c](http://bitbucket.org/bernaporto/fenix-engine/commits/7a4d18c68d9a41282689e2bd42e236724c2d184f))
+* add UI examples ([b9b17df](http://bitbucket.org/bernaporto/fenix-engine/commits/b9b17dfc86946225d5b0c7b7d1fbd70d01e19e9a))
