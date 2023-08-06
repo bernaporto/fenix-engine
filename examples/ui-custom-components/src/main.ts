@@ -1,6 +1,4 @@
-import { game } from '@fenix-engine/core';
-import { ui } from '@fenix-engine/ui';
-import { radiansToDegrees } from '@fenix-engine/utilities/misc';
+import { UI } from '@fenix-engine/ui';
 import { createStore } from '@fenix-engine/utilities/store';
 
 const store = createStore({
@@ -9,19 +7,7 @@ const store = createStore({
   coins: 100,
 });
 
-game.behaviours.register('orbit', (unit) => ({
-  onUpdate: ({ deltaTime }) => {
-    unit.transform.rotateY(15 * deltaTime);
-    store.set('angle', radiansToDegrees(unit.transform.rotation.y));
-  },
-}));
-
-game.init({
-  containerId: 'game',
-  manifest: 'assets/manifest.json',
-});
-
-ui.render(
+UI.render(
   {
     containerId: 'ui',
     path: 'assets/ui/main.html',
