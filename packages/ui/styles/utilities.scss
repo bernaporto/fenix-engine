@@ -1,0 +1,45 @@
+@import './_variables';
+@import './_utils';
+
+// PADDING & MARGIN
+@each $key, $value in $spacing {
+  .p-#{$key} {
+    padding: $value;
+  }
+}
+
+@each $key, $value in $spacing {
+  .m-#{$key} {
+    margin: $value;
+  }
+}
+
+// WIDTH & HEIGHT
+$sizes: 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100;
+@each $size in $sizes {
+  .w-#{$size} {
+    width: makePercentage($size);
+  }
+
+  .h-#{$size} {
+    height: makePercentage($size);
+  }
+}
+
+// DISPLAY FLEX
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}

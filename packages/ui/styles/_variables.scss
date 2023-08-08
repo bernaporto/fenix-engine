@@ -1,0 +1,11 @@
+$font-size: 1.4rem;
+
+$spacing-unit: 0.8rem;
+$spacing: (
+  0: 0,
+  1: $spacing-unit,
+  2: $spacing-unit * 2,
+  3: $spacing-unit * 3,
+  4: $spacing-unit * 4,
+  5: $spacing-unit * 5,
+);
