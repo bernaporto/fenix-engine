@@ -1,12 +1,15 @@
 export type AnyContext = Record<string, unknown>;
 
 export type RenderUIConfig = {
-  containerId: string;
-  path: string;
-};
-
-export type UIContainerConfig = {
-  element: HTMLElement;
   path: string;
   context?: AnyContext;
+};
+
+export type UIUnitConfig = {
+  node: ChildNode;
+  context?: AnyContext;
+};
+
+export type UIContainerConfig = UIUnitConfig & {
+  path: string;
 };

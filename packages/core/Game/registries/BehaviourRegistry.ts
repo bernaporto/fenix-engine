@@ -1,5 +1,5 @@
+import { makeRegistry } from '@fenix-engine/utilities/misc';
 import type { Behaviour, BehaviourController } from '../../@types/behaviour';
-import { makeRegistry } from './makeRegistry';
 
 export type { BehaviourController };
 

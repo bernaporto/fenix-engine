@@ -5,7 +5,7 @@ import { components } from '../components';
 
 export const sanitize = (uiString: string): string => {
   return sanitizeHtml(uiString, {
-    allowedTags: getAllowedTags(),
+    // allowedTags: getAllowedTags(),
     allowedAttributes: getAllowedAttributes(),
   });
 };
@@ -52,7 +52,7 @@ const getComponentAttributes = (
   logError = true
 ): string[] => {
   if ('allowedAttributes' in Component) {
-    return Component.allowedAttributes;
+    return Component.allowedAttributes as string[];
   }
 
   if (logError) {

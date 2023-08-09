@@ -1,25 +1,22 @@
-import type { AnyContext, RenderUIConfig } from '../@types';
-import { UIContainer } from './UIContainer';
+import type { RenderUIConfig } from '../@types';
+import { sanitize, stringToHtml } from '../tools';
+import { UIUnit } from '../units';
+import { UIBehaviourRegistry, UIRegistry } from './registries';
 
 export class UIRenderer {
-  public render(
-    { containerId, path }: RenderUIConfig,
-    context?: AnyContext
-  ): VoidFunction {
-    const element = document.getElementById(containerId);
+  public readonly behaviours = {
+    register: UIBehaviourRegistry.add,
+  };
 
-    if (!element) {
-      throw new Error(`Element with id ${containerId} not found`);
+  public async render({ path, context }: RenderUIConfig): Promise<UIUnit> {
+    const assetPromise = UIRegistry.get(path) ?? UIRegistry.add(path, path);
+    const rawData = await assetPromise;
+
+    const node = stringToHtml(sanitize(rawData));
+    if (node === null) {
+      throw new Error(`Failed to render UI from ${path}`);
     }
 
-    const container = new UIContainer({
-      element,
-      path,
-      context,
-    });
-
-    return () => {
-      container.unmount();
-    };
+    return new UIUnit({ node, context });
   }
 }

@@ -1,14 +1,14 @@
 import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
-import { buildHierarchy, makeEventHandler } from '../utils';
-import { Camera, Unit } from '../Units';
 import type {
   CustomEvent,
   EventEnabled,
   EventHandler,
-  LifecycleEnabled,
-  Queryable,
-} from '../@types';
+} from '@fenix-engine/utilities/events/types';
+import { makeEventHandler } from '@fenix-engine/utilities/events';
+import { buildHierarchy } from '../utils';
+import { Camera, Unit } from '../Units';
+import type { LifecycleEnabled, Queryable } from '../@types';
 import { getPropertiesHandler } from '../Units/utils';
 import type { SceneChild, SceneManifest } from '../Data/Model';
 import { SceneRegistry } from '../Game/registries';

@@ -1,9 +1,9 @@
 import type { Object3D } from 'three';
+import { makeRegistry } from '@fenix-engine/utilities/misc';
 import { Loader } from '../../Loader';
 import { loadPrefabManifest } from '../../Data/manifest';
 import type { PrefabManifest } from '../../Data/Model';
 import type { PrefabConfig, SkinnedObject } from '../../@types';
-import { makeRegistry } from './makeRegistry';
 
 export const PropAssetRegistry = makeRegistry<string, Promise<Object3D>>({
   process: (path) => Loader.loadObject(path),

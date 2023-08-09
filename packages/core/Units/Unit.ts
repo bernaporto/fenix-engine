@@ -1,22 +1,17 @@
 import EventEmitter from 'eventemitter3';
+import type {
+  CustomEvent,
+  EventHandler,
+  EventEnabled,
+} from '@fenix-engine/utilities/events/types';
+import { makeEventHandler } from '@fenix-engine/utilities/events';
 import {
   BehaviourController,
   BehaviourRegistry,
 } from '../Game/registries/BehaviourRegistry';
-import {
-  CustomEvent,
-  EventHandler,
-  EventEnabled,
-  Queryable,
-  QueryEnabled,
-  UnitConfig,
-} from '../@types';
+import { Queryable, QueryEnabled, UnitConfig } from '../@types';
 import type { TickerState } from '../Tools/Ticker';
-import {
-  makeEventHandler,
-  makeQueryHandler,
-  makeTransformController,
-} from '../utils';
+import { makeQueryHandler, makeTransformController } from '../utils';
 import { SceneItem } from '../Scene';
 import {
   PropertiesHandler,

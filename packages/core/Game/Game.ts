@@ -4,10 +4,10 @@ import type {
   CustomEvent,
   EventEnabled,
   EventHandler,
-  GameSettings,
-} from '../@types';
+} from '@fenix-engine/utilities/events/types';
+import { makeEventHandler } from '@fenix-engine/utilities/events';
+import type { GameSettings } from '../@types';
 import { loadGameManifest } from '../Data';
-import { makeEventHandler } from '../utils';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import {
   BehaviourRegistry,

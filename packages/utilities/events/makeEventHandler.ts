@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import type { EventCallback, EventHandler } from '../@types';
+import type { EventCallback, EventHandler } from './types';
 
 export const makeEventHandler = <T extends string, U extends string = T>(
   emitter = new EventEmitter()
