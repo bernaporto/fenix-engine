@@ -43,6 +43,7 @@ const applyContextToNode = (node: Node, context: AnyContext): Unsubscriber => {
   throw new Error(`Unknown node type: ${node}`);
 };
 
+/* HTML ELEMENT ATTRIBUTES */
 export const applyContextToElement = (
   element: HTMLElement,
   context: AnyContext
@@ -51,6 +52,7 @@ export const applyContextToElement = (
   return noop;
 };
 
+/* TEXT NODES CONTENT */
 export const applyContextToText = (
   text: Text,
   context: AnyContext
@@ -67,7 +69,7 @@ export const applyContextToText = (
   return parallel(
     ...Object.entries(context)
       .map(([key, value]) => {
-        if (!usedKeys.includes(key)) return;
+        if (!usedKeys.includes(key)) return null;
 
         if (!isReadonlyObservable(value)) {
           applyEntry(key, value);

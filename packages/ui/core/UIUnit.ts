@@ -5,10 +5,11 @@ import type {
   EventHandler,
 } from '@fenix-engine/utilities/events/types';
 import { makeEventHandler } from '@fenix-engine/utilities/events';
+import { setupLifecycleHandler } from '../utils';
 import type { UIUnitConfig } from '../@types';
 import { applyContextToTree } from './applyContext';
 
-type UIUnitEvent = 'click' | 'dispose' | 'load';
+type UIUnitEvent = 'click' | 'dispose';
 
 export class UIUnit {
   public readonly id: string;
@@ -27,10 +28,22 @@ export class UIUnit {
     const element = this.getHtmlElement();
 
     this.id = element?.getAttribute('id') ?? randomCharacters(12);
+    element?.setAttribute('id', this.id);
+
     this.events = makeEventHandler(this._emitter);
     this.name = `UIUnit-${this.id}`;
 
-    applyContextToTree(node, context);
+    let usubscribeContext: null | VoidFunction = null;
+    const usubscribeLifecycle = setupLifecycleHandler({
+      id: this.id,
+      onAttach: () => {
+        usubscribeContext = applyContextToTree(node, context);
+      },
+      onDetach: () => {
+        usubscribeContext?.();
+        usubscribeLifecycle();
+      },
+    });
   }
 
   public getHtmlElement(): HTMLElement | null {
