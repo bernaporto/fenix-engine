@@ -1,7 +1,7 @@
 import type { RenderUIConfig } from '../@types';
-import { sanitize, stringToHtml } from '../tools';
-import { UIUnit } from '../units';
+import { sanitize, stringToHtml } from '../utils';
 import { UIBehaviourRegistry, UIRegistry } from './registries';
+import { UIUnit } from './UIUnit';
 
 export class UIRenderer {
   public readonly behaviours = {
