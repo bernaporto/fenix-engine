@@ -2,10 +2,12 @@ import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { parallel } from '@fenix-engine/utilities/functional';
 import { AnyContext } from '../@types';
 import {
-  applyBindingValue,
+  applyDataBindingValue,
+  getAttributeMap,
   getBindingKeys,
   isReadonlyObservable,
 } from '../utils';
+import { EVENT_BINDING_ATTRS, EVENT_BINDING_REGEX } from '../constants';
 
 type Unsubscriber = VoidFunction;
 const noop = () => {
@@ -47,10 +49,40 @@ const applyContextToNode = (node: Node, context: AnyContext): Unsubscriber => {
 export const applyContextToElement = (
   element: HTMLElement,
   context: AnyContext
-): Unsubscriber => {
-  // console.log('applyContextToElement', element, context);
-  return noop;
-};
+): Unsubscriber =>
+  parallel(
+    /* EVENT BINDING */
+    ...EVENT_BINDING_ATTRS.map((attrKey) => {
+      const attrValue = element.getAttribute(attrKey);
+      if (!attrValue) return null;
+
+      // Event binding should only allow one key binding and it should be a function
+      const contextValue = context[attrValue];
+      if (typeof contextValue !== 'function') {
+        throw new Error(
+          `Event binding should only allow function values, got ${typeof contextValue} from '${attrValue}'`
+        );
+      }
+
+      const eventName = attrKey.replace(EVENT_BINDING_REGEX, '$1');
+      const callback = () => contextValue();
+      element.addEventListener(eventName as any, callback);
+
+      return () => element.removeEventListener(eventName as any, callback);
+    }).filter(isNotNullable),
+
+    /* DATA BINDING */
+    ...Object.entries(getAttributeMap(element)).map(([attrKey, attrValue]) => {
+      return setupBinding(attrValue, context, (contextKey, contextValue) => {
+        const newValue = applyDataBindingValue(
+          attrValue,
+          contextKey,
+          contextValue
+        );
+        element.setAttribute(attrKey, newValue);
+      });
+    })
+  );
 
 /* TEXT NODES CONTENT */
 export const applyContextToText = (
@@ -60,10 +92,17 @@ export const applyContextToText = (
   const content = text.textContent?.trim().replace(/^\r?\n|\r/, '');
   if (!content) return noop;
 
-  const applyEntry = (key: string, value: unknown) => {
-    text.textContent = applyBindingValue(content, key, value);
-  };
+  return setupBinding(content, context, (key, value) => {
+    text.textContent = applyDataBindingValue(content, key, value);
+  });
+};
 
+/* HELPERS */
+const setupBinding = (
+  content: string,
+  context: AnyContext,
+  applyEntry: (key: string, value: unknown) => void
+): VoidFunction => {
   const usedKeys = getBindingKeys(content);
 
   return parallel(

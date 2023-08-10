@@ -4,7 +4,7 @@ export const getBindingKeys = (content: string): string[] => {
   const keys = new Set<string>();
 
   content.replace(DATA_BINDING_REGEX, (_, key) => {
-    keys.add(key);
+    keys.add(key.trim());
 
     return '';
   });
@@ -12,16 +12,16 @@ export const getBindingKeys = (content: string): string[] => {
   return [...keys];
 };
 
-export const applyBindingValue = (
+export const applyDataBindingValue = (
   content: string,
   key: string,
   value: unknown
 ): string => {
   return content.replace(DATA_BINDING_REGEX, (_, match) => {
-    if (match === key) {
+    if (match.trim() === key) {
       return String(value);
     }
 
-    return match;
+    return '';
   });
 };

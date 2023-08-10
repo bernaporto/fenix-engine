@@ -11,3 +11,10 @@ export const htmlToString = (value: Node): string => {
 
   return template.innerHTML;
 };
+
+export const getAttributeMap = (element: HTMLElement): Record<string, string> =>
+  [...element.attributes].reduce((acc, { name, value }) => {
+    acc[name] = value;
+
+    return acc;
+  }, {} as Record<string, string>);
