@@ -1,0 +1,46 @@
+<main class="container">
+  <section class="anchor--center visible--{{ visibility }}">
+    <div class="flex flex--column flex--center v-spacing--2">
+      <h3>Data Binding ('center')</h3>
+
+      <div class="flex h-spacing--1">
+        <span>Counter:</span>
+        <span>{{counter}}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="anchor--bottom-center p-2">
+    <div class="flex flex--column flex--center v-spacing--2">
+      <h3>Event Binding ('bottom-center')</h3>
+
+      <p>
+        Visible:
+        <span
+          class="label--{{visibility}}"
+          style="font-weight: bold; text-transform: uppercase"
+          >{{visibility}}</span
+        >
+      </p>
+      <button @click="toggleVisibility">Toggle Counter</button>
+    </div>
+  </section>
+
+  <style>
+    .label--true {
+      color: green;
+    }
+
+    .label--false {
+      color: red;
+    }
+
+    .visible--true {
+      visibility: visible;
+    }
+
+    .visible--false {
+      visibility: hidden;
+    }
+  </style>
+</main>
