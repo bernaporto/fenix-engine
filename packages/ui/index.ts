@@ -1,3 +1,2 @@
-import { UIRenderer } from './core';
-
-export const UI = new UIRenderer();
+import './components';
+export { UI } from './core';

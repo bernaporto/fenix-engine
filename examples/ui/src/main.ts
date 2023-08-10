@@ -14,6 +14,7 @@ UI.render({
   context: {
     counter: toReadonly(counterOb),
     visibility: toReadonly(counterVisibilityOb),
+    title: 'Hello World!',
     toggleVisibility: () => {
       const visibility = counterVisibilityOb.get();
       counterVisibilityOb.set(!visibility);

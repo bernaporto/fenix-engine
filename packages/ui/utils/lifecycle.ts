@@ -1,4 +1,5 @@
 import EventEmitter from 'eventemitter3';
+import { DATA_ID_ATTR } from '../constants';
 
 enum EventType {
   ATTACH = 'attach',
@@ -36,7 +37,7 @@ export const setupLifecycleHandler = ({
 }: LifecycleHandlerConfig): VoidFunction => {
   const getNodeId = (node: Node): string | null => {
     if (node instanceof HTMLElement) {
-      return node.getAttribute('id');
+      return node.getAttribute(DATA_ID_ATTR);
     }
 
     if (node.parentElement) {

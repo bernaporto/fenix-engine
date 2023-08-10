@@ -1,3 +1,5 @@
+export const DATA_ID_ATTR = 'data-id';
+
 export const DATA_BINDING_REGEX = /{{(.*?)}}/g;
 export const EVENT_BINDING_REGEX = /@(\w+)/g;
 
@@ -8,5 +10,6 @@ export const CUSTOM_ALLOWED_ATTRIBUTES = [
   'class',
   'color',
   'style',
+  'path',
   ...EVENT_BINDING_ATTRS,
 ];

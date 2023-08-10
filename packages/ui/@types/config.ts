@@ -7,8 +7,8 @@ export type RenderUIConfig = {
 };
 
 export type UIUnitConfig = {
+  context: AnyContext;
   node: ChildNode;
-  context?: AnyContext;
 };
 
 export type UIContainerConfig = UIUnitConfig & {

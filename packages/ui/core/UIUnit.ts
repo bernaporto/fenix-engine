@@ -5,16 +5,18 @@ import type {
   EventHandler,
 } from '@fenix-engine/utilities/events/types';
 import { makeEventHandler } from '@fenix-engine/utilities/events';
+import type { AnyContext, UIUnitConfig } from '../@types';
+import { DATA_ID_ATTR } from '../constants';
 import { setupLifecycleHandler } from '../utils';
-import type { UIUnitConfig } from '../@types';
 import { applyContextToTree } from './applyContext';
 
-type UIUnitEvent = 'click' | 'dispose';
+type UIUnitEvent = 'dispose';
 
 export class UIUnit {
-  public readonly id: string;
+  public readonly id = randomCharacters(12);
   public readonly name: string;
   public readonly events: EventHandler<UIUnitEvent, CustomEvent>;
+  public readonly context: AnyContext;
 
   protected _children = new Set<UIUnit>();
   protected _emitter = new EventEmitter();
@@ -22,13 +24,12 @@ export class UIUnit {
   protected _parent: UIUnit | null = null;
 
   constructor(props: UIUnitConfig) {
-    const { node, context = {} } = props;
+    const { node, context } = props;
 
+    this.context = context;
     this._node = node;
     const element = this.getHtmlElement();
-
-    this.id = element?.getAttribute('id') ?? randomCharacters(12);
-    element?.setAttribute('id', this.id);
+    element?.setAttribute(DATA_ID_ATTR, this.id);
 
     this.events = makeEventHandler(this._emitter);
     this.name = `UIUnit-${this.id}`;
@@ -37,9 +38,11 @@ export class UIUnit {
     const usubscribeLifecycle = setupLifecycleHandler({
       id: this.id,
       onAttach: () => {
+        console.log('onAttach', this.id, this.name);
         usubscribeContext = applyContextToTree(node, context);
       },
       onDetach: () => {
+        console.log('onDetach', this.id, this.name);
         usubscribeContext?.();
         usubscribeLifecycle();
       },
