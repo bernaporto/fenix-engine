@@ -8,7 +8,11 @@ export class UIRenderer {
     register: UIBehaviourRegistry.add,
   };
 
-  public async render({ path, context }: RenderUIConfig): Promise<UIUnit> {
+  public async render({
+    path,
+    context,
+    container,
+  }: RenderUIConfig): Promise<UIUnit> {
     const assetPromise = UIRegistry.get(path) ?? UIRegistry.add(path, path);
     const rawData = await assetPromise;
 
@@ -17,6 +21,11 @@ export class UIRenderer {
       throw new Error(`Failed to render UI from ${path}`);
     }
 
-    return new UIUnit({ node, context });
+    const unit = new UIUnit({ node, context });
+    if (container) {
+      unit.setParent(container);
+    }
+
+    return unit;
   }
 }

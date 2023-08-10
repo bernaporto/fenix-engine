@@ -10,6 +10,7 @@ setInterval(() => {
 
 UI.render({
   path: 'assets/ui/main.html',
+  container: document.body,
   context: {
     counter: toReadonly(counterOb),
     visibility: toReadonly(counterVisibilityOb),
@@ -18,6 +19,4 @@ UI.render({
       counterVisibilityOb.set(!visibility);
     },
   },
-}).then((unit) => {
-  unit.setParent(document.body);
 });
