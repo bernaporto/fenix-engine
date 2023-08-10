@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.3.0...v0.4.0) (2023-08-10)
+
+
+### Features
+
+* **ui:** improve margin & padding utilities ([b2fb418](http://bitbucket.org/bernaporto/fenix-engine/commits/b2fb41823bce4b6a52ffabc417bfd3d91ada54a7))
+
+
+
+
+
 # [0.3.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.2.0...v0.3.0) (2023-08-02)
 
 
