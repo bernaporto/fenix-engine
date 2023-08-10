@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.4.0...v0.5.0) (2023-08-10)
+
+
+### Features
+
+* **ui:** add support for custom components ([1e5596b](http://bitbucket.org/bernaporto/fenix-engine/commits/1e5596b46dcc851ef73a595e6b8ffb67a401273c))
+* **ui:** implement UI prefab component ([0c365e6](http://bitbucket.org/bernaporto/fenix-engine/commits/0c365e6dda60f88c205a76d3754466ef37def7c7))
+
+
+
+
+
 # [0.4.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.3.0...v0.4.0) (2023-08-10)
 
 
