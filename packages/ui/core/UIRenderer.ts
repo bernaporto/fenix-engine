@@ -6,6 +6,7 @@ import { UIUnit } from './UIUnit';
 
 export class UIRenderer {
   private _units = new Map<string, UIUnit>();
+  private _customComponents = new Set<string>();
 
   public async render({
     path,
@@ -14,7 +15,7 @@ export class UIRenderer {
   }: RenderUIConfig): Promise<UIUnit> {
     const rawData = await (UIRegistry.get(path) ?? UIRegistry.add(path, path));
 
-    const node = stringToHtml(sanitize(rawData));
+    const node = stringToHtml(sanitize(rawData, [...this._customComponents]));
     if (node === null) {
       throw new Error(`Failed to render UI from ${path}`);
     }
@@ -69,5 +70,10 @@ export class UIRenderer {
     };
 
     return getUnitByNode(node) ?? getUnitByChildNode(node);
+  }
+
+  public addComponent(tagName: string, component: typeof HTMLElement) {
+    customElements.define(tagName, component);
+    this._customComponents.add(tagName);
   }
 }

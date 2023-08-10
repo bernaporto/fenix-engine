@@ -38,11 +38,9 @@ export class UIUnit {
     const usubscribeLifecycle = setupLifecycleHandler({
       id: this.id,
       onAttach: () => {
-        console.log('onAttach', this.id, this.name);
         usubscribeContext = applyContextToTree(node, context);
       },
       onDetach: () => {
-        console.log('onDetach', this.id, this.name);
         usubscribeContext?.();
         usubscribeLifecycle();
       },
