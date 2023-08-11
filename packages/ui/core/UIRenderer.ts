@@ -7,7 +7,7 @@ import { UIUnit } from './UIUnit';
 
 type CustomComponentConfig = {
   tagName: string;
-  component: typeof UICustomComponent;
+  component: typeof UICustomComponent<any>;
   attributes?: string[];
 };
 
@@ -22,6 +22,7 @@ export class UIRenderer {
     path,
     context,
     container,
+    beforeRender,
   }: RenderUIConfig): Promise<UIUnit> {
     const htmlPath = ensureHtmlExtension(path);
     const rawData = await (UIRegistry.get(htmlPath) ??
@@ -41,9 +42,8 @@ export class UIRenderer {
       context: context ?? this.tryGetRootContext(container),
     });
 
-    if (container) {
-      unit.setParent(container);
-    }
+    beforeRender?.(unit);
+    container && unit.setParent(container);
 
     this._units.set(unit.id, unit);
     unit.events.once('dispose', () => this._units.delete(unit.id));

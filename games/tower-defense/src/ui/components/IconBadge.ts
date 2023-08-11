@@ -24,7 +24,7 @@ export class IconBadge extends UICustomComponent<IconBadgeAttributes> {
   ];
 
   constructor() {
-    super(defaultAttributes);
+    super('assets/ui/components/icon-badge', defaultAttributes);
   }
 
   static get observedAttributes() {
@@ -36,31 +36,14 @@ export class IconBadge extends UICustomComponent<IconBadgeAttributes> {
 
     // ICON
     const iconEl = this.getElementsByTagName('img')[0];
-    const iconOb = this._context.icon;
     const sizeOb = this._context.size;
     if (iconEl) {
-      const applyIcon = (value: string) => {
-        iconEl.src = value;
-      };
       const applyIconSize = (value: string) => {
         iconEl.style.setProperty('width', value);
         iconEl.style.setProperty('height', value);
       };
-      applyIcon(iconOb.get());
-      this._subscriptions.add(iconOb.subscribe(applyIcon));
       applyIconSize(sizeOb.get());
       this._subscriptions.add(sizeOb.subscribe(applyIconSize));
-    }
-
-    // VALUE
-    const valueEl = this.getElementsByTagName('span')[0];
-    const valueOb = this._context.value;
-    if (valueEl) {
-      const applyValue = (value: string) => {
-        valueEl.textContent = value;
-      };
-      applyValue(valueOb.get());
-      this._subscriptions.add(valueOb.subscribe(applyValue));
     }
 
     // WIDTH

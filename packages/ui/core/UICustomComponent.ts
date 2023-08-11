@@ -1,27 +1,44 @@
 import { UI } from '@fenix-engine/ui';
 import { UIUnit } from '@fenix-engine/ui/core/UIUnit';
 import { AttributeContext, getAttributeContext } from '../utils/context';
+import { applyContextToTree } from './applyContext';
 
 export class UICustomComponent<
   T extends Record<string, string>
 > extends HTMLElement {
+  protected _attributes: T;
   protected _context: AttributeContext<T>;
   protected _unit: UIUnit | null = null;
   protected _subscriptions = new Set<VoidFunction>();
 
-  constructor(defaultAttributes: T) {
+  constructor(private componentPath: string, defaultAttributes: T) {
     super();
 
+    this._attributes = {
+      ...defaultAttributes,
+      ...[...this.attributes].reduce((acc, attr) => {
+        return {
+          ...acc,
+          [attr.name]: attr.value,
+        };
+      }, {}),
+    };
     this._context = getAttributeContext<T>(this, defaultAttributes);
   }
 
   async connectedCallback() {
     const unit = await UI.render({
-      path: 'assets/ui/components/icon-badge',
+      path: this.componentPath,
+      container: this,
+      beforeRender: (unit) => {
+        const unitEl = unit.getHtmlElement();
+        if (unitEl) {
+          applyContextToTree(unit.getHtmlElement()!, this._attributes);
+        }
+      },
     });
 
     this._unit = unit;
-    unit.setParent(this);
   }
 
   attributeChangedCallback(name: string, _: string, newValue: string) {

@@ -4,7 +4,7 @@ import { Vector2, type Vector3 } from '@fenix-engine/core/Math';
 import { BehaviourType, Constants } from '@/constants';
 import { store } from '@/store';
 import { getProperty } from '../helpers';
-import { loadUI } from '../ui';
+import { loadUI } from '../../ui';
 
 export const loadLevel = (key: string): void => {
   game.stage.load(key).then(setupLevel);

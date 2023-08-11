@@ -9,7 +9,9 @@ export const CUSTOM_ALLOWED_ATTRIBUTES = [
   'id',
   'class',
   'color',
+  'disabled',
   'style',
   'path',
+  'data-*',
   ...EVENT_BINDING_ATTRS,
 ];

@@ -1,0 +1,131 @@
+<div class="btn-base drop-shadow" data-disabled="{{disabled}}">
+  <div class="btn-body">
+    <span class="btn-label">{{label}}</span>
+  </div>
+
+  <style>
+    .btn-base,
+    .btn-icon-base {
+      --btn-height: 4.8rem;
+      --btn-active-offset: 0.2rem;
+    }
+
+    .btn-base *,
+    .btn-icon-base * {
+      padding: 0;
+      margin: 0;
+    }
+
+    .btn-base,
+    .btn-icon-base {
+      pointer-events: all;
+      position: relative;
+      cursor: pointer;
+      height: calc(var(--btn-height) + 0.2rem);
+    }
+
+    .btn-label,
+    .btn-icon-label {
+      font-size: var(--font-size);
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0.1rem 0.1rem #000;
+      text-transform: uppercase;
+    }
+
+    .btn-base[data-disabled='true'],
+    .btn-icon-base[data-disabled='true'] {
+      pointer-events: none;
+      cursor: not-allowed;
+      filter: grayscale(100%) brightness(0.8);
+      opacity: 0.8;
+    }
+
+    .btn-base:not([data-disabled='true']):active,
+    .btn-icon-base:not([data-disabled='true']):active {
+      margin-top: var(--btn-active-offset);
+      transform: translateY(var(--btn-active-offset));
+    }
+
+    .btn-body,
+    .btn-icon-body,
+    .btn-icon-content,
+    .btn-icon-label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-body,
+    .btn-icon-body {
+      height: var(--btn-height);
+      background: var(--gradient-primary-light);
+      border: 0.1rem solid var(--color-primary-200);
+    }
+
+    /* TEXT BUTTON */
+
+    .btn-base {
+      --btn-label-height: 2rem;
+      --btn-radius: 2.4rem;
+    }
+
+    .btn-base {
+      height: var(--btn-height);
+      border-radius: var(--btn-radius);
+    }
+
+    .btn-body {
+      border-radius: var(--btn-radius);
+      padding: 0 3rem;
+    }
+
+    .btn-label {
+      white-space: nowrap;
+    }
+
+    /* ICON BUTTON */
+
+    .btn-icon-base {
+      --btn-icon-radius: 50%;
+      --btn-icon-label-height: 1.6rem;
+    }
+
+    .btn-icon-base {
+      width: calc(var(--btn-height) + 0.2rem);
+      border-radius: var(--btn-icon-radius);
+    }
+
+    .btn-icon-body {
+      width: var(--btn-height);
+      border-radius: var(--btn-icon-radius);
+    }
+
+    .btn-icon-content {
+      width: 3.8rem;
+      height: 3.8rem;
+      border-radius: var(--btn-icon-radius);
+      background: var(--gradient-primary-dark);
+      border: 0.1rem solid var(--color-primary-200);
+    }
+
+    .btn-icon-label {
+      font-size: 1.2rem;
+
+      position: absolute;
+      bottom: -1rem;
+
+      width: var(--btn-height);
+      height: var(--btn-icon-label-height);
+      background-color: var(--color-primary-200);
+      border: 0.1rem solid var(--color-primary-50);
+      border-radius: calc(var(--btn-icon-label-height) / 2);
+    }
+
+    .btn-icon-img {
+      width: 2.8rem;
+      height: 2.8rem;
+      margin: 0.2rem;
+    }
+  </style>
+</div>
