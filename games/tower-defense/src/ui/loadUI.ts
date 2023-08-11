@@ -1,57 +1,48 @@
 import '@fenix-engine/ui/styles.css';
 
 import type { AnyContext } from '@fenix-engine/ui/@types';
-import { makeObservable } from '@fenix-engine/utilities/reactivity';
+import { all, pipe } from '@fenix-engine/utilities/reactivity/operators';
 import { UI } from '@fenix-engine/ui';
 import { store } from '@/store';
 
-export const loadUI = async (path: string) => {
+export const loadUI = (path: string) => {
   const container = document.body;
-  const [context, unsubscribe] = getContext(path);
+  const context = getContext(path);
 
-  const ui = await UI.render({
+  UI.render({
     path,
     container,
     context,
   });
-
-  ui.events.once('dispose', unsubscribe);
 };
 
 /* CONTEXTS */
-type ContextHandler = () => [AnyContext, VoidFunction];
+type ContextHandler = () => AnyContext;
 
 /* Gameplay */
 const getGameplayContext: ContextHandler = () => {
-  const visibilityOb = makeObservable(true);
-  const waveValueOb = makeObservable('');
-  const subscriptions = new Set<VoidFunction>();
-
-  subscriptions.add(
-    store.subscribe('gameplay.stats.waveStatus', (newValue) => {
-      if (newValue === 'idle') {
-        visibilityOb.set(true);
-      }
-    })
+  const waveValueOb = pipe(
+    all(
+      store.getReadable('gameplay.stats.currentWave'),
+      store.getReadable('level.totalWaves')
+    ),
+    ([currentWave, totalWaves]) => `${currentWave}/${totalWaves}`
   );
 
-  subscriptions.add(
-    store.subscribe('gameplay.stats.currentWave', (newValue) => {
-      const totalWaves = store.get('level.totalWaves');
-      waveValueOb.set(`${newValue}/${totalWaves}`);
-    })
-  );
-
-  subscriptions.add(
-    store.subscribe('level.totalWaves', (newValue) => {
-      const currentWave = store.get('gameplay.stats.currentWave');
-      waveValueOb.set(`${currentWave}/${newValue}`);
-    })
+  const btnNextVisible = pipe(
+    store.getReadable('gameplay.stats.waveStatus'),
+    (value: string) => value === 'idle'
   );
 
   const context = {
+    loopState: store.getReadable('loopState'),
+    onClickRestart: () => {
+      // TODO: implement full game loop
+      window.location.reload();
+    },
+
     waveStats: {
-      value: waveValueOb.toReadonly(),
+      value: waveValueOb,
     },
 
     playerStats: {
@@ -60,26 +51,19 @@ const getGameplayContext: ContextHandler = () => {
     },
 
     btnNext: {
-      visible: visibilityOb.toReadonly(),
+      visible: btnNextVisible,
       onClick: () => {
         store.set('gameplay.stats.waveStatus', 'running');
-        visibilityOb.set(false);
       },
     },
   };
 
-  const unsubscribe = () =>
-    subscriptions.forEach((unsubscribe) => unsubscribe());
-
-  return [context, unsubscribe];
+  return context;
 };
 
 /* UTILS */
 const contextHandlerMap = {
   gameplay: getGameplayContext,
-};
-const noop = () => {
-  /* noop */
 };
 
 const getContext = (path: string) => {
@@ -89,5 +73,5 @@ const getContext = (path: string) => {
 
   const handler = entry?.[1];
 
-  return handler?.() ?? [{}, noop];
+  return handler?.() ?? {};
 };

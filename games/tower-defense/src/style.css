@@ -82,10 +82,9 @@ body {
   overflow: hidden;
 }
 
-.fullscreen-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+.ticker-status--running[data-ticker-status]:not(
+    [data-ticker-status='running']
+  ) {
+  transition: filter 0.3s;
+  filter: blur(3px);
 }

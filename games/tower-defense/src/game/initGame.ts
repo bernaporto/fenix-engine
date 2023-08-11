@@ -4,9 +4,12 @@ import { hookGameLifecycleEvents } from './helpers/lifecycle';
 import { hookKeyboardInput, hookMouseInput } from './input';
 import { loadLevel } from './utils/loadLevel';
 import { registerBehaviours } from './behaviours/registerBehaviours';
+import { Ticker } from '@fenix-engine/core/Tools/Ticker';
 
 export const initGame = async (containerId: string) => {
   store.set('loopState', 'load');
+
+  setupRootElement(containerId);
 
   const mouse = hookMouseInput(game.renderer.domElement);
   hookKeyboardInput();
@@ -24,4 +27,19 @@ export const initGame = async (containerId: string) => {
 
   // ...to allow players to start the game
   loadLevel(initialScene ?? 'main');
+};
+
+const setupRootElement = (rootId: string) => {
+  const root = document.getElementById(rootId);
+  if (!root) {
+    throw new Error(`Could not find root element with id ${rootId}`);
+  }
+  const attrName = 'data-ticker-status';
+
+  Ticker.state.subscribe(({ status }) => {
+    const currValue = root.getAttribute(attrName);
+    if (currValue === status) return;
+
+    root.setAttribute(attrName, status);
+  });
 };

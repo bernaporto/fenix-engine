@@ -1,7 +1,14 @@
-.container {
-  position: fixed;
+.fullscreen-container,
+.ui-container {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
+}
+
+.ui-container {
+  position: fixed;
   overflow: hidden;
   pointer-events: none;
 }

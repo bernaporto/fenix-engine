@@ -1,4 +1,5 @@
 import { store } from '@/store';
+import { Ticker } from '@fenix-engine/core/Tools/Ticker';
 
 export const hookGameLifecycleEvents = (): VoidFunction => {
   const subscriptions = [
@@ -16,6 +17,18 @@ export const hookGameLifecycleEvents = (): VoidFunction => {
         if (currWave === totalWaves) {
           store.set('loopState', 'gameWin');
         }
+      }
+    }),
+
+    store.subscribe('loopState', (state) => {
+      const currStatus = Ticker.state.get().status;
+
+      const pauseStates = ['paused', 'gameOver', 'gameWin'];
+
+      if (pauseStates.includes(state) && currStatus === 'running') {
+        Ticker.setStatus('paused');
+      } else if (currStatus === 'paused') {
+        Ticker.setStatus('running');
       }
     }),
   ];

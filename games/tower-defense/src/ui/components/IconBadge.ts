@@ -2,13 +2,13 @@ import { UICustomComponent } from '@fenix-engine/ui/core';
 
 type IconBadgeAttributes = {
   icon: string;
+  iconSize: string;
   value: string;
-  size: string;
   width: string;
 };
 
 const defaultAttributes: IconBadgeAttributes = {
-  size: '2.4rem',
+  iconSize: '2.4rem',
   width: '8rem',
   icon: '',
   value: '',
@@ -19,7 +19,7 @@ export class IconBadge extends UICustomComponent<IconBadgeAttributes> {
   static readonly allowedAttributes: (keyof IconBadgeAttributes)[] = [
     'icon',
     'value',
-    'size',
+    'iconSize',
     'width',
   ];
 
@@ -36,14 +36,14 @@ export class IconBadge extends UICustomComponent<IconBadgeAttributes> {
 
     // ICON
     const iconEl = this.getElementsByTagName('img')[0];
-    const sizeOb = this._context.size;
+    const iconSizeOb = this._context.iconSize;
     if (iconEl) {
       const applyIconSize = (value: string) => {
         iconEl.style.setProperty('width', value);
         iconEl.style.setProperty('height', value);
       };
-      applyIconSize(sizeOb.get());
-      this._subscriptions.add(sizeOb.subscribe(applyIconSize));
+      applyIconSize(iconSizeOb.get());
+      this._subscriptions.add(iconSizeOb.subscribe(applyIconSize));
     }
 
     // WIDTH
