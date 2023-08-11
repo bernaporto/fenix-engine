@@ -52,7 +52,7 @@ const createTicker = (): Ticker => {
   requestAnimationFrame(tick);
 
   return {
-    state: observable.toReadonly(),
+    state: observable.toReadable(),
     setStatus: (status) => {
       const currState = observable.get();
 

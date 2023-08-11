@@ -25,7 +25,7 @@ export const makeObservable = <T>(initialValue: T): Observable<T> => {
       };
     },
 
-    toReadonly: () => ({
+    toReadable: () => ({
       get: observable.get,
       subscribe: observable.subscribe,
     }),

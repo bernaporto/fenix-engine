@@ -83,7 +83,7 @@ export class MouseHandler {
     canvas.addEventListener('mouseleave', onMouseLeave);
     canvas.addEventListener('wheel', onWheel);
 
-    this.state = state.toReadonly();
+    this.state = state.toReadable();
     this.destroy = () => {
       state.clearObservers();
       canvas.removeEventListener('mousedown', onMouseDown);

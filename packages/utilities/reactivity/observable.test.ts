@@ -43,7 +43,7 @@ describe('Observable', () => {
   describe('(toReadonly)', () => {
     it('should not be able to set the value', () => {
       const observable = makeObservable(0);
-      const readonlyObservable = observable.toReadonly();
+      const readonlyObservable = observable.toReadable();
 
       expect(readonlyObservable).not.toHaveProperty('set');
     });
