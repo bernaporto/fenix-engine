@@ -120,6 +120,29 @@ export const isChildKey = <T extends AnyState, Path extends NestedPathOf<T>>(
   path: Path
 ): boolean => key !== path && key.startsWith(path);
 
+export const getAllPaths = <T extends AnyState>(
+  state: T
+): NestedPathOf<T>[] => {
+  const paths: NestedPathOf<T>[] = [];
+
+  const traverse = (value: any, path: string) => {
+    if (typeof value !== 'object' || value === null) {
+      return;
+    }
+
+    Object.keys(value).forEach((key) => {
+      const newPath = path ? `${path}.${key}` : key;
+      paths.push(newPath as NestedPathOf<T>);
+
+      traverse(value[key], newPath);
+    });
+  };
+
+  traverse(state, '');
+
+  return paths;
+};
+
 export const clone = <T>(value: T): T => {
   try {
     return structuredClone(value);

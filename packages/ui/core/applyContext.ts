@@ -1,3 +1,4 @@
+import { getAllPaths, getFromPath } from '@fenix-engine/utilities/store/utils';
 import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { parallel } from '@fenix-engine/utilities/functional';
 import { AnyContext } from '../@types';
@@ -57,7 +58,7 @@ export const applyContextToElement = (
       if (!attrValue) return null;
 
       // Event binding should only allow one key binding and it should be a function
-      const contextValue = context[attrValue];
+      const contextValue = getFromPath(context, attrValue);
       if (typeof contextValue !== 'function') {
         throw new Error(
           `Event binding should only allow function values, got ${typeof contextValue} from '${attrValue}'`
@@ -106,19 +107,21 @@ const setupBinding = (
   const usedKeys = getBindingKeys(content);
 
   return parallel(
-    ...Object.entries(context)
-      .map(([key, value]) => {
-        if (!usedKeys.includes(key)) return null;
+    ...getAllPaths(context)
+      .map((path) => {
+        if (!usedKeys.includes(path)) return null;
+
+        const value = getFromPath(context, path);
 
         if (!isReadonlyObservable(value)) {
-          applyEntry(key, value);
+          applyEntry(path, value);
           return null;
         }
 
-        applyEntry(key, value.get());
+        applyEntry(path, value.get());
 
         return value.subscribe((newValue: unknown) => {
-          applyEntry(key, newValue);
+          applyEntry(path, newValue);
         });
       })
       .filter(isNotNullable)

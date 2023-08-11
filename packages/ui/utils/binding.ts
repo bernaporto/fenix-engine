@@ -17,11 +17,11 @@ export const applyDataBindingValue = (
   key: string,
   value: unknown
 ): string => {
-  return content.replace(DATA_BINDING_REGEX, (_, match) => {
+  return content.replace(DATA_BINDING_REGEX, (substring, match) => {
     if (match.trim() === key) {
       return String(value);
     }
 
-    return '';
+    return substring;
   });
 };

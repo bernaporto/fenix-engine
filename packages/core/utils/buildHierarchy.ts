@@ -28,6 +28,17 @@ const buildSceneItem =
   (node: SceneChild): void => {
     const { type = 'unit' } = node;
 
+    const unitHandlerMap = {
+      box: instantiate(Box),
+      camera: instantiate(Camera),
+      light: instantiate(Light),
+      plane: instantiate(Plane),
+      prop: instantiate(Prop),
+      puppet: instantiate(Puppet),
+      unit: instantiate(Unit),
+      prefab: instantiate(Prefab),
+    };
+
     if (!Object.keys(unitHandlerMap).includes(type)) {
       throw new Error(`Unknown unit type: ${type}`);
     }
@@ -47,14 +58,3 @@ const instantiate =
   <T, U>(Constructor: { new (config: U): T }) =>
   (config: U) =>
     new Constructor(config);
-
-const unitHandlerMap = {
-  box: instantiate(Box),
-  camera: instantiate(Camera),
-  light: instantiate(Light),
-  plane: instantiate(Plane),
-  prop: instantiate(Prop),
-  puppet: instantiate(Puppet),
-  unit: instantiate(Unit),
-  prefab: instantiate(Prefab),
-};

@@ -1,23 +1,39 @@
 import { DATA_ID_ATTR } from '../constants';
 import type { AnyContext, RenderUIConfig } from '../@types';
-import { sanitize, stringToHtml } from '../utils';
+import { ensureHtmlExtension, sanitize, stringToHtml } from '../utils';
+import { UICustomComponent } from './UICustomComponent';
 import { UIRegistry } from './registries';
 import { UIUnit } from './UIUnit';
 
+type CustomComponentConfig = {
+  tagName: string;
+  component: typeof UICustomComponent;
+  attributes?: string[];
+};
+
 export class UIRenderer {
   private _units = new Map<string, UIUnit>();
-  private _customComponents = new Set<string>();
+  private _customComponents = new Map<
+    string,
+    Omit<CustomComponentConfig, 'component'>
+  >();
 
   public async render({
     path,
     context,
     container,
   }: RenderUIConfig): Promise<UIUnit> {
-    const rawData = await (UIRegistry.get(path) ?? UIRegistry.add(path, path));
+    const htmlPath = ensureHtmlExtension(path);
+    const rawData = await (UIRegistry.get(htmlPath) ??
+      UIRegistry.add(htmlPath, htmlPath));
 
-    const node = stringToHtml(sanitize(rawData, [...this._customComponents]));
+    const [customComponents, customAttributes] =
+      this.getComponentsAndAttributes();
+    const node = stringToHtml(
+      sanitize(rawData, customComponents, customAttributes)
+    );
     if (node === null) {
-      throw new Error(`Failed to render UI from ${path}`);
+      throw new Error(`Failed to render UI from ${htmlPath}`);
     }
 
     const unit = new UIUnit({
@@ -72,8 +88,28 @@ export class UIRenderer {
     return getUnitByNode(node) ?? getUnitByChildNode(node);
   }
 
-  public addComponent(tagName: string, component: typeof HTMLElement) {
+  public addComponent({
+    tagName,
+    component,
+    attributes = [],
+  }: CustomComponentConfig) {
     customElements.define(tagName, component);
-    this._customComponents.add(tagName);
+    this._customComponents.set(tagName, { tagName, attributes });
+  }
+
+  private getComponentsAndAttributes(): [string[], Record<string, string[]>] {
+    const componentEntries = Array.from(this._customComponents.values());
+
+    const customComponents = componentEntries.map(({ tagName }) => tagName);
+    const customAttributes = componentEntries.reduce<Record<string, string[]>>(
+      (acc, { tagName, attributes }) => {
+        acc[tagName] = attributes ?? [];
+
+        return acc;
+      },
+      {}
+    );
+
+    return [customComponents, customAttributes];
   }
 }

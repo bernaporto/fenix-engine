@@ -30,6 +30,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
     getState: () => clone(state),
 
     getReadable: (path) => ({
+      get: () => store.get(path),
       subscribe: (listener) => store.subscribe(path, listener),
     }),
 

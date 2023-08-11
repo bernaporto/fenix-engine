@@ -1,0 +1,31 @@
+<section
+  class="pos-relative flex flex-align-center icon-badge__container drop-shadow"
+>
+  <div class="icon-badge__plate"></div>
+  <div class="pos-relative flex flex-align-center h-spacing--1">
+    <img src="{{icon}}" />
+    <span class="icon-badge__value">{{value}}</span>
+  </div>
+
+  <style>
+    .icon-badge__container {
+      height: 2.4rem;
+    }
+
+    .icon-badge__plate {
+      position: absolute;
+      width: calc(100% - 0.4rem);
+      height: 2rem;
+      top: 0.2rem;
+      left: 0.4rem;
+      border-radius: 1rem;
+      background: var(--gradient-secondary-dark);
+      border: 0.1rem solid var(--color-secondary-50);
+    }
+
+    .icon-badge__value {
+      font-size: var(--font-size);
+      font-weight: bold;
+    }
+  </style>
+</section>

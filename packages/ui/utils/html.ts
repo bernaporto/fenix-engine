@@ -18,3 +18,9 @@ export const getAttributeMap = (element: HTMLElement): Record<string, string> =>
 
     return acc;
   }, {} as Record<string, string>);
+
+export const ensureHtmlExtension = (path: string): string => {
+  if (path.endsWith('.html')) return path;
+
+  return `${path}.html`;
+};

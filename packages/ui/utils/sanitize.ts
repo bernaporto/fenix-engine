@@ -4,7 +4,8 @@ import { components } from '../components';
 
 export const sanitize = (
   uiString: string,
-  customComponents: string[] = []
+  customComponents: string[] = [],
+  customAttributes: Record<string, sanitizeHtml.AllowedAttribute[]> = {}
 ): string => {
   return sanitizeHtml(uiString, {
     allowedTags: [
@@ -15,6 +16,7 @@ export const sanitize = (
     ],
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
+      ...customAttributes,
       '*': CUSTOM_ALLOWED_ATTRIBUTES,
     },
   });

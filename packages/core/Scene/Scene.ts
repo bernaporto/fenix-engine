@@ -8,8 +8,8 @@ import type {
 import { makeEventHandler } from '@fenix-engine/utilities/events';
 import { buildHierarchy } from '../utils';
 import { Camera, Unit } from '../Units';
-import type { LifecycleEnabled, Queryable } from '../@types';
 import { getPropertiesHandler } from '../Units/utils';
+import type { LifecycleEnabled, Queryable } from '../@types';
 import type { SceneChild, SceneManifest } from '../Data/Model';
 import { SceneRegistry } from '../Game/registries';
 import { Ticker } from '../Tools/Ticker';

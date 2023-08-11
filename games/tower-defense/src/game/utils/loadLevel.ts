@@ -4,6 +4,7 @@ import { Vector2, type Vector3 } from '@fenix-engine/core/Math';
 import { BehaviourType, Constants } from '@/constants';
 import { store } from '@/store';
 import { getProperty } from '../helpers';
+import { loadUI } from '../ui';
 
 export const loadLevel = (key: string): void => {
   game.stage.load(key).then(setupLevel);
@@ -14,6 +15,9 @@ const setupLevel = (scene: Scene) => {
   const defensePoints = getProperty(scene, 'defense', 10);
   const levelPath = getProperty<Vector3[]>(scene, 'path');
   const levelSize = getProperty<Vector2>(scene, 'size');
+  const uiPath = getProperty<string>(scene, 'ui');
+
+  loadUI(uiPath);
 
   store.set('level', {
     ...store.get('level'),

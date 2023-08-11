@@ -1,6 +1,7 @@
 {
   "key": "level1",
   "properties": {
+    "initialCoins": 100,
     "path": [
       {
         "x": 11.5,
@@ -47,7 +48,8 @@
       "x": 20,
       "y": 20
     },
-    "totalHealth": 10
+    "totalHealth": 10,
+    "ui": "assets/ui/gameplay/main"
   },
   "hierarchy": [
     {
