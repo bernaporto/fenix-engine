@@ -1,7 +1,7 @@
 import '@fenix-engine/ui/styles.css';
 
 import type { AnyContext } from '@fenix-engine/ui/@types';
-import { makeObservable, toReadonly } from '@fenix-engine/utilities/reactivity';
+import { makeObservable } from '@fenix-engine/utilities/reactivity';
 import { UI } from '@fenix-engine/ui';
 import { store } from '@/store';
 
@@ -21,6 +21,7 @@ export const loadUI = async (path: string) => {
 /* CONTEXTS */
 type ContextHandler = () => [AnyContext, VoidFunction];
 
+/* Gameplay */
 const getGameplayContext: ContextHandler = () => {
   const visibilityOb = makeObservable(true);
   const waveValueOb = makeObservable('');
@@ -36,19 +37,21 @@ const getGameplayContext: ContextHandler = () => {
 
   subscriptions.add(
     store.subscribe('gameplay.stats.currentWave', (newValue) => {
-      waveValueOb.set(`${newValue}/${store.get('level.totalWaves')}`);
+      const totalWaves = store.get('level.totalWaves');
+      waveValueOb.set(`${newValue}/${totalWaves}`);
     })
   );
 
   subscriptions.add(
     store.subscribe('level.totalWaves', (newValue) => {
-      waveValueOb.set(`${store.get('gameplay.stats.currentWave')}/${newValue}`);
+      const currentWave = store.get('gameplay.stats.currentWave');
+      waveValueOb.set(`${currentWave}/${newValue}`);
     })
   );
 
   const context = {
     waveStats: {
-      value: toReadonly(waveValueOb),
+      value: waveValueOb.toReadonly(),
     },
 
     playerStats: {
@@ -57,7 +60,7 @@ const getGameplayContext: ContextHandler = () => {
     },
 
     btnNext: {
-      visible: toReadonly(visibilityOb),
+      visible: visibilityOb.toReadonly(),
       onClick: () => {
         store.set('gameplay.stats.waveStatus', 'running');
         visibilityOb.set(false);

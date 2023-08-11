@@ -4,12 +4,18 @@ export const makeObservable = <T>(initialValue: T): Observable<T> => {
   let value: Readonly<T> = structuredClone(initialValue);
   const observers = new Map<Symbol, Observer<T>>();
 
-  return {
+  const observable: Observable<T> = {
+    clearObservers: () => {
+      observers.clear();
+    },
+
     get: () => structuredClone(value),
+
     set: (newValue) => {
       value = structuredClone(newValue);
       observers.forEach((observer) => observer(structuredClone(value)));
     },
+
     subscribe: (observer) => {
       const id = Symbol();
       observers.set(id, observer);
@@ -18,8 +24,12 @@ export const makeObservable = <T>(initialValue: T): Observable<T> => {
         observers.delete(id);
       };
     },
-    clearObservers: () => {
-      observers.clear();
-    },
+
+    toReadonly: () => ({
+      get: observable.get,
+      subscribe: observable.subscribe,
+    }),
   };
+
+  return observable;
 };

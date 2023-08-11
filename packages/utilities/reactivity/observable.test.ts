@@ -1,5 +1,4 @@
 import { makeObservable } from './observable';
-import { toReadonly } from './toReadonly';
 
 describe('Observable', () => {
   it('should be able to subscribe to changes', () => {
@@ -44,7 +43,7 @@ describe('Observable', () => {
   describe('(toReadonly)', () => {
     it('should not be able to set the value', () => {
       const observable = makeObservable(0);
-      const readonlyObservable = toReadonly(observable);
+      const readonlyObservable = observable.toReadonly();
 
       expect(readonlyObservable).not.toHaveProperty('set');
     });

@@ -1,6 +1,5 @@
 import {
   makeObservable,
-  toReadonly,
   type ReadonlyObservable,
 } from '@fenix-engine/utilities/reactivity';
 
@@ -53,7 +52,7 @@ const createTicker = (): Ticker => {
   requestAnimationFrame(tick);
 
   return {
-    state: toReadonly(observable),
+    state: observable.toReadonly(),
     setStatus: (status) => {
       const currState = observable.get();
 

@@ -4,7 +4,6 @@ import {
   type Observable,
   type ReadonlyObservable,
   makeObservable,
-  toReadonly,
 } from '@fenix-engine/utilities/reactivity';
 
 export enum MouseButton {
@@ -84,7 +83,7 @@ export class MouseHandler {
     canvas.addEventListener('mouseleave', onMouseLeave);
     canvas.addEventListener('wheel', onWheel);
 
-    this.state = toReadonly(state);
+    this.state = state.toReadonly();
     this.destroy = () => {
       state.clearObservers();
       canvas.removeEventListener('mousedown', onMouseDown);

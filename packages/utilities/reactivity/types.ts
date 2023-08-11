@@ -6,6 +6,7 @@ export type Observable<T> = {
   get: () => Readonly<T>;
   set: (value: T) => void;
   subscribe: (observer: Observer<T>) => Usubscriber;
+  toReadonly: () => ReadonlyObservable<T>;
 };
 
 export type ReadonlyObservable<T> = Pick<Observable<T>, 'get' | 'subscribe'>;

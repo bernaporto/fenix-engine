@@ -5,4 +5,3 @@ export type {
   Usubscriber,
 } from './types';
 export { makeObservable } from './observable';
-export { toReadonly } from './toReadonly';
