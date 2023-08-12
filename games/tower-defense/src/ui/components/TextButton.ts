@@ -9,14 +9,14 @@ const defaultAttributes: ButtonAttributes = {
   label: 'Click me!',
 };
 
-export class Button extends UICustomComponent<ButtonAttributes> {
-  static readonly tagName = 'game-button';
+export class TextButton extends UICustomComponent<ButtonAttributes> {
+  static readonly tagName = 'text-button';
   static readonly allowedAttributes: (keyof ButtonAttributes)[] = [
     'label',
     'disabled',
   ];
 
   constructor() {
-    super('assets/ui/components/game-button', defaultAttributes);
+    super('assets/ui/components/text-button', defaultAttributes);
   }
 }

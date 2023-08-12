@@ -1,4 +1,5 @@
 import type { Vector2, Vector3 } from '@fenix-engine/core/Math';
+import type { AnyContext } from '@fenix-engine/ui/@types';
 
 export type EnemyType = 'goblin' | 'orc' | 'goblin-runner' | 'armored-orc';
 
@@ -94,16 +95,22 @@ type GameplayStats = {
 };
 
 type SelectedItem = {
+  key: string;
   type: TowerType;
   position: Vector2;
-  level?: number;
+  data?: TowerData;
 };
 
 export type SelectableItem = TowerType;
 
+type TowerSlotState = {
+  [key: string]: TowerType;
+};
+
 type GameplayState = {
   stats: GameplayStats;
   selected: null | SelectedItem;
+  towerSlots: TowerSlotState;
 };
 
 // GAME STATE
@@ -120,3 +127,6 @@ export type GameState = {
   level: LevelState;
   gameplay: GameplayState;
 };
+
+// UI
+export type ContextHandler = () => AnyContext;

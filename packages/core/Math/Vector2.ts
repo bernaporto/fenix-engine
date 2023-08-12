@@ -1,5 +1,8 @@
 import { clamp } from '@fenix-engine/utilities/misc';
 
+export type Vector2String = `Vector2(${number},${number})`;
+const VECTOR2_STRING_REGEX = /^Vector2\((?<x>-?\d+\.?\d*),(?<y>-?\d+\.?\d*)\)$/;
+
 export type Vector2 = {
   x: number;
   y: number;
@@ -97,4 +100,22 @@ export const Vector2 = {
     x: Math.floor(a.x),
     y: Math.floor(a.y),
   }),
+
+  fromString: (s: Vector2String): Vector2 => {
+    const match = s.match(VECTOR2_STRING_REGEX);
+
+    const strX = match?.groups?.x;
+    const strY = match?.groups?.y;
+
+    if (!strX || !strY) {
+      throw new Error(`Invalid Vector2 string: ${s}`);
+    }
+
+    return {
+      x: parseFloat(strX),
+      y: parseFloat(strY),
+    };
+  },
+
+  toString: (v: Vector2): Vector2String => `Vector2(${v.x},${v.y})`,
 };

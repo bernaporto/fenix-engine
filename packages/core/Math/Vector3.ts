@@ -1,5 +1,8 @@
 import { lerp } from '@fenix-engine/utilities/misc';
 
+export type Vector3String = `Vector3(${number},${number},${number})`;
+const VECTOR3_REGEX = /Vector3\((\d+),(\d+),(\d+)\)/;
+
 export type Vector3 = {
   x: number;
   y: number;
@@ -125,4 +128,24 @@ export const Vector3 = {
 
   equals: (a: Vector3, b: Vector3): boolean =>
     a.x === b.x && a.y === b.y && a.z === b.z,
+
+  fromString: (s: Vector3String): Vector3 => {
+    const match = s.match(VECTOR3_REGEX);
+
+    const strX = match?.groups?.x;
+    const strY = match?.groups?.y;
+    const strZ = match?.groups?.z;
+
+    if (!strX || !strY || !strZ) {
+      throw new Error(`Invalid Vector3 string: ${s}`);
+    }
+
+    return {
+      x: parseFloat(strX),
+      y: parseFloat(strY),
+      z: parseFloat(strZ),
+    };
+  },
+
+  toString: (v: Vector3): Vector3String => `Vector3(${v.x},${v.y},${v.z})`,
 };

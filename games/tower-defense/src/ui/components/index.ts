@@ -1,4 +1,6 @@
-import { Button } from './Button';
+import { FloatingMenu } from './FloatingMenu';
 import { IconBadge } from './IconBadge';
+import { IconButton } from './IconButton';
+import { TextButton } from './TextButton';
 
-export const components = [Button, IconBadge];
+export const components = [FloatingMenu, IconButton, IconBadge, TextButton];

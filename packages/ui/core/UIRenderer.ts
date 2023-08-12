@@ -1,13 +1,14 @@
 import { DATA_ID_ATTR } from '../constants';
 import type { AnyContext, RenderUIConfig } from '../@types';
 import { ensureHtmlExtension, sanitize, stringToHtml } from '../utils';
+import { applyContextToElement } from './applyContext';
 import { UICustomComponent } from './UICustomComponent';
 import { UIRegistry } from './registries';
 import { UIUnit } from './UIUnit';
 
 type CustomComponentConfig = {
   tagName: string;
-  component: typeof UICustomComponent<any>;
+  component: typeof UICustomComponent<any> | typeof HTMLElement;
   attributes?: string[];
 };
 
@@ -19,14 +20,13 @@ export class UIRenderer {
   >();
 
   public async render({
-    path,
     context,
     container,
     beforeRender,
+    ...config
   }: RenderUIConfig): Promise<UIUnit> {
-    const htmlPath = ensureHtmlExtension(path);
-    const rawData = await (UIRegistry.get(htmlPath) ??
-      UIRegistry.add(htmlPath, htmlPath));
+    const rawData =
+      'path' in config ? await this.getFromPath(config.path) : config.template;
 
     const [customComponents, customAttributes] =
       this.getComponentsAndAttributes();
@@ -34,7 +34,11 @@ export class UIRenderer {
       sanitize(rawData, customComponents, customAttributes)
     );
     if (node === null) {
-      throw new Error(`Failed to render UI from ${htmlPath}`);
+      throw new Error(
+        `Failed to render UI from ${
+          'path' in config ? config.path : config.template
+        }`
+      );
     }
 
     const unit = new UIUnit({
@@ -49,6 +53,12 @@ export class UIRenderer {
     unit.events.once('dispose', () => this._units.delete(unit.id));
 
     return unit;
+  }
+
+  private getFromPath(path: string): Promise<string> {
+    const htmlPath = ensureHtmlExtension(path);
+
+    return UIRegistry.get(htmlPath) ?? UIRegistry.add(htmlPath, htmlPath);
   }
 
   /**
@@ -111,5 +121,9 @@ export class UIRenderer {
     );
 
     return [customComponents, customAttributes];
+  }
+
+  public applyContext(node: HTMLElement, context: AnyContext) {
+    applyContextToElement(node, context);
   }
 }

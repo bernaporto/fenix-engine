@@ -27,6 +27,7 @@ export const store = createStore<GameState>({
       waveStatus: 'idle',
     },
     selected: null,
+    towerSlots: {},
   },
 });
 

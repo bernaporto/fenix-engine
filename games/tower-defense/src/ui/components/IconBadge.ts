@@ -27,10 +27,6 @@ export class IconBadge extends UICustomComponent<IconBadgeAttributes> {
     super('assets/ui/components/icon-badge', defaultAttributes);
   }
 
-  static get observedAttributes() {
-    return IconBadge.allowedAttributes;
-  }
-
   override async connectedCallback() {
     await super.connectedCallback();
 

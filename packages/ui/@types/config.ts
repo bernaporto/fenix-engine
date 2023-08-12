@@ -2,8 +2,14 @@ import type { UIUnit } from '../core';
 
 export type AnyContext = Record<string, unknown>;
 
-export type RenderUIConfig = {
-  path: string;
+export type RenderUIConfig = (
+  | {
+      path: string;
+    }
+  | {
+      template: string;
+    }
+) & {
   context?: AnyContext;
   container?: HTMLElement;
   beforeRender?: (unit: UIUnit) => void;

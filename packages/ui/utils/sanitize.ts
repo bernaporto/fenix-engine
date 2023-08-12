@@ -17,7 +17,7 @@ export const sanitize = (
     allowedAttributes: {
       ...sanitizeHtml.defaults.allowedAttributes,
       ...customAttributes,
-      '*': CUSTOM_ALLOWED_ATTRIBUTES,
+      ...CUSTOM_ALLOWED_ATTRIBUTES,
     },
   });
 };
