@@ -3,7 +3,7 @@ import { pipe, all } from '@fenix-engine/utilities/reactivity/operators';
 import { UI } from '@fenix-engine/ui';
 import { UIUnit } from '@fenix-engine/ui/core';
 import { Vector2 } from '@fenix-engine/core/Math';
-import type { ContextHandler, GameState, TowerType } from '@/types';
+import type { ContextHandler, GameState } from '@/types';
 import { store } from '@/store';
 import { handlePurchase } from '../helpers/handlePurchase';
 import type { TowerSlotMenu } from '../menus/TowerSlotMenu';
@@ -100,51 +100,10 @@ const getTowerSlotMenuManager = async (
   root.append(unit);
 
   const menu = unit.getHtmlElement()! as TowerSlotMenu;
-  // TODO: retrive tower data from store
   menu.setAvailableTowers(
-    [
-      {
-        name: 'Watch Tower',
-        type: 'watch',
-        description:
-          'Classic tower, from the castle walls, with a vertical opening that shoots arrows.',
-        icon: 'assets/ui/icons/arrow.png',
-        stats: {
-          range: 4,
-          cooldown: 1,
-          cost: 10,
-          projectile: {
-            damage: 1,
-            initialAngle: 0,
-            speed: 6,
-            startPosition: {
-              x: 0,
-              y: 0.75,
-              z: 0,
-            },
-            targetOffset: {
-              x: 0,
-              y: 0.125,
-              z: 0,
-            },
-          },
-        },
-        upgrades: [
-          {
-            'projectile.critical.damage': 3,
-          },
-          {
-            'projectile.critical.chance': 10,
-          },
-          {
-            'projectile.critical.chance': 20,
-          },
-          {
-            'projectile.critical.chance': 30,
-          },
-        ],
-      },
-    ],
+    store
+      .get('level.availableTowers')
+      .map((key) => store.get(`config.towers.${key}`)),
     handlePurchase
   );
 

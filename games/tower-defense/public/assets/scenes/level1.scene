@@ -1,7 +1,8 @@
 {
   "key": "level1",
   "properties": {
-    "initialCoins": 100,
+    "availableTowers": ["watch"],
+    "initialCoins": 20,
     "path": [
       {
         "x": 11.5,

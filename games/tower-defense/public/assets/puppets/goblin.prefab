@@ -9,13 +9,6 @@
     "enemyLifecycleManager",
     "pathFollower"
   ],
-  "properties": {
-    "type": "goblin",
-    "damage": 1,
-    "health": 10,
-    "speed": 2,
-    "reward": 1
-  },
   "hierarchy": [
     {
       "type": "puppet",

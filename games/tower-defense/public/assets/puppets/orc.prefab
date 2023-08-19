@@ -9,13 +9,6 @@
     "enemyLifecycleManager",
     "pathFollower"
   ],
-  "properties": {
-    "type": "orc",
-    "damage": 1,
-    "health": 15,
-    "speed": 2,
-    "reward": 2
-  },
   "hierarchy": [
     {
       "type": "puppet",

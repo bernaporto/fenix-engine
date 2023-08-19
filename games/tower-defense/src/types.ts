@@ -34,6 +34,7 @@ export type Wave = {
 export type WaveData = Wave[];
 
 export type LevelState = {
+  availableTowers: TowerType[];
   boundaries: {
     min: Vector2;
     max: Vector2;
@@ -50,6 +51,7 @@ type UnitData<T, U> = {
   type: T;
   stats: U;
   icon?: string;
+  prefab?: string;
 };
 
 export type EnemyData = UnitData<
@@ -123,6 +125,7 @@ export type GameState = {
     | 'paused'
     | 'gameOver'
     | 'gameWin';
+  config: GameplayConfig;
   debug: DebugState;
   level: LevelState;
   gameplay: GameplayState;

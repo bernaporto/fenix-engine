@@ -5,6 +5,7 @@ import { hookKeyboardInput, hookMouseInput } from './input';
 import { loadLevel } from './utils/loadLevel';
 import { registerBehaviours } from './behaviours/registerBehaviours';
 import { Ticker } from '@fenix-engine/core/Tools/Ticker';
+import { loadConfig } from './loadConfig';
 
 export const initGame = async (containerId: string) => {
   store.set('loopState', 'load');
@@ -16,6 +17,8 @@ export const initGame = async (containerId: string) => {
   hookGameLifecycleEvents();
 
   registerBehaviours(mouse);
+
+  await loadConfig();
 
   const { initialScene } = await game.init({
     containerId,

@@ -2,12 +2,6 @@ import { Behaviour } from '@fenix-engine/core/@types';
 import { Prefab, Unit } from '@fenix-engine/core/Units';
 import { Vector3 } from '@fenix-engine/core/Math';
 import { store } from '@/store';
-import { TowerType } from '@/types';
-
-const towerAssets = {
-  empty: 'assets/props/towers/empty_slot.prefab',
-  watch: 'assets/props/towers/watch/watch_1.prefab',
-} as Record<TowerType, string>;
 
 export const towerSlotManager: Behaviour = (unit) => {
   const slotKey = Vector3.toString(unit.transform.position);
@@ -23,12 +17,27 @@ export const towerSlotManager: Behaviour = (unit) => {
         currentTower = null;
       }
 
-      const assetPath = towerAssets[towerType];
-      if (assetPath) {
-        currentTower = new Prefab({ path: assetPath });
-        adjustPosition(currentTower);
-        unit.append(currentTower);
+      let prefabPath = 'assets/props/towers/empty_slot.prefab';
+      let properties = {};
+
+      if (towerType !== 'empty') {
+        const config = store.get(`config.towers.${towerType}`);
+
+        if (!config) {
+          throw new Error(`Could not find config for tower ${towerType}`);
+        }
+        if (!config.prefab) {
+          throw new Error(`Prefab is not configured for ${towerType}`);
+        }
+
+        const { prefab, ...rest } = config;
+        prefabPath = prefab;
+        properties = rest;
       }
+
+      currentTower = new Prefab({ properties, path: prefabPath });
+      adjustPosition(currentTower);
+      unit.append(currentTower);
     }
   );
 

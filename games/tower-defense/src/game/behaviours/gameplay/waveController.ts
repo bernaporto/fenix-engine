@@ -1,7 +1,7 @@
 import { Behaviour } from '@fenix-engine/core/@types';
 import { Timer } from '@fenix-engine/services/Time';
 import { Prefab, Unit } from '@fenix-engine/core/Units';
-import { EnemyGroup, EnemyPack, WaveData } from '@/types';
+import { EnemyData, EnemyGroup, EnemyPack, WaveData } from '@/types';
 import { store } from '@/store';
 import { Constants } from '@/constants';
 import { getGenerator, iterateOnList } from '@/game/utils/iterate';
@@ -83,6 +83,18 @@ export const createWaveController = (
     onceDone: VoidFunction
   ): void => {
     const { count, type } = enemyGroup;
+    const enemyData = getEnemyData(type);
+
+    if (!enemyData) {
+      throw new Error(`Enemy data for type ${type} not found`);
+    }
+
+    const { prefab, ...properties } = enemyData;
+
+    if (!prefab) {
+      throw new Error(`Prefab not configured for enemy ${type}`);
+    }
+
     const list = new Array(count).fill(true);
 
     iterateOnList({
@@ -90,7 +102,8 @@ export const createWaveController = (
       list,
       handleItem: (_, nextEnemy) => {
         const enemy = new Prefab({
-          path: `assets/puppets/${type}.prefab`,
+          properties,
+          path: prefab,
         });
 
         root.append(enemy);
@@ -126,3 +139,6 @@ export const createWaveController = (
     },
   };
 };
+
+const getEnemyData = (type: string): EnemyData | null =>
+  store.get(`config.enemies.${type}`) ?? null;

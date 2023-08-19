@@ -1,0 +1,19 @@
+{
+  "type": "prefab",
+  "tags": [
+    "tower",
+    "watch",
+    "watch_1"
+  ],
+  "behaviours": [
+    "towerController"
+  ],
+  "hierarchy": [
+    {
+      "type": "prop",
+      "path": "assets/props/towers/watch/watch.obj",
+      "castShadow": true,
+      "material": "double-sided-material"
+    }
+  ]
+}

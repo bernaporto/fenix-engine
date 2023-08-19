@@ -3,14 +3,16 @@ import { Scene } from '@fenix-engine/core/Scene';
 import { Vector2, type Vector3 } from '@fenix-engine/core/Math';
 import { BehaviourType, Constants } from '@/constants';
 import { store } from '@/store';
-import { getProperty } from '../helpers';
+import { TowerType } from '@/types';
 import { loadUI } from '../../ui';
+import { getProperty } from '../helpers';
 
 export const loadLevel = (key: string): void => {
   game.stage.load(key).then(setupLevel);
 };
 
 const setupLevel = (scene: Scene) => {
+  const availableTowers = getProperty<TowerType[]>(scene, 'availableTowers');
   const initialCoins = getProperty(scene, 'initialCoins', 0);
   const defensePoints = getProperty(scene, 'defense', 10);
   const levelPath = getProperty<Vector3[]>(scene, 'path');
@@ -21,6 +23,7 @@ const setupLevel = (scene: Scene) => {
 
   store.set('level', {
     ...store.get('level'),
+    availableTowers,
     path: levelPath,
     totalDefense: defensePoints,
     boundaries: {

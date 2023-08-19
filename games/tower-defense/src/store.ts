@@ -5,11 +5,17 @@ import type { GameState } from './types';
 export const store = createStore<GameState>({
   loopState: 'preLoad',
 
+  config: {
+    enemies: {},
+    towers: {},
+  },
+
   debug: {
     towers: import.meta.env.DEV,
   },
 
   level: {
+    availableTowers: [],
     boundaries: {
       min: Vector2.zero,
       max: Vector2.zero,
