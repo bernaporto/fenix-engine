@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.5.0...v0.6.0) (2023-08-20)
+
+
+### Features
+
+* **ui:** add tower's floating menu ([13e6fec](http://bitbucket.org/bernaporto/fenix-engine/commits/13e6fec7609e2bfbd1f103ef7f151491163e07d2))
+* **utilities:** add observable operators ([d08a1c5](http://bitbucket.org/bernaporto/fenix-engine/commits/d08a1c5efaef5db5e7ae23b84e850287346a6458))
+
+
+
+
+
 # [0.5.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.4.0...v0.5.0) (2023-08-10)
 
 **Note:** Version bump only for package @fenix-engine/core
