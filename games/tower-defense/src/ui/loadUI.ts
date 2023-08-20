@@ -1,6 +1,6 @@
 import '@fenix-engine/ui/styles.css';
 
-import { loadGameplayUI } from './contexts/gameplay';
+import { loadGameplayUI } from './states/gameplay';
 
 export const loadUI = (path: string) => {
   const container = document.body;

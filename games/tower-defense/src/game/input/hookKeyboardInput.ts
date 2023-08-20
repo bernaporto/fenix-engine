@@ -8,6 +8,7 @@ export const hookKeyboardInput = (): VoidFunction => {
       {
         validate: KeyboardHandler.isKey('Escape'),
         execute: () => {
+          store.set('gameplay.selected', null);
           const gameState = store.get('loopState');
 
           switch (gameState) {
