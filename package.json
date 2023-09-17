@@ -9,7 +9,8 @@
   "license": "UNLICENSED",
   "scripts": {
     "lint": "lerna run lint",
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "postinstall": "./scripts/postinstall.sh"
   },
   "dependencies": {
     "lerna": "7.1.4"
