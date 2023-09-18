@@ -1,3 +1,10 @@
 {
-  "extends": "../../tsconfig.common.json",
+  "extends": "../../tsconfig.build.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "../../dist/services",
+    "declarationDir": "../../dist/services"
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["./**/*.test.ts"]
 }

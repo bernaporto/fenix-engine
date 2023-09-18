@@ -3,9 +3,13 @@
   "version": "0.6.0",
   "private": true,
   "scripts": {
+    "build": "tsc",
     "lint": "tsc-files --noEmit",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "eventemitter3": "^5.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",

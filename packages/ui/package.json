@@ -4,12 +4,12 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
+    "build": "tsc && yarn build:styles",
+    "build:styles": "sass --no-source-map --style compressed styles/index.scss styles.css && cp styles.css ../../dist/ui",
     "dev:styles": "sass --no-source-map --style expanded --watch styles/index.scss styles.css",
-    "build:styles": "sass --no-source-map --style compressed styles/index.scss styles.css",
     "lint": "tsc-files --noEmit",
     "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "postinstall": "yarn build:styles"
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
