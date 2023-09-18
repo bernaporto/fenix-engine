@@ -1,4 +1,5 @@
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import { DATA_ID_ATTR } from '../constants';
 
 enum EventType {

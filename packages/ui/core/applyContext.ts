@@ -1,6 +1,7 @@
 import { getAllPaths, getFromPath } from '@fenix-engine/utilities/store/utils';
 import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { parallel } from '@fenix-engine/utilities/functional';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import { AnyContext } from '../@types';
 import {
   applyDataBindingValue,

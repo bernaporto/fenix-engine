@@ -1,4 +1,5 @@
 import type { WebGLRenderer } from 'three';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { Scene } from '../../Scene';
 
 export const hookResizeEvent = (handleResize: VoidFunction): VoidFunction => {

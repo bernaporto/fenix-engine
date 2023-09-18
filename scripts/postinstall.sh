@@ -1,3 +1,10 @@
+$OUT_DIT=./dist
+
+# clear output directory if it exists
+if [ -d "$OUT_DIR" ]; then
+  rm -rf $OUT_DIR
+fi
+
 # check if yarn is installed
 if ! [ -x "$(command -v yarn)" ]; then
   echo 'Error: yarn is not installed.' >&2
@@ -14,7 +21,17 @@ for package in ./packages/*; do
 
     yarn --ignore-scripts
     yarn build
-
+    
     cd ../..
   fi
 done
+
+# Bundle packages using typescript compiler
+echo "Bundling packages..."
+
+node ./scripts/bundlePackages.js ./packages ./dist ./tsconfig.common.json
+
+echo "Done bundling packages"
+
+# Copy ./packages/ui/styles.css to ./dist/ui/styles.css
+cp ./packages/ui/styles.css ./dist/ui/styles.css

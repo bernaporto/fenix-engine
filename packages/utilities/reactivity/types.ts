@@ -1,3 +1,5 @@
+import type { VoidFunction } from '../@types';
+
 export type Observer<T> = (value: Readonly<T>) => void;
 export type Usubscriber = VoidFunction;
 

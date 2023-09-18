@@ -5,6 +5,7 @@ import type {
   EventHandler,
 } from '@fenix-engine/utilities/events/types';
 import { makeEventHandler } from '@fenix-engine/utilities/events';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { AnyContext, UIUnitConfig } from '../@types';
 import { DATA_ID_ATTR } from '../constants';
 import { setupLifecycleHandler } from '../utils';

@@ -1,3 +1,4 @@
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { TickerState } from '../Tools/Ticker';
 import type { Unit } from '../Units';
 

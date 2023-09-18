@@ -1,3 +1,4 @@
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import { UI } from './UI';
 import { UIUnit } from './UIUnit';
 import { AttributeContext, getAttributeContext } from '../utils/context';

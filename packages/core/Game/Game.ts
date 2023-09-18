@@ -1,4 +1,4 @@
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
 import type {
   CustomEvent,
@@ -6,6 +6,7 @@ import type {
   EventHandler,
 } from '@fenix-engine/utilities/events/types';
 import { makeEventHandler } from '@fenix-engine/utilities/events';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { GameSettings } from '../@types';
 import { loadGameManifest } from '../Data';
 import { Ticker, type TickerState } from '../Tools/Ticker';

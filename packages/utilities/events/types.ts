@@ -1,3 +1,5 @@
+import type { VoidFunction } from '../@types';
+
 type EventArgs = any[];
 export type EventCallback = (...args: EventArgs) => void;
 export type CustomEvent = `custom:${string}`;

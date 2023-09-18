@@ -4,7 +4,6 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "tsc",
     "lint": "tsc-files --noEmit",
     "test": "jest --coverage",
     "test:watch": "jest --watch"

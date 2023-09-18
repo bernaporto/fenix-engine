@@ -1,10 +1,11 @@
-import EventEmitter from 'eventemitter3';
+import { EventEmitter } from 'eventemitter3';
 import type {
   CustomEvent,
   EventHandler,
   EventEnabled,
 } from '@fenix-engine/utilities/events/types';
 import { makeEventHandler } from '@fenix-engine/utilities/events';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import {
   BehaviourController,
   BehaviourRegistry,

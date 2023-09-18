@@ -1,3 +1,5 @@
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
+
 type KeyConfigMap = Record<
   string,
   {

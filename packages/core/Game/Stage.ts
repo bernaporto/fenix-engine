@@ -1,4 +1,5 @@
 import type { WebGLRenderer } from 'three';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import { Scene } from '../Scene';
 import type { StageConfig } from '../@types/config';
 import { getResizeHandler, hookResizeEvent } from './utils/handleResize';

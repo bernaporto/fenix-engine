@@ -1,3 +1,4 @@
+import type { VoidFunction } from '../@types';
 import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
 import type { ReadonlyObservable } from '../reactivity';
 

@@ -1,4 +1,5 @@
 import { Ticker, type TickerState } from '@fenix-engine/core/Tools/Ticker';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 
 export class Timer {
   private _timers = new Map<number, VoidFunction>();

@@ -2,16 +2,12 @@
   "compilerOptions": {
     /* Language and Environment */
     "target": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
 
     /* Modules */
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "resolveJsonModule": true,
+    // "resolveJsonModule": true,
     "isolatedModules": true,
 
     /* Interop Constraints */
@@ -19,6 +15,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
+    "downlevelIteration": true,
 
     /* Type Checking */
     "strict": true,
@@ -36,8 +33,5 @@
     "skipLibCheck": true
   },
 
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

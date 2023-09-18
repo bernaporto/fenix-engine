@@ -5,6 +5,7 @@ import {
   type ReadonlyObservable,
   makeObservable,
 } from '@fenix-engine/utilities/reactivity';
+import type { VoidFunction } from '@fenix-engine/utilities/@types';
 
 export enum MouseButton {
   LEFT = 0,
