@@ -1,5 +1,5 @@
-import { UI } from '@fenix-engine/ui';
-import { UIUnit } from '@fenix-engine/ui/core/UIUnit';
+import { UI } from './UI';
+import { UIUnit } from './UIUnit';
 import { AttributeContext, getAttributeContext } from '../utils/context';
 import { applyContextToTree } from './applyContext';
 
