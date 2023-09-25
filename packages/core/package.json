@@ -9,7 +9,6 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "eventemitter3": "^5.0.1",
     "three": "^0.154.0"
   },
   "devDependencies": {

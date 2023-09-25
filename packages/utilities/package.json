@@ -7,9 +7,6 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },
-  "dependencies": {
-    "eventemitter3": "^5.0.1"
-  },
   "devDependencies": {
     "@types/jest": "^29.5.3",
     "jest": "^29.6.1",

@@ -1,10 +1,12 @@
-import { EventEmitter } from 'eventemitter3';
 import type {
   CustomEvent,
-  EventHandler,
   EventEnabled,
+  PublicEventHandler,
 } from '@fenix-engine/utilities/events/types';
-import { makeEventHandler } from '@fenix-engine/utilities/events';
+import {
+  makeEventEmitter,
+  makePublicEventHandler,
+} from '@fenix-engine/utilities/events';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import {
   BehaviourController,
@@ -36,20 +38,20 @@ export class Unit
   extends SceneItem
   implements EventEnabled, Queryable, QueryEnabled
 {
-  public readonly events: EventHandler<UnitEvent, CustomEvent>;
+  public readonly events: PublicEventHandler<UnitEvent, CustomEvent>;
   public readonly properties: PropertiesHandler;
   public readonly query = makeQueryHandler(this);
   public readonly transform = makeTransformController(this);
 
   private _behaviours = new Map<string, BehaviourController>();
-  private _emitter = new EventEmitter();
+  private _emitter = makeEventEmitter();
   private _name: string = `Unit-${this.id}`;
   private _tags: Set<string> = new Set();
   private _type: string = 'unit';
 
   constructor(config?: UnitConfig) {
     super();
-    this.events = makeEventHandler(this._emitter);
+    this.events = makePublicEventHandler(this._emitter);
     this.properties = getPropertiesHandler(config?.properties ?? {});
 
     this.applyConfig(config ?? {});
@@ -160,7 +162,7 @@ export class Unit
   /* Lifecycle */
   public override dispose() {
     this._emitEvent('dispose');
-    this._emitter.removeAllListeners();
+    this._emitter.clear();
 
     super.dispose();
   }

@@ -1,5 +1,5 @@
-import { EventEmitter } from 'eventemitter3';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
+import { makeEventEmitter } from '@fenix-engine/utilities/events';
 import { DATA_ID_ATTR } from '../constants';
 
 enum EventType {
@@ -7,7 +7,7 @@ enum EventType {
   DETACH = 'detach',
 }
 
-const emitter = new EventEmitter();
+const emitter = makeEventEmitter();
 
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {

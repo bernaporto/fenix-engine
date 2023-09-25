@@ -1,11 +1,13 @@
-import { EventEmitter } from 'eventemitter3';
 import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
 import type {
   CustomEvent,
   EventEnabled,
-  EventHandler,
+  PublicEventHandler,
 } from '@fenix-engine/utilities/events/types';
-import { makeEventHandler } from '@fenix-engine/utilities/events';
+import {
+  makeEventEmitter,
+  makePublicEventHandler,
+} from '@fenix-engine/utilities/events';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { GameSettings } from '../@types';
 import { loadGameManifest } from '../Data';
@@ -25,10 +27,10 @@ type GameEvent =
   | CustomEvent;
 
 export class Game implements EventEnabled {
-  private _emitter = new EventEmitter();
+  private _emitter = makeEventEmitter();
   private _subscription: VoidFunction;
 
-  public readonly events: EventHandler<GameEvent, CustomEvent>;
+  public readonly events: PublicEventHandler<GameEvent, CustomEvent>;
   public readonly renderer: WebGLRenderer;
   public readonly stage: Stage;
   public readonly ticker = Ticker;
@@ -37,7 +39,7 @@ export class Game implements EventEnabled {
   };
 
   constructor() {
-    this.events = makeEventHandler(this._emitter);
+    this.events = makePublicEventHandler(this._emitter);
 
     const renderer = new WebGLRenderer({ antialias: true });
     renderer.outputColorSpace = SRGBColorSpace;
@@ -125,7 +127,7 @@ export class Game implements EventEnabled {
     this._subscription();
 
     this._emitEvent('destroy');
-    this._emitter.removeAllListeners();
+    this._emitter.clear();
   }
 
   /* Events */

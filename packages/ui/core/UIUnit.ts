@@ -1,10 +1,12 @@
-import { EventEmitter } from 'eventemitter3';
 import { randomCharacters } from '@fenix-engine/utilities/misc';
 import type {
   CustomEvent,
-  EventHandler,
+  PublicEventHandler,
 } from '@fenix-engine/utilities/events/types';
-import { makeEventHandler } from '@fenix-engine/utilities/events';
+import {
+  makeEventEmitter,
+  makePublicEventHandler,
+} from '@fenix-engine/utilities/events';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { AnyContext, UIUnitConfig } from '../@types';
 import { DATA_ID_ATTR } from '../constants';
@@ -16,11 +18,11 @@ type UIUnitEvent = 'dispose';
 export class UIUnit {
   public readonly id = randomCharacters(12);
   public readonly name: string;
-  public readonly events: EventHandler<UIUnitEvent, CustomEvent>;
+  public readonly events: PublicEventHandler<UIUnitEvent, CustomEvent>;
   public readonly context: AnyContext;
 
   protected _children = new Set<UIUnit>();
-  protected _emitter = new EventEmitter();
+  protected _emitter = makeEventEmitter();
   protected _node: HTMLElement | ChildNode;
   protected _parent: UIUnit | null = null;
 
@@ -32,7 +34,7 @@ export class UIUnit {
     const element = this.getHtmlElement();
     element?.setAttribute(DATA_ID_ATTR, this.id);
 
-    this.events = makeEventHandler(this._emitter);
+    this.events = makePublicEventHandler(this._emitter);
     this.name = `UIUnit-${this.id}`;
 
     let usubscribeContext: null | VoidFunction = null;
@@ -113,7 +115,9 @@ export class UIUnit {
     this._children.forEach((child) => child.dispose());
     this._children.clear();
     this.setParent(null);
+
     this._emitEvent('dispose');
+    this._emitter.clear();
   }
 
   /* EVENTS */

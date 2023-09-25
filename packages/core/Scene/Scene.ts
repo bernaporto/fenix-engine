@@ -1,11 +1,13 @@
-import { EventEmitter } from 'eventemitter3';
 import { Color, WebGLRenderer } from 'three';
 import type {
   CustomEvent,
   EventEnabled,
-  EventHandler,
+  PublicEventHandler,
 } from '@fenix-engine/utilities/events/types';
-import { makeEventHandler } from '@fenix-engine/utilities/events';
+import {
+  makeEventEmitter,
+  makePublicEventHandler,
+} from '@fenix-engine/utilities/events';
 import { buildHierarchy } from '../utils';
 import { Camera, Unit } from '../Units';
 import { getPropertiesHandler } from '../Units/utils';
@@ -18,18 +20,18 @@ import { Layer } from './Layer';
 type SceneEvent = 'load' | 'dispose' | CustomEvent;
 
 export class Scene implements EventEnabled, LifecycleEnabled {
-  public readonly events: EventHandler<SceneEvent, CustomEvent>;
+  public readonly events: PublicEventHandler<SceneEvent, CustomEvent>;
   public readonly properties = getPropertiesHandler({});
 
   private _camera: Camera | null = null;
-  private _emitter = new EventEmitter();
+  private _emitter = makeEventEmitter();
   private _layers = new Map<number, Layer>();
 
   constructor(
     public readonly sceneId: string,
     private _renderer: WebGLRenderer
   ) {
-    this.events = makeEventHandler(this._emitter);
+    this.events = makePublicEventHandler(this._emitter);
   }
 
   public async load(): Promise<void> {
@@ -100,7 +102,7 @@ export class Scene implements EventEnabled, LifecycleEnabled {
     this._layers.clear();
 
     this._emitEvent('dispose');
-    this._emitter.removeAllListeners();
+    this._emitter.clear();
   }
 
   public update(): void {
