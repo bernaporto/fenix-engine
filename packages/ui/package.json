@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "yarn build:styles",
-    "build:styles": "sass --no-source-map --style compressed styles/index.scss styles.css && cp styles.css ../../dist/ui/styles.css",
+    "build:styles": "npx sass --no-source-map --style compressed styles/index.scss styles.css",
     "dev:styles": "sass --no-source-map --style expanded --watch styles/index.scss styles.css",
     "lint": "tsc-files --noEmit",
     "test": "jest --coverage",

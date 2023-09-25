@@ -25,7 +25,7 @@ const bundle = (src, outDir, tsconfigPath) => {
     declarationDir: outDir,
     moduleResolution: ts.ModuleResolutionKind.Bundler,
     outDir: outDir,
-    target: ts.ScriptTarget.ES5,
+    target: ts.ScriptTarget.ES2015,
     paths: {
       'three/examples/*': [
         resolve('./node_modules/@types/three/examples/*'),

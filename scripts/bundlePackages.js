@@ -10,11 +10,13 @@ const tsconfigPath = resolve(process.argv[4]);
 readdirSync(srcDir)
   .filter((path) => isDirectory(join(srcDir, path)))
   .forEach((dirname) => {
-    console.log(`Bundling ${dirname}...`);
+    process.stdout.write(`Bundling ${dirname.toUpperCase()}... `);
     bundle(
       join(srcDir, dirname),
       resolve(outDir, dirname),
       resolve(tsconfigPath)
     );
-    console.log('Done!');
+    process.stdout.write('Done!\n');
   });
+
+process.exit(0);
