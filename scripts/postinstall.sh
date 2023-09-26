@@ -19,7 +19,7 @@ fi
 echo "Building packages..."
 
 # Typescript compiler
-node $DIR/scripts/bundlePackages.js $DIR/packages $DIR/dist $DIR/tsconfig.common.json
+node $DIR/scripts/buildPackages.js $DIR/packages $DIR/dist $DIR/tsconfig.common.json
 
 # Build UI styles
 echo "Building UI styles..."
@@ -27,5 +27,19 @@ echo "Building UI styles..."
 cd $DIR/packages/ui
 yarn build:styles
 cp $DIR/packages/ui/styles.css $DIR/dist/ui/styles.css
+
+# Link all packages in dist
+echo "Linking packages..."
+
+cd $DIR/dist
+
+for d in */ ; do
+  cd $d
+
+  yarn unlink
+  yarn link
+
+  cd ..
+done
 
 echo "Done bundling packages" && exit 0

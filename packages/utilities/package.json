@@ -1,6 +1,7 @@
 {
   "name": "@fenix-engine/utilities",
   "version": "0.6.2",
+  "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "lint": "tsc-files --noEmit",
