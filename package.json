@@ -12,10 +12,8 @@
     "postinstall": "./scripts/postinstall.sh",
     "test": "lerna run test"
   },
-  "dependencies": {
-    "lerna": "7.1.4"
-  },
   "devDependencies": {
-    "esbuild": "^0.19.3"
+    "lerna": "7.1.4",
+    "typescript": "^5.0.2"
   }
 }

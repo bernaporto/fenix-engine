@@ -4,7 +4,7 @@ const ts = require('typescript');
 const { compile } = require('./compile');
 const { getFilesFromPath, isDirectory } = require('../utils/file');
 
-const bundle = (src, outDir, tsconfigPath) => {
+const transpile = (src, outDir, tsconfigPath) => {
   const tsconfig = ts.readConfigFile(
     resolve(tsconfigPath),
     ts.sys.readFile
@@ -36,5 +36,5 @@ const bundle = (src, outDir, tsconfigPath) => {
 };
 
 module.exports = {
-  bundle,
+  transpile,
 };
