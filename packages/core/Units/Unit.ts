@@ -145,6 +145,10 @@ export class Unit
     }
   }
 
+  getBehaviour<T extends BehaviourController>(key: string): T | undefined {
+    return this._behaviours.get(key) as T;
+  }
+
   public removeBehaviour(key: string) {
     const controller = this._behaviours.get(key);
 
