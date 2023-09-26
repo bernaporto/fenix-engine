@@ -49,6 +49,12 @@ export const makeQueryHandler = (root: SceneItem): QueryHandler => {
   };
 
   return {
+    findByBehaviour: getQueryFn(
+      'behaviours',
+      'findByBehaviour',
+      [],
+      ensureItemArray
+    ),
     findById: getQueryFn('id', 'findById', null, ensureSingleItem),
     findByName: getQueryFn('name', 'findByName', null, ensureSingleItem),
     findByTag: getQueryFn('tags', 'findByTag', [], ensureItemArray),

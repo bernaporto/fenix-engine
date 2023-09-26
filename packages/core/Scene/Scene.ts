@@ -128,6 +128,16 @@ export class Scene implements EventEnabled, LifecycleEnabled {
   }
 
   /* Queryable */
+  public findByBehaviour(behaviour: string): Queryable[] {
+    const results: Queryable[] = [];
+
+    for (let layer of this._layers.values()) {
+      results.push(...layer.query.findByBehaviour(behaviour));
+    }
+
+    return results;
+  }
+
   public findById(id: string): Queryable | null {
     for (let layer of this._layers.values()) {
       const result = layer.query.findById(id);

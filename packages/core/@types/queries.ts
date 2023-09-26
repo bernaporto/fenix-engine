@@ -3,6 +3,7 @@ export type Queryable = {
   type: string;
   name?: string;
   tags?: string[];
+  behaviours?: string[];
 };
 
 export type QueryEnabled = {
@@ -10,6 +11,7 @@ export type QueryEnabled = {
 };
 
 export type QueryHandler = {
+  findByBehaviour(behaviour: string): Queryable[];
   findById(id: string): Queryable | null;
   findByName(name: string): Queryable | null;
   findByTag(tag: string): Queryable[];

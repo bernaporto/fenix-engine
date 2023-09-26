@@ -44,9 +44,7 @@ export type AssetConfig = {
 
 export type UnitConfig = CustomProperties &
   Partial<Transformable> &
-  Partial<Omit<Queryable, 'id'>> & {
-    behaviours?: string[];
-  };
+  Partial<Omit<Queryable, 'id'>>;
 
 export type MeshUnitConfig = UnitConfig & {
   castShadow?: boolean;
