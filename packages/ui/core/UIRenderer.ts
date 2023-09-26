@@ -1,6 +1,6 @@
 import { DATA_ID_ATTR } from '../constants';
 import type { AnyContext, RenderUIConfig } from '../@types';
-import { ensureHtmlExtension, sanitize, stringToHtml } from '../utils';
+import { ensureHtmlExtension, stringToHtml } from '../utils';
 import { applyContextToElement } from './applyContext';
 import { UICustomComponent } from './UICustomComponent';
 import { UIRegistry } from './registries';
@@ -28,11 +28,8 @@ export class UIRenderer {
     const rawData =
       'path' in config ? await this.getFromPath(config.path) : config.template;
 
-    const [customComponents, customAttributes] =
-      this.getComponentsAndAttributes();
-    const node = stringToHtml(
-      sanitize(rawData, customComponents, customAttributes)
-    );
+    // TODO: find a solution to sanitize the data other than 'sanitize-html'
+    const node = stringToHtml(rawData);
     if (node === null) {
       throw new Error(
         `Failed to render UI from ${
@@ -105,22 +102,6 @@ export class UIRenderer {
   }: CustomComponentConfig) {
     customElements.define(tagName, component);
     this._customComponents.set(tagName, { tagName, attributes });
-  }
-
-  private getComponentsAndAttributes(): [string[], Record<string, string[]>] {
-    const componentEntries = Array.from(this._customComponents.values());
-
-    const customComponents = componentEntries.map(({ tagName }) => tagName);
-    const customAttributes = componentEntries.reduce<Record<string, string[]>>(
-      (acc, { tagName, attributes }) => {
-        acc[tagName] = attributes ?? [];
-
-        return acc;
-      },
-      {}
-    );
-
-    return [customComponents, customAttributes];
   }
 
   public applyContext(node: HTMLElement, context: AnyContext) {

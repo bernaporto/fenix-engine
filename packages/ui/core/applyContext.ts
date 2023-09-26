@@ -44,7 +44,8 @@ const applyContextToNode = (node: Node, context: AnyContext): Unsubscriber => {
     return applyContextToText(node, context);
   }
 
-  throw new Error(`Unknown node type: ${node}`);
+  console.warn(`Unknown node type: ${node}`);
+  return noop;
 };
 
 /* HTML ELEMENT ATTRIBUTES */
