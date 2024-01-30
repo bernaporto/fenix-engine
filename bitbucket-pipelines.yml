@@ -20,7 +20,7 @@ pipelines:
             - nodemodules
             - yarn
           script:
-            - ./scripts/publish.sh core
+            - ./scripts/build.sh core
             - ./scripts/publish.sh core $CORE_ACCESSTOKEN $CORE_BOTUSERNAME
 
       - step:
@@ -29,7 +29,7 @@ pipelines:
             - nodemodules
             - yarn
           script:
-            - ./scripts/publish.sh services
+            - ./scripts/build.sh services
             - ./scripts/publish.sh services $SERVICES_ACCESSTOKEN $SERVICES_BOTUSERNAME
 
       - step:
@@ -38,7 +38,7 @@ pipelines:
             - nodemodules
             - yarn
           script:
-            - ./scripts/publish.sh ui
+            - ./scripts/build.sh ui
             - ./scripts/publish.sh ui $UI_ACCESSTOKEN $UI_BOTUSERNAME
 
       - step:
@@ -47,5 +47,5 @@ pipelines:
             - nodemodules
             - yarn
           script:
-            - ./scripts/publish.sh utilities
+            - ./scripts/build.sh utilities
             - ./scripts/publish.sh utilities $UTILITIES_ACCESSTOKEN $UTILITIES_BOTUSERNAME
