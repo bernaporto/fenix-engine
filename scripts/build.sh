@@ -47,6 +47,12 @@ print "Building $PACKAGE_NAME_UPPER..."
 # Typescript compiler
 node $ROOT_DIR/scripts/buildPackage.js $SRC_DIR $OUT_DIR $ROOT_DIR/tsconfig.common.json
 
+# If PACKAGE_NAME is "ui", build styles
+if [ "$PACKAGE_NAME" = "ui" ]; then
+  yarn workspace @fenix-engine/ui build
+  cp -R $SRC_DIR/styles.css $OUT_DIR/styles.css
+fi
+
 print "Building $PACKAGE_NAME_UPPER... done!" true
 
 # Copy files
