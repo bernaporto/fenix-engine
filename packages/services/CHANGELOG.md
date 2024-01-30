@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.6.3...v0.7.0) (2024-01-30)
+
+**Note:** Version bump only for package @fenix-engine/services
+
+
+
+
+
 ## [0.6.3](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.6.2...v0.6.3) (2023-09-26)
 
 **Note:** Version bump only for package @fenix-engine/services

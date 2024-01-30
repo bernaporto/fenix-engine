@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.6.3...v0.7.0) (2024-01-30)
+
+
+### Features
+
+* add findByBehaviour to Unit and Scene ([2633ca4](http://bitbucket.org/bernaporto/fenix-engine/commits/2633ca45a9b96619020116afede866d7e05a6a5d))
+* add getBehaviour to Unit ([8ad8b93](http://bitbucket.org/bernaporto/fenix-engine/commits/8ad8b93f9944ca42cd37ed94c1d718c613a7dfbb))
+
+
+
+
+
 ## [0.6.3](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.6.2...v0.6.3) (2023-09-26)
 
 **Note:** Version bump only for package fenix-engine
