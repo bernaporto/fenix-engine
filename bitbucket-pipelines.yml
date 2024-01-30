@@ -12,3 +12,40 @@ pipelines:
           name: '🎁 Release Version'
           script:
             - "npx lerna@7.1.4 version --conventional-commits --message='chore(release): publish %s [skip ci]' --yes"
+
+    release:
+      - step:
+          name: '🚀 Build & Publish @fenix-engine/core'
+          caches:
+            - nodemodules
+            - yarn
+          script:
+            - ./scripts/publish.sh core
+            - ./scripts/publish.sh core $CORE_ACCESSTOKEN $CORE_BOTUSERNAME
+
+      - step:
+          name: '🚀 Build & Publish @fenix-engine/services'
+          caches:
+            - nodemodules
+            - yarn
+          script:
+            - ./scripts/publish.sh services
+            - ./scripts/publish.sh services $SERVICES_ACCESSTOKEN $SERVICES_BOTUSERNAME
+
+      - step:
+          name: '🚀 Build & Publish @fenix-engine/ui'
+          caches:
+            - nodemodules
+            - yarn
+          script:
+            - ./scripts/publish.sh ui
+            - ./scripts/publish.sh ui $UI_ACCESSTOKEN $UI_BOTUSERNAME
+
+      - step:
+          name: '🚀 Build & Publish @fenix-engine/utilities'
+          caches:
+            - nodemodules
+            - yarn
+          script:
+            - ./scripts/publish.sh utilities
+            - ./scripts/publish.sh utilities $UTILITIES_ACCESSTOKEN $UTILITIES_BOTUSERNAME
