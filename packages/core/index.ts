@@ -1,3 +1,5 @@
 import { Game } from './Game';
 
-export const game = new Game();
+const game = new Game();
+
+export { game, Game };
