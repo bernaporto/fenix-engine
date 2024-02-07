@@ -61,9 +61,11 @@ export class Game implements EventEnabled {
   public async init({
     containerId,
     manifest,
+    initialScene,
   }: {
-    manifest: string;
     containerId: string;
+    manifest: string;
+    initialScene?: string;
   }): Promise<GameSettings> {
     // Add renderer to DOM
     const container = document.getElementById(containerId);
@@ -79,7 +81,7 @@ export class Game implements EventEnabled {
       materials = [],
     } = await loadGameManifest(manifest);
 
-    this.applySettings(settings);
+    this.applySettings({ ...settings, initialScene });
 
     // Add resources to registry
     materials.forEach(({ key, ...data }) => {
@@ -90,15 +92,18 @@ export class Game implements EventEnabled {
       SceneRegistry.add(key, { path });
     });
 
+    // Load initial scene if provided
+    initialScene && this.stage.load(initialScene);
+
     // Apply game settings
     return {
       ...settings,
-      initialScene: scenes[0].key,
+      initialScene: initialScene ?? settings?.initialScene ?? scenes[0].key,
     };
   }
 
   private applySettings(settings?: GameSettings) {
-    const { enableShadows, shadowMapType, ...stageConfig } = {
+    const { enableShadows, initialScene, shadowMapType, ...stageConfig } = {
       enableShadows: false,
       shadowMapType: 1,
       ...settings,
