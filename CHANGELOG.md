@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.7.0...v0.8.0) (2024-02-07)
+
+
+### Features
+
+* export Game class to enable multiple instances ([b10478b](http://bitbucket.org/bernaporto/fenix-engine/commits/b10478bf29616a6d6ab30d8e7a270ce74446fa58))
+
+
+
+
+
 # [0.7.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.6.3...v0.7.0) (2024-01-30)
 
 
