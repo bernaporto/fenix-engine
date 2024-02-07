@@ -33,9 +33,6 @@
     {
       "type": "prefab",
       "path": "assets/prefabs/tower.prefab",
-      "behaviours": [
-        "logProperties"
-      ],
       "position": {
         "x": 0,
         "y": 0,

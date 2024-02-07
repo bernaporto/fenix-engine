@@ -19,5 +19,6 @@ game.behaviours.register('bounce', (unit) => {
 
 game.init({
   containerId: 'game',
+  initialScene: 'basic-scene',
   manifest: 'assets/manifest.json',
 });

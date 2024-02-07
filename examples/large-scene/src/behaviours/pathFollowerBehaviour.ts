@@ -1,7 +1,8 @@
-import { Behaviour } from '@fenix-engine/core/@types';
+import type { Behaviour } from '@fenix-engine/core/@types';
 import { game } from '@fenix-engine/core';
 import { PathFollower } from '@fenix-engine/services/Path';
 import { Puppet } from '@fenix-engine/core/Units';
+import type { Vector3 } from '@fenix-engine/core/Math';
 
 export const pathFollowerBehaviour: Behaviour = (unit) => {
   if (!(unit instanceof Puppet)) {
@@ -13,7 +14,7 @@ export const pathFollowerBehaviour: Behaviour = (unit) => {
     throw new Error('No scene found');
   }
 
-  const path = currentScene.properties.path;
+  const path = currentScene.properties.get<Vector3[]>('path');
   if (!path) {
     throw new Error('No path found in scene properties');
   }

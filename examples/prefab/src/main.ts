@@ -1,4 +1,5 @@
 import { game } from '@fenix-engine/core';
+import { Vector3 } from '@fenix-engine/core/Math';
 import { Puppet } from '@fenix-engine/core/Units';
 import { PathFollower } from '@fenix-engine/services/Path';
 import Stats from 'stats.js';
@@ -15,7 +16,7 @@ game.behaviours.register('pathFollower', (unit) => {
     throw new Error('No scene found');
   }
 
-  const path = currentScene.properties.path;
+  const path = currentScene.properties.get<Vector3[]>('path');
 
   if (!path) {
     throw new Error('No path found in scene properties');
@@ -47,14 +48,9 @@ game.behaviours.register('pathFollower', (unit) => {
   };
 });
 
-game.behaviours.register('logProperties', (unit) => ({
-  onLoad: () => {
-    console.log(unit.properties);
-  },
-}));
-
 game.init({
   containerId: 'game',
+  initialScene: 'scene',
   manifest: 'assets/manifest.json',
 });
 

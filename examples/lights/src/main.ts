@@ -8,5 +8,6 @@ game.behaviours.register('orbit', (unit) => ({
 
 game.init({
   containerId: 'game',
+  initialScene: 'basic-scene',
   manifest: 'assets/manifest.json',
 });
