@@ -16,6 +16,7 @@ import {
   BehaviourRegistry,
   MaterialRegistry,
   SceneRegistry,
+  UnitRegistry,
 } from './registries';
 import { Stage } from './Stage';
 
@@ -36,6 +37,9 @@ export class Game implements EventEnabled {
   public readonly ticker = Ticker;
   public readonly behaviours = {
     register: BehaviourRegistry.add,
+  };
+  public readonly units = {
+    register: UnitRegistry.add,
   };
 
   constructor() {

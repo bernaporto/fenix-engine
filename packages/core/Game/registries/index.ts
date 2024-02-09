@@ -6,3 +6,4 @@ export {
   PuppetAssetRegistry,
 } from './AssetRegistry';
 export { SceneRegistry } from './SceneRegistry';
+export { UnitRegistry } from './UnitRegistry';
