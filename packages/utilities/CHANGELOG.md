@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.9.0...v0.9.1) (2024-02-10)
+
+
+### Bug Fixes
+
+* solve compilation warning ([5336bde](http://bitbucket.org/bernaporto/fenix-engine/commits/5336bdef28706d1dd4f16ee265fa9820a4f09b73))
+
+
+
+
+
 # [0.9.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.8.1...v0.9.0) (2024-02-10)
 
 
