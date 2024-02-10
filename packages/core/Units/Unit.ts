@@ -7,6 +7,7 @@ import {
   makeEventEmitter,
   makePublicEventHandler,
 } from '@fenix-engine/utilities/events';
+import { postpone } from '@fenix-engine/utilities/functional';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import {
   BehaviourController,
@@ -89,7 +90,10 @@ export class Unit
     this.transform.setRotation(rotation);
     this.transform.setScale(scale);
 
-    behaviours.forEach((key) => this.addBehaviour(key));
+    // Add behaviours only after the unit is fully loaded
+    postpone(() => {
+      behaviours.forEach((key) => this.addBehaviour(key));
+    });
   }
 
   /* Getters */
