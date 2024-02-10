@@ -56,7 +56,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
           newValue: clone(newValue),
           oldValue: clone(getFromPath(oldState, path)),
           listeners: otherNotifiableKeys.reduce(
-            (acc, key) => acc + listeners.get(key)?.length ?? 0,
+            (acc, key) => acc + (listeners.get(key)?.length ?? 0),
             listeners.get(path)?.length ?? 0
           ),
         });
