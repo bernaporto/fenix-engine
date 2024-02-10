@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.8.1...v0.9.0) (2024-02-10)
+
+
+### Bug Fixes
+
+* **core:** solve behaviors being added too early ([fdf5e9e](http://bitbucket.org/bernaporto/fenix-engine/commits/fdf5e9e1cbdcd688ef160eb8563e0e2ac5e411a3))
+
+
+### Features
+
+* **utilities:** add postpone functional utility ([7dc83c2](http://bitbucket.org/bernaporto/fenix-engine/commits/7dc83c2e6e7c7fd6bebcdfce4e8c4b2f93a7a922))
+
+
+
+
+
 # [0.8.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.7.0...v0.8.0) (2024-02-07)
 
 **Note:** Version bump only for package @fenix-engine/utilities
