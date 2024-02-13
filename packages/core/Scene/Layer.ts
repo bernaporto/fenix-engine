@@ -16,4 +16,8 @@ export class Layer extends SceneItem implements QueryEnabled {
   public set background(color: THREE.Color) {
     this.node.background = color;
   }
+
+  public clear(): void {
+    this.node.children.length = 0;
+  }
 }

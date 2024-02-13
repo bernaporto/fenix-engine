@@ -86,6 +86,10 @@ export class Scene implements EventEnabled, LifecycleEnabled {
     this.getLayer(0).append(...units);
   }
 
+  public clear(): void {
+    this._layers.forEach((layer) => layer.clear());
+  }
+
   public getLayer(layerId: number): Layer {
     if (!this._layers.has(layerId)) {
       this._layers.set(layerId, new Layer());
