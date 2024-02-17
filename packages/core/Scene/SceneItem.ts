@@ -3,14 +3,12 @@ import type { LifecycleEnabled } from '../@types';
 import { TickerState } from '../Tools/Ticker';
 
 export class SceneItem implements LifecycleEnabled {
-  public readonly id: string;
   public readonly node: Object3D;
 
   private _children = new Set<SceneItem>();
   private _parent: SceneItem | null = null;
 
-  constructor() {
-    this.id = crypto.randomUUID();
+  constructor(public readonly id: string = crypto.randomUUID()) {
     this.node = new Object3D();
   }
 

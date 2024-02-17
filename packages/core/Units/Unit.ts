@@ -51,7 +51,7 @@ export class Unit
   private _type: string = 'unit';
 
   constructor(config?: UnitConfig) {
-    super();
+    super(config?.id);
     this.events = makePublicEventHandler(this._emitter);
     this.properties = getPropertiesHandler(config?.properties ?? {});
 
