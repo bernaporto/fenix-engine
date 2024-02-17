@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.9.1...v0.10.0) (2024-02-17)
+
+
+### Features
+
+* add ability to clean a scene ([fec5c55](http://bitbucket.org/bernaporto/fenix-engine/commits/fec5c55073d0bbf2c52a4adf5d238315642fd3cf))
+* add support to observable for previous value ([c11caf0](http://bitbucket.org/bernaporto/fenix-engine/commits/c11caf05fddead613ef1fc08063fba76d95a1903))
+* add support to predefine unit ids ([1660980](http://bitbucket.org/bernaporto/fenix-engine/commits/1660980b3b17f79fd583f93d46a637f5815e6a66))
+
+
+
+
+
 ## [0.9.1](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.9.0...v0.9.1) (2024-02-10)
 
 
