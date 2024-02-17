@@ -45,7 +45,7 @@ const initLoader = (): Loader => {
 
       // @ts-ignore
       loader.load(url, resolve, onProgress, (error) => {
-        console.log('loader', error);
+        console.error('Loader', url, error);
         reject(error);
       });
     });
