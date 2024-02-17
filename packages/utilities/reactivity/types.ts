@@ -1,6 +1,6 @@
 import type { VoidFunction } from '../@types';
 
-export type Observer<T> = (value: Readonly<T>) => void;
+export type Observer<T> = (value: Readonly<T>, prevValue?: Readonly<T>) => void;
 export type Usubscriber = VoidFunction;
 
 export type Observable<T> = {

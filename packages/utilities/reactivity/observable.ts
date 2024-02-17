@@ -12,8 +12,12 @@ export const makeObservable = <T>(initialValue: T): Observable<T> => {
     get: () => structuredClone(value),
 
     set: (newValue) => {
+      const prevValue = structuredClone(value);
       value = structuredClone(newValue);
-      observers.forEach((observer) => observer(structuredClone(value)));
+
+      observers.forEach((observer) =>
+        observer(structuredClone(value), prevValue)
+      );
     },
 
     subscribe: (observer) => {
