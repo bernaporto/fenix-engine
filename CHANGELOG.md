@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.10.0...v0.11.0) (2024-02-21)
+
+
+### Features
+
+* **utilities:** add deep merge object utility ([0406edc](http://bitbucket.org/bernaporto/fenix-engine/commits/0406edce71eeb5efb5a29b1774e02e3ff268c5e2))
+* **utilities:** add identifier to store debug mode ([4f658df](http://bitbucket.org/bernaporto/fenix-engine/commits/4f658df235972050bde90169bda00078aabe7114))
+
+
+
+
+
 # [0.10.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.9.1...v0.10.0) (2024-02-17)
 
 
