@@ -23,6 +23,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
   >();
 
   let debug = false;
+  let debugKey = '';
 
   const store: Store<T> = {
     get: (path) => clone(getFromPath(state, path)),
@@ -51,8 +52,8 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 
       if (debug) {
         log({
-          baseMsg: 'store.set',
           path,
+          baseMsg: getDebugMessage('store.set', debugKey),
           newValue: clone(newValue),
           oldValue: clone(getFromPath(oldState, path)),
           listeners: otherNotifiableKeys.reduce(
@@ -106,8 +107,8 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 
         if (debug) {
           log({
-            baseMsg: 'store.reset',
             path,
+            baseMsg: getDebugMessage('store.reset', debugKey),
             newValue: undefined,
             oldValue: getFromPath(oldState, path),
             listeners: notifiableKeys.reduce(
@@ -121,8 +122,9 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       }
     },
 
-    _setDebugMode: (value) => {
+    _setDebugMode: (value, key) => {
       debug = value;
+      debugKey = key ?? '';
     },
 
     clearAllListeners: listeners.clear,
@@ -151,4 +153,8 @@ const notifyListeners = <T extends AnyState, Path extends NestedPathOf<T>>(
         clone(getFromPath(prevState, path) as NestedValueOf<T, Path>)
       )
     );
+};
+
+const getDebugMessage = (action: string, key?: string) => {
+  return [key && `[${key}]`, action].filter(Boolean).join(' ');
 };

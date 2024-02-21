@@ -27,5 +27,5 @@ export type Store<State extends AnyState> = {
     listener: Listener<NestedValueOf<State, Path>>,
     notifyImmediately?: boolean
   ) => VoidFunction;
-  _setDebugMode: (debug: boolean) => void;
+  _setDebugMode: (debug: boolean, key?: string) => void;
 };
