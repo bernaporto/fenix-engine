@@ -1,4 +1,4 @@
-import { deepEqual, traverse } from './object';
+import { deepEqual, deepMerge, traverse } from './object';
 
 describe('traverse', () => {
   it('should navigate through all object nodes.', () => {
@@ -58,5 +58,56 @@ describe('deepEqual', () => {
     expect(deepEqual(1, undefined)).toBe(false);
     expect(deepEqual(1, '1')).toBe(false);
     expect(deepEqual('1', 1)).toBe(false);
+  });
+});
+
+describe('deepMerge', () => {
+  it('should merge objects deeply.', () => {
+    const objectA = {
+      a: 1,
+      b: { c: 2 },
+    };
+    const objectB = {
+      a: 2,
+      b: { d: 3 },
+    };
+    const result = deepMerge(objectA, objectB);
+    console.log(result);
+    expect(result).toEqual({
+      a: 2,
+      b: { c: 2, d: 3 },
+    });
+  });
+
+  it('should merge arrays deeply.', () => {
+    const objectA = {
+      a: [
+        1,
+        2,
+        {
+          b: 3,
+        },
+      ],
+    };
+    const objectB = {
+      a: [
+        4,
+        5,
+        {
+          c: 6,
+        },
+      ],
+    };
+    const result = deepMerge(objectA, objectB);
+    expect(result).toEqual({
+      a: [
+        4,
+        5,
+        {
+          b: 3,
+          c: 6,
+        },
+      ],
+    });
   });
 });
