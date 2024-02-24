@@ -1,0 +1,11 @@
+{
+  "key": "basic-scene",
+  "hierarchy": [
+    {
+      "type": "camera",
+      "cameraType": "perspective",
+      "angle": { "x": -45, "y": 45 },
+      "distance": 5
+    }
+  ]
+}
