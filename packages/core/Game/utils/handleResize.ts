@@ -31,4 +31,5 @@ export const getResizeHandler = (renderer: WebGLRenderer) => (scene: Scene) => {
 
   // Update renderer
   renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 };
