@@ -40,7 +40,7 @@ describe('Observable', () => {
     expect(observer).not.toHaveBeenCalled();
   });
 
-  describe('(toReadonly)', () => {
+  describe('(toReadable)', () => {
     it('should not be able to set the value', () => {
       const observable = makeObservable(0);
       const readonlyObservable = observable.toReadable();

@@ -1,4 +1,4 @@
-import { makeObservable, toReadonly } from '@fenix-engine/utilities/reactivity';
+import { makeObservable } from '@fenix-engine/utilities/reactivity';
 import { UI } from '@fenix-engine/ui';
 import { MyCustomComponent } from './MyCustomComponent';
 import '@fenix-engine/ui/styles.css';
@@ -10,15 +10,18 @@ setInterval(() => {
 
 const visibilityOb = makeObservable(true);
 
-UI.addComponent('my-custom-component', MyCustomComponent);
+UI.addComponent({
+  component: MyCustomComponent,
+  tagName: 'my-custom-component',
+});
 
 UI.render({
   path: 'assets/ui/main.html',
   container: document.body,
 
   context: {
-    counter: toReadonly(counterOb),
-    visibility: toReadonly(visibilityOb),
+    counter: counterOb.toReadable(),
+    visibility: visibilityOb.toReadable(),
     title: 'Hello World!',
     toggleVisibility: () => {
       visibilityOb.set(!visibilityOb.get());
