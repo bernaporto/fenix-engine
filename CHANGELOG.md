@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.11.0...v0.12.0) (2024-02-25)
+
+
+### Features
+
+* add getWriteable to store ([cef816a](http://bitbucket.org/bernaporto/fenix-engine/commits/cef816a8f71961cde334caac57f1908fe1f8beb0))
+* add support to different device pixel ratios ([961ec01](http://bitbucket.org/bernaporto/fenix-engine/commits/961ec01f031626fd644790d054605f1919da60c8))
+
+
+
+
+
 # [0.11.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.10.0...v0.11.0) (2024-02-21)
 
 

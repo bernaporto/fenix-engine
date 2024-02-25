@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.11.0...v0.12.0) (2024-02-25)
+
+
+### Features
+
+* add support to different device pixel ratios ([961ec01](http://bitbucket.org/bernaporto/fenix-engine/commits/961ec01f031626fd644790d054605f1919da60c8))
+
+
+
+
+
 # [0.11.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.10.0...v0.11.0) (2024-02-21)
 
 **Note:** Version bump only for package @fenix-engine/core
