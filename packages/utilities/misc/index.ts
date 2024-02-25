@@ -17,5 +17,5 @@ export { debounce } from './debounce';
 export { deepEqual, traverse } from './object';
 export { getErrorMessage } from './error';
 export { isNotNullable, isNullable, isValidObject } from './type';
-export { makeRegistry } from './makeRegistry';
+export { makeRegistry, type Registry } from './makeRegistry';
 export { randomCharacters } from './random';

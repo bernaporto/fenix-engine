@@ -1,4 +1,4 @@
-type Registry<T, U> = {
+export type Registry<T, U = T> = {
   add: (key: string, value: T) => U;
   get: (key: string) => U | null;
   remove: (key: string) => void;
