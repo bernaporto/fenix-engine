@@ -5,6 +5,7 @@ import type { Observable, ReadonlyObservable } from '../reactivity';
 export type Listener<T> = (value: T, prevValue?: T) => void;
 
 export type Readable<T> = ReadonlyObservable<T>;
+export type Writeable<T> = Pick<Observable<T>, 'get' | 'set' | 'subscribe'>;
 
 export type AnyState = Record<string, unknown>;
 
@@ -19,10 +20,7 @@ export type Store<State extends AnyState> = {
   ) => Readable<NestedValueOf<State, Path>>;
   getWritable: <Path extends NestedPathOf<State>>(
     path: Path
-  ) => Pick<
-    Observable<NestedValueOf<State, Path>>,
-    'get' | 'set' | 'subscribe'
-  >;
+  ) => Writeable<NestedValueOf<State, Path>>;
   reset: <Path extends NestedPathOf<State>>(path: Path) => void;
   set: <Path extends NestedPathOf<State>>(
     path: Path,
