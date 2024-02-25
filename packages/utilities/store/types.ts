@@ -1,6 +1,6 @@
 import type { VoidFunction } from '../@types';
 import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
-import type { ReadonlyObservable } from '../reactivity';
+import type { Observable, ReadonlyObservable } from '../reactivity';
 
 export type Listener<T> = (value: T, prevValue?: T) => void;
 
@@ -17,6 +17,12 @@ export type Store<State extends AnyState> = {
   getReadable: <Path extends NestedPathOf<State>>(
     path: Path
   ) => Readable<NestedValueOf<State, Path>>;
+  getWritable: <Path extends NestedPathOf<State>>(
+    path: Path
+  ) => Pick<
+    Observable<NestedValueOf<State, Path>>,
+    'get' | 'set' | 'subscribe'
+  >;
   reset: <Path extends NestedPathOf<State>>(path: Path) => void;
   set: <Path extends NestedPathOf<State>>(
     path: Path,
