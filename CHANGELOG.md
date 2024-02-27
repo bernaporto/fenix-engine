@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.12.1...v0.13.0) (2024-02-27)
+
+
+### Features
+
+* add collection observable ([59ebdde](http://bitbucket.org/bernaporto/fenix-engine/commits/59ebddea2363a0a8dec2d5cfdf33868c0bcf8086))
+* improve store to allow for complex objects ([6062641](http://bitbucket.org/bernaporto/fenix-engine/commits/6062641a4f677cfaf54f66433d3da44a59c34ab8))
+
+
+
+
+
 ## [0.12.1](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.12.0...v0.12.1) (2024-02-25)
 
 **Note:** Version bump only for package @team-fenix/engine
