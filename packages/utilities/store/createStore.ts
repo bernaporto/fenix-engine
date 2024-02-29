@@ -41,6 +41,13 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       subscribe: (listener) => store.subscribe(path, listener),
     }),
 
+    update: (path, updater) => {
+      const oldValue = store.get(path);
+      const newValue = updater(oldValue);
+
+      store.set(path, newValue);
+    },
+
     set: (path, newValue) => {
       // do shallow comparison and return if value is the same
       if (getFromPath(state, path) === newValue) return;

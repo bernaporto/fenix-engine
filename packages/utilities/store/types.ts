@@ -3,6 +3,9 @@ import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
 import type { Observable, ReadonlyObservable } from '../reactivity';
 
 export type Listener<T> = (value: T, prevValue?: T) => void;
+type UpdaterFn<State extends AnyState, Path extends NestedPathOf<State>> = (
+  value: NestedValueOf<State, Path>
+) => NestedValueOf<State, Path>;
 
 export type Readable<T> = ReadonlyObservable<T>;
 export type Writeable<T> = Pick<Observable<T>, 'get' | 'set' | 'subscribe'>;
@@ -31,5 +34,9 @@ export type Store<State extends AnyState> = {
     listener: Listener<NestedValueOf<State, Path>>,
     notifyImmediately?: boolean
   ) => VoidFunction;
+  update: <Path extends NestedPathOf<State>>(
+    path: Path,
+    updater: UpdaterFn<State, Path>
+  ) => void;
   _setDebugMode: (debug: boolean, key?: string) => void;
 };
