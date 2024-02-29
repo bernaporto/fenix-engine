@@ -1,11 +1,12 @@
 import { compose } from '../../functional';
+import { AnyFunction } from '../../functional/types';
 import { makeObservable } from '../observable';
-import type { LastFnReturnType, Operator, ReadonlyObservable } from '../types';
+import type { ReadonlyObservable } from '../types';
 
 export const pipe = <
   T,
-  Fns extends Operator[],
-  R extends LastFnReturnType<Fns>
+  Fns extends AnyFunction[],
+  R extends ReturnType<Fns[0]>
 >(
   input: ReadonlyObservable<T>,
   ...operators: Fns

@@ -1,4 +1,5 @@
 import type { VoidFunction } from '../@types';
+import type { AnyFunction } from '../functional/types';
 
 export type Observer<T> = (value: Readonly<T>, prevValue?: Readonly<T>) => void;
 export type Usubscriber = VoidFunction;
@@ -14,16 +15,6 @@ export type Observable<T> = {
 export type ReadonlyObservable<T> = Pick<Observable<T>, 'get' | 'subscribe'>;
 
 /* OPERATORS */
-export type Operator = (value: any) => unknown;
-export type LastFnReturnType<Fns extends Operator[]> = Fns extends [
-  ...infer _,
-  infer L
-]
-  ? L extends (...args: any) => infer R
-    ? R
-    : never
-  : never;
-
 export type GetObservableValues<T extends any[]> = T extends [
   ...infer Rest,
   infer L

@@ -1,11 +1,12 @@
 export type AnyFunction = (...args: any[]) => any;
 
-export type LastFnParams<Fns extends AnyFunction[]> = Fns extends [
-  ...infer _,
-  infer L,
-]
-  ? L extends (...args: infer Args) => any
-    ? Args
+export type ComposedFn<Fns extends AnyFunction[]> = Fns extends [infer First]
+  ? First
+  : Fns extends [infer First, ...infer _, infer Last]
+  ? First extends AnyFunction
+    ? Last extends AnyFunction
+      ? (...args: Parameters<Last>) => ReturnType<First>
+      : (...args: Parameters<First>) => ReturnType<First>
     : never
   : never;
 
