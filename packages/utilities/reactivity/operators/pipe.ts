@@ -12,10 +12,9 @@ export const pipe = <
   ...operators: Fns
 ): ReadonlyObservable<R> => {
   const process = compose(...operators);
-
+  const initialValue = input.get();
   // @ts-ignore-next-line
-  const initialValue = process(input.get());
-  const output = makeObservable(initialValue as R);
+  const output = makeObservable(process(initialValue));
 
   input.subscribe((value) => {
     // @ts-ignore-next-line

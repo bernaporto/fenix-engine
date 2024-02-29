@@ -1,3 +1,4 @@
+import { pipe } from '../reactivity/operators';
 import { createStore } from './createStore';
 import { clone, getFromPath, log, setOnPath } from './utils';
 
@@ -59,7 +60,7 @@ describe('Store', () => {
       expect(subscriberA).toHaveBeenLastCalledWith('qux', 'baz');
       expect(subscriberB).toHaveBeenLastCalledWith(
         { bar: 'qux' },
-        { bar: 'baz' },
+        { bar: 'baz' }
       );
     });
 
@@ -341,7 +342,7 @@ describe('clone', () => {
     const object = { foo: 'bar' };
 
     expect(() => clone(object)).toThrowError(
-      'Could not clone state. Make sure all values are serializable.',
+      'Could not clone state. Make sure all values are serializable.'
     );
   });
 });
@@ -360,5 +361,39 @@ describe('log', () => {
     });
 
     expect(spy).toHaveBeenCalled();
+  });
+});
+
+// OBSERVABLE OPERATORS
+
+describe('pipe + store', () => {
+  const originalStructuredClone = (global as any).structuredClone;
+
+  beforeAll(() => {
+    (global as any).structuredClone = (value: any) => value;
+  });
+
+  afterAll(() => {
+    (global as any).structuredClone = originalStructuredClone;
+  });
+
+  it('should pipe functions', () => {
+    const store = createStore({
+      value: 0,
+    });
+    const readable = pipe(
+      store.getReadable('value'),
+      (value: number) => `value: ${value}`
+    );
+    const observer = jest.fn();
+    readable.subscribe(observer);
+
+    expect(readable.get()).toBe('value: 0');
+    expect(observer).toHaveBeenCalledTimes(0);
+
+    store.set('value', 10);
+    expect(readable.get()).toBe('value: 10');
+    expect(observer).toHaveBeenCalledTimes(1);
+    expect(observer).toHaveBeenLastCalledWith('value: 10', 'value: 0');
   });
 });
