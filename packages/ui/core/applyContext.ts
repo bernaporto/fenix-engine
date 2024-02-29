@@ -7,7 +7,7 @@ import {
   applyDataBindingValue,
   getAttributeMap,
   getBindingKeys,
-  isReadonlyObservable,
+  isReadable,
 } from '../utils';
 import { EVENT_BINDING_ATTRS, EVENT_BINDING_REGEX } from '../constants';
 
@@ -115,7 +115,7 @@ const setupBinding = (
 
         const value = getFromPath(context, path);
 
-        if (!isReadonlyObservable(value)) {
+        if (!isReadable(value)) {
           applyEntry(path, value);
           return null;
         }

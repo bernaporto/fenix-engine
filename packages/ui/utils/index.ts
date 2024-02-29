@@ -6,5 +6,5 @@ export {
   stringToHtml,
 } from './html';
 export { getAttributeContext } from './context';
-export { isReadonlyObservable } from './type';
+export { isReadable } from './type';
 export { setupLifecycleHandler } from './lifecycle';

@@ -1,6 +1,6 @@
 import type { Observable, Observer } from './types';
 
-export const makeObservable = <T>(initialValue: T): Observable<T> => {
+export const observable = <T>(initialValue: T): Observable<T> => {
   let value: Readonly<T> = structuredClone(initialValue);
   const observers = new Map<Symbol, Observer<T>>();
 
@@ -28,11 +28,6 @@ export const makeObservable = <T>(initialValue: T): Observable<T> => {
         observers.delete(id);
       };
     },
-
-    toReadable: () => ({
-      get: observable.get,
-      subscribe: observable.subscribe,
-    }),
   };
 
   return observable;

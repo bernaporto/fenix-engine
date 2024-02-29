@@ -1,5 +1,6 @@
 import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
 import { isNotNullable } from '../misc';
+import { readable, writable } from './operators';
 import type { AnyState, Listener, Store } from './types';
 import {
   type NestedObservableMap,
@@ -30,16 +31,9 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 
     getState: () => clone(state),
 
-    getReadable: (path) => ({
-      get: () => store.get(path),
-      subscribe: (listener) => store.subscribe(path, listener),
-    }),
+    getReadable: (path) => readable(store, path),
 
-    getWritable: (path) => ({
-      get: () => store.get(path),
-      set: (newValue) => store.set(path, newValue),
-      subscribe: (listener) => store.subscribe(path, listener),
-    }),
+    getWritable: (path) => writable(store, path),
 
     update: (path, updater) => {
       const oldValue = store.get(path);

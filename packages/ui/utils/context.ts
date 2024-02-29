@@ -1,6 +1,6 @@
 import {
+  observable,
   type Observable,
-  makeObservable,
 } from '@fenix-engine/utilities/reactivity';
 
 // type to convert map of T[K] to map of Observable<T[K]>
@@ -18,7 +18,7 @@ export const getAttributeContext = <T extends Record<string, string>>(
   const attributes: Record<string, unknown> = {};
 
   Object.entries(defaultAttributes).forEach(([key, value]) => {
-    attributes[key] = makeObservable(node.getAttribute(key) ?? value);
+    attributes[key] = observable(node.getAttribute(key) ?? value);
   });
 
   return attributes as AttributeContext<T>;

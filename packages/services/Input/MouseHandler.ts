@@ -2,8 +2,9 @@ import { either } from '@fenix-engine/utilities/functional';
 import type { Vector2 } from '@fenix-engine/core/Math';
 import {
   type Observable,
-  type ReadonlyObservable,
-  makeObservable,
+  type Readable,
+  observable,
+  readable,
 } from '@fenix-engine/utilities/reactivity';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
 
@@ -52,14 +53,14 @@ export type MouseState =
   | MouseWheelState;
 
 export class MouseHandler {
-  public readonly state: ReadonlyObservable<MouseState>;
+  public readonly state: Readable<MouseState>;
   public readonly destroy: VoidFunction;
 
   constructor(
     target: HTMLElement,
     buttons = Object.values(MouseButton) as MouseButton[]
   ) {
-    const state = makeObservable<MouseState>({
+    const state = observable<MouseState>({
       type: 'idle',
     });
 
@@ -84,7 +85,7 @@ export class MouseHandler {
     target.addEventListener('mouseleave', onMouseLeave);
     target.addEventListener('wheel', onWheel);
 
-    this.state = state.toReadable();
+    this.state = readable(state);
     this.destroy = () => {
       state.clearObservers();
       target.removeEventListener('mousedown', onMouseDown);

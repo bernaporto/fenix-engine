@@ -1,5 +1,6 @@
-import { pipe } from '../reactivity/operators';
+import { computed } from '../reactivity/operators';
 import { createStore } from './createStore';
+import { readable } from './operators/readable';
 import { clone, getFromPath, log, setOnPath } from './utils';
 
 describe('Store', () => {
@@ -137,37 +138,6 @@ describe('Store', () => {
       const store = createStore({ foo: 'bar' });
 
       expect(store.getState()).toEqual({ foo: 'bar' });
-    });
-  });
-
-  // GET READABLE
-  describe('getReadable', () => {
-    it('should return a readable object for a key and report after an update.', () => {
-      const store = createStore({ foo: 'bar' });
-
-      const readable = store.getReadable('foo');
-      expect(readable).toHaveProperty('subscribe');
-
-      const subscriber = jest.fn();
-      readable.subscribe(subscriber);
-
-      store.set('foo', 'baz');
-
-      expect(subscriber).toHaveBeenLastCalledWith('baz', 'bar');
-    });
-
-    it('should return a readable object for a nested key and report after an update.', () => {
-      const store = createStore({ foo: { bar: 'baz' } });
-
-      const readable = store.getReadable('foo.bar');
-      expect(readable).toHaveProperty('subscribe');
-
-      const subscriber = jest.fn();
-      readable.subscribe(subscriber);
-
-      store.set('foo.bar', 'qux');
-
-      expect(subscriber).toHaveBeenLastCalledWith('qux', 'baz');
     });
   });
 
@@ -366,7 +336,7 @@ describe('log', () => {
 
 // OBSERVABLE OPERATORS
 
-describe('pipe + store', () => {
+describe('computed + store', () => {
   const originalStructuredClone = (global as any).structuredClone;
 
   beforeAll(() => {
@@ -377,22 +347,22 @@ describe('pipe + store', () => {
     (global as any).structuredClone = originalStructuredClone;
   });
 
-  it('should pipe functions', () => {
+  it('should computed functions', () => {
     const store = createStore({
       value: 0,
     });
-    const readable = pipe(
-      store.getReadable('value'),
+    const computedValue = computed(
+      readable(store, 'value'),
       (value: number) => `value: ${value}`
     );
     const observer = jest.fn();
-    readable.subscribe(observer);
+    computedValue.subscribe(observer);
 
-    expect(readable.get()).toBe('value: 0');
+    expect(computedValue.get()).toBe('value: 0');
     expect(observer).toHaveBeenCalledTimes(0);
 
     store.set('value', 10);
-    expect(readable.get()).toBe('value: 10');
+    expect(computedValue.get()).toBe('value: 10');
     expect(observer).toHaveBeenCalledTimes(1);
     expect(observer).toHaveBeenLastCalledWith('value: 10', 'value: 0');
   });

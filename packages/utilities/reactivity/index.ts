@@ -1,8 +1,4 @@
-export { makeCollection } from './collection';
-export type {
-  Observable,
-  Observer,
-  ReadonlyObservable,
-  Usubscriber,
-} from './types';
-export { makeObservable } from './observable';
+export type { Observable, Observer, Readable, Usubscriber } from './types';
+export { compute } from './operators';
+export { readable } from './readable';
+export { observable } from './observable';

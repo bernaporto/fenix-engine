@@ -1,14 +1,14 @@
-import { makeObservable } from '@fenix-engine/utilities/reactivity';
+import '@fenix-engine/ui/styles.css';
+import { observable, readable } from '@fenix-engine/utilities/reactivity';
 import { UI } from '@fenix-engine/ui';
 import { MyCustomComponent } from './MyCustomComponent';
-import '@fenix-engine/ui/styles.css';
 
-const counterOb = makeObservable(0);
+const counterOb = observable(0);
 setInterval(() => {
   counterOb.set(counterOb.get() + 1);
 }, 1000);
 
-const visibilityOb = makeObservable(true);
+const visibilityOb = observable(true);
 
 UI.addComponent({
   component: MyCustomComponent,
@@ -20,8 +20,8 @@ UI.render({
   container: document.body,
 
   context: {
-    counter: counterOb.toReadable(),
-    visibility: visibilityOb.toReadable(),
+    counter: readable(counterOb),
+    visibility: readable(visibilityOb),
     title: 'Hello World!',
     toggleVisibility: () => {
       visibilityOb.set(!visibilityOb.get());

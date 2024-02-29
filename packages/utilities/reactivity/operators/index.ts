@@ -1,2 +1,1 @@
-export { pipe } from './pipe';
-export { all } from './all';
+export { compute } from './compute';

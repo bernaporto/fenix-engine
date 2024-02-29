@@ -1,9 +1,7 @@
 import { isValidObject } from '@fenix-engine/utilities/misc';
-import { ReadonlyObservable } from '@fenix-engine/utilities/reactivity';
+import type { Readable } from '@fenix-engine/utilities/reactivity';
 
-export const isReadonlyObservable = (
-  value: unknown
-): value is ReadonlyObservable<unknown> =>
+export const isReadable = (value: unknown): value is Readable<unknown> =>
   isValidObject(value) &&
   'subscribe' in value &&
   typeof value.subscribe === 'function' &&

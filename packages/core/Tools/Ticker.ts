@@ -1,6 +1,7 @@
 import {
-  makeObservable,
-  type ReadonlyObservable,
+  observable,
+  readable,
+  type Readable,
 } from '@fenix-engine/utilities/reactivity';
 
 type LoopStatus = 'running' | 'paused';
@@ -12,12 +13,12 @@ export type TickerState = {
 };
 
 export type Ticker = {
-  state: ReadonlyObservable<TickerState>;
+  state: Readable<TickerState>;
   setStatus: (status: LoopStatus) => void;
 };
 
 const createTicker = (): Ticker => {
-  const observable = makeObservable<TickerState>({
+  const state = observable<TickerState>({
     elapsedTime: 0,
     deltaTime: 0,
     status: 'running',
@@ -29,7 +30,7 @@ const createTicker = (): Ticker => {
 
   let lastTime = performance.now();
   const tick = () => {
-    const { elapsedTime, status } = observable.get();
+    const { elapsedTime, status } = state.get();
 
     const now = performance.now();
     const deltaTime = (now - lastTime) / 1000;
@@ -40,7 +41,7 @@ const createTicker = (): Ticker => {
       return;
     }
 
-    observable.set({
+    state.set({
       status,
       deltaTime,
       elapsedTime: elapsedTime + deltaTime,
@@ -52,11 +53,11 @@ const createTicker = (): Ticker => {
   requestAnimationFrame(tick);
 
   return {
-    state: observable.toReadable(),
+    state: readable(state),
     setStatus: (status) => {
-      const currState = observable.get();
+      const currState = state.get();
 
-      observable.set({
+      state.set({
         ...currState,
         status,
       });

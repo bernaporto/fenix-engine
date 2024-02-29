@@ -1,51 +1,52 @@
-import { makeObservable } from './observable';
+import { readable } from './readable';
+import { observable } from './observable';
 
 describe('Observable', () => {
   it('should be able to subscribe to changes', () => {
-    const observable = makeObservable(0);
+    const value = observable(0);
     const observer = jest.fn();
 
-    observable.subscribe(observer);
-    observable.set(1);
+    value.subscribe(observer);
+    value.set(1);
 
-    expect(observer).toHaveBeenCalledWith(1);
+    expect(observer).toHaveBeenCalledWith(1, 0);
   });
 
   it('should be able to unsubscribe from changes', () => {
-    const observable = makeObservable(0);
+    const value = observable(0);
     const observer = jest.fn();
 
-    const unsubscriber = observable.subscribe(observer);
+    const unsubscriber = value.subscribe(observer);
     unsubscriber();
-    observable.set(1);
+    value.set(1);
 
     expect(observer).not.toHaveBeenCalled();
   });
 
   it('should be able to get the current value', () => {
-    const observable = makeObservable(0);
+    const value = observable(0);
 
-    expect(observable.get()).toBe(0);
+    expect(value.get()).toBe(0);
   });
 
   it('should clear all observers with clearObservers.', () => {
-    const observable = makeObservable(0);
+    const value = observable(0);
     const observer = jest.fn();
 
-    observable.subscribe(observer);
-    observable.clearObservers();
+    value.subscribe(observer);
+    value.clearObservers();
 
-    observable.set(1);
+    value.set(1);
 
     expect(observer).not.toHaveBeenCalled();
   });
 
-  describe('(toReadable)', () => {
+  describe('(readable)', () => {
     it('should not be able to set the value', () => {
-      const observable = makeObservable(0);
-      const readonlyObservable = observable.toReadable();
+      const value = observable(0);
+      const reaonlyValue = readable(value);
 
-      expect(readonlyObservable).not.toHaveProperty('set');
+      expect(reaonlyValue).not.toHaveProperty('set');
     });
   });
 });
