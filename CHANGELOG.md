@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.13.0...v0.14.0) (2024-02-29)
+
+
+### Features
+
+* add update function to store ([4919626](http://bitbucket.org/bernaporto/fenix-engine/commits/49196266dbdc1835d2f5276f6380aea22bafaebb))
+
+
+
+
+
 # [0.13.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.12.1...v0.13.0) (2024-02-27)
 
 
