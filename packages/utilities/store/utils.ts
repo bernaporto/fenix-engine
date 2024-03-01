@@ -48,56 +48,6 @@ export const createNestedObservableMap = <T, U>(): NestedObservableMap<
   };
 };
 
-export const getFromPath = <T extends AnyState, Path extends NestedPathOf<T>>(
-  value: T,
-  path: Path
-): NestedValueOf<T, Path> => {
-  const pathArray = path.split('.');
-
-  const result = pathArray.reduce((acc, key) => {
-    if (isNullable(acc)) {
-      return undefined;
-    }
-
-    return acc[key] as any;
-  }, value) as NestedValueOf<T, Path>;
-
-  return result;
-};
-
-export const setOnPath = <T extends AnyState, Path extends NestedPathOf<T>>(
-  state: T,
-  path: Path,
-  newValue: NestedValueOf<T, Path>
-): void => {
-  const pathArray = path.split('.');
-  const lastKey = pathArray.pop() as string;
-  const parent = pathArray.reduce((acc, key) => {
-    if (!acc[key]) {
-      (acc as any)[key] = {};
-    }
-
-    return acc[key] as any;
-  }, state);
-
-  (parent as any)[lastKey] = newValue;
-};
-
-export const deletePath = <T extends AnyState, Path extends NestedPathOf<T>>(
-  state: T,
-  path: Path
-): void => {
-  try {
-    const pathArray = path.split('.');
-    const lastKey = pathArray.pop() as string;
-    const parent = pathArray.reduce((acc, key) => (acc as any)[key], state);
-
-    delete (parent as any)[lastKey];
-  } catch {
-    //  If path doesn't exist, do nothing.
-  }
-};
-
 export const getParentPath = <T extends AnyState, Path extends NestedPathOf<T>>(
   path: Path
 ): NestedPathOf<T> | null => {
@@ -120,58 +70,6 @@ export const isChildKey = <T extends AnyState, Path extends NestedPathOf<T>>(
   key: NestedPathOf<T>,
   path: Path
 ): boolean => key !== path && key.startsWith(path);
-
-export const getAllPaths = <T extends AnyState>(
-  state: T
-): NestedPathOf<T>[] => {
-  const paths: NestedPathOf<T>[] = [];
-
-  const traverse = (value: any, path: string) => {
-    if (typeof value !== 'object' || value === null) {
-      return;
-    }
-
-    Object.keys(value).forEach((key) => {
-      const newPath = path ? `${path}.${key}` : key;
-      paths.push(newPath as NestedPathOf<T>);
-
-      traverse(value[key], newPath);
-    });
-  };
-
-  traverse(state, '');
-
-  return paths;
-};
-
-export const clone = <T>(value: T): T => {
-  const type = typeof value;
-  if (type !== 'object' || value === null) {
-    return value;
-  }
-
-  if (Array.isArray(value)) {
-    return value.map(clone) as T;
-  }
-
-  try {
-    return structuredClone(value);
-  } catch {
-    // get paths sorted by depth
-    const paths = getAllPaths(value as AnyState).sort(
-      (a, b) => a.split('.').length - b.split('.').length
-    );
-
-    // clone each path
-    const cloned = paths.reduce((acc, path) => {
-      const newValue = clone(getFromPath(value as AnyState, path));
-      setOnPath(acc, path, newValue);
-      return acc;
-    }, {} as any);
-
-    return cloned as T;
-  }
-};
 
 export const log = ({
   baseMsg,

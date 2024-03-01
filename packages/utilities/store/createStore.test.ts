@@ -1,7 +1,8 @@
-import { computed } from '../reactivity/operators';
+import { getFromPath, setOnPath, clone } from '../misc';
+import { compute } from '../reactivity/operators';
 import { createStore } from './createStore';
 import { readable } from './operators/readable';
-import { clone, getFromPath, log, setOnPath } from './utils';
+import { log } from './utils';
 
 describe('Store', () => {
   // SUBSCRIBE
@@ -336,7 +337,7 @@ describe('log', () => {
 
 // OBSERVABLE OPERATORS
 
-describe('computed + store', () => {
+describe('compute + store', () => {
   const originalStructuredClone = (global as any).structuredClone;
 
   beforeAll(() => {
@@ -347,11 +348,11 @@ describe('computed + store', () => {
     (global as any).structuredClone = originalStructuredClone;
   });
 
-  it('should computed functions', () => {
+  it('should compute functions', () => {
     const store = createStore({
       value: 0,
     });
-    const computedValue = computed(
+    const computedValue = compute(
       readable(store, 'value'),
       (value: number) => `value: ${value}`
     );

@@ -1,18 +1,20 @@
 import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
-import { isNotNullable } from '../misc';
+import {
+  clone,
+  deletePath,
+  getFromPath,
+  isNotNullable,
+  setOnPath,
+} from '../misc';
 import { readable, writable } from './operators';
 import type { AnyState, Listener, Store } from './types';
 import {
   type NestedObservableMap,
-  clone,
   createNestedObservableMap,
-  deletePath,
-  getFromPath,
   getParentPath,
   isChildKey,
   isParentKey,
   log,
-  setOnPath,
 } from './utils';
 
 export const createStore = <T extends AnyState>(initialState: T): Store<T> => {

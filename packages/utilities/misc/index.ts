@@ -12,9 +12,18 @@ export {
   randomInt,
   step,
 } from './number';
+export { clone } from './clone';
 export { compareArrays, sampleMany, sampleOne } from './array';
 export { debounce } from './debounce';
-export { deepEqual, traverse } from './object';
+export {
+  deepEqual,
+  deepMerge,
+  deletePath,
+  getAllPaths,
+  getFromPath,
+  setOnPath,
+  traverse,
+} from './object';
 export { getErrorMessage } from './error';
 export { isNotNullable, isNullable, isValidObject } from './type';
 export { makeRegistry, type Registry } from './makeRegistry';

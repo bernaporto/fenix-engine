@@ -1,4 +1,4 @@
-import { getAllPaths, getFromPath, setOnPath } from '../store/utils';
+import { NestedPathOf, NestedValueOf } from '../@types/helpers';
 import { isNullable, isValidObject } from './type';
 
 export const deepEqual = (a: unknown, b: unknown): boolean => {
@@ -74,4 +74,86 @@ export const deepMerge = <T extends Record<string, unknown>>(
   });
 
   return result as T;
+};
+
+export const getFromPath = <
+  T extends Record<string, unknown>,
+  Path extends NestedPathOf<T>
+>(
+  value: T,
+  path: Path
+): NestedValueOf<T, Path> => {
+  const pathArray = path.split('.');
+
+  const result = pathArray.reduce((acc, key) => {
+    if (isNullable(acc)) {
+      return undefined;
+    }
+
+    return acc[key] as any;
+  }, value) as NestedValueOf<T, Path>;
+
+  return result;
+};
+
+export const setOnPath = <
+  T extends Record<string, unknown>,
+  Path extends NestedPathOf<T>
+>(
+  state: T,
+  path: Path,
+  newValue: NestedValueOf<T, Path>
+): void => {
+  const pathArray = path.split('.');
+  const lastKey = pathArray.pop() as string;
+  const parent = pathArray.reduce((acc, key) => {
+    if (!acc[key]) {
+      (acc as any)[key] = {};
+    }
+
+    return acc[key] as any;
+  }, state);
+
+  (parent as any)[lastKey] = newValue;
+};
+
+export const getAllPaths = <T extends Record<string, unknown>>(
+  state: T
+): NestedPathOf<T>[] => {
+  const paths: NestedPathOf<T>[] = [];
+
+  const traverse = (value: any, path: string) => {
+    if (typeof value !== 'object' || value === null) {
+      return;
+    }
+
+    Object.keys(value).forEach((key) => {
+      const newPath = path ? `${path}.${key}` : key;
+      paths.push(newPath as NestedPathOf<T>);
+
+      traverse(value[key], newPath);
+    });
+  };
+
+  traverse(state, '');
+
+  return paths;
+};
+
+export const deletePath = <
+  T extends Record<string, unknown>,
+  Path extends NestedPathOf<T>
+>(
+  state: T,
+  path: Path
+): void => {
+  try {
+    const pathArray = path.split('.');
+    const lastKey = pathArray.pop() as string;
+    const parent = pathArray.reduce((acc, key) => (acc as any)[key], state);
+
+    delete (parent as any)[lastKey];
+  } catch {
+    //  If path doesn't exist, do nothing.
+  }
 };

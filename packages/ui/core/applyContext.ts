@@ -1,4 +1,4 @@
-import { getAllPaths, getFromPath } from '@fenix-engine/utilities/store/utils';
+import { getAllPaths, getFromPath } from '@fenix-engine/utilities/misc';
 import { isNotNullable } from '@fenix-engine/utilities/misc';
 import { parallel } from '@fenix-engine/utilities/functional';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';

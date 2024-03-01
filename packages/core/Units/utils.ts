@@ -6,11 +6,7 @@ import type {
   PointLight,
 } from 'three';
 import { Mesh, PerspectiveCamera } from 'three';
-import {
-  clone,
-  getFromPath,
-  setOnPath,
-} from '@fenix-engine/utilities/store/utils';
+import { clone, getFromPath, setOnPath } from '@fenix-engine/utilities/misc';
 import type { LightConfig, MeshUnitConfig } from '../@types';
 import { Material } from './Material';
 import { Vector3 } from '../Math';
