@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.16.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.15.0...v0.16.0) (2024-03-01)
+
+
+### Bug Fixes
+
+* solve screenPosition issue ([1403b28](http://bitbucket.org/bernaporto/fenix-engine/commits/1403b2837e94cbfb2accd18851a624c70e2432e4))
+
+
+### Features
+
+* add target element to mouse up event ([376357d](http://bitbucket.org/bernaporto/fenix-engine/commits/376357d28cc3258ed6d0ebb293953ea688b13130))
+* add target to click mouse event ([52b3059](http://bitbucket.org/bernaporto/fenix-engine/commits/52b305957b0cdd02d2e1430d4d4264dde2b0d70d))
+
+
+
+
+
 # [0.15.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.14.0...v0.15.0) (2024-02-29)
 
 
