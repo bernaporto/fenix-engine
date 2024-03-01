@@ -35,6 +35,7 @@ export type MouseClickState = {
   button: MouseButton;
   screenPosition: Vector2;
   normalizedPosition: Vector2;
+  target?: HTMLElement;
 };
 
 export type MouseDragState = {
@@ -114,6 +115,7 @@ const handleMouseDown =
       normalizedPosition,
       type: 'click',
       button: event.button,
+      target: event.target instanceof HTMLElement ? event.target : undefined,
     });
   };
 
