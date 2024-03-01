@@ -195,8 +195,8 @@ export const getMouseMovementData = (
   }
 
   const screenPosition: Vector2 = {
-    x: event.offsetX,
-    y: event.offsetY,
+    x: event.clientX,
+    y: event.clientY,
   };
 
   const targetRect = target.getBoundingClientRect();
