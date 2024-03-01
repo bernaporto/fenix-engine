@@ -38,6 +38,11 @@ export type MouseClickState = {
   target?: HTMLElement;
 };
 
+export type MouseUpState = {
+  type: 'idle';
+  target?: HTMLElement;
+};
+
 export type MouseDragState = {
   type: 'drag';
   button: MouseButton;
@@ -51,6 +56,7 @@ export type MouseState =
   | MouseDragState
   | MouseIdleState
   | MouseMoveState
+  | MouseUpState
   | MouseWheelState;
 
 export class MouseHandler {
@@ -120,14 +126,16 @@ const handleMouseDown =
   };
 
 // MOUSE UP
-const handleMouseUp = (state: Observable<MouseState>) => () => {
-  const currState = state.get();
-  if (currState.type === 'idle') return;
+const handleMouseUp =
+  (state: Observable<MouseState>) => (event: MouseEvent) => {
+    const currState = state.get();
+    if (currState.type === 'idle') return;
 
-  state.set({
-    type: 'idle',
-  });
-};
+    state.set({
+      type: 'idle',
+      target: event.target instanceof HTMLElement ? event.target : undefined,
+    });
+  };
 
 // MOUSE MOVE
 const handleMouseMove =
