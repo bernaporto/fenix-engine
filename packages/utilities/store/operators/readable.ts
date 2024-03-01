@@ -1,6 +1,6 @@
-import { NestedPathOf, NestedValueOf } from '../../@types/helpers';
-import { Readable } from '../../reactivity';
-import { AnyState, BranchStore, Store } from '../types';
+import type { NestedPathOf, NestedValueOf } from '../../@types/helpers';
+import type { Readable } from '../../reactivity';
+import type { AnyState, BranchStore, Store } from '../types';
 
 export const readable = <T extends AnyState, P extends NestedPathOf<T>>(
   store: BranchStore<T> | Store<T>,

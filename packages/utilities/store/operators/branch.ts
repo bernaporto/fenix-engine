@@ -1,5 +1,5 @@
-import { NestedPathOf, NestedValueOf } from '../../@types/helpers';
-import { AnyState, BranchStore } from '../types';
+import type { NestedPathOf, NestedValueOf } from '../../@types/helpers';
+import type { AnyState, BranchStore } from '../types';
 
 export const branch = <
   T extends AnyState,

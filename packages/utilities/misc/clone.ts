@@ -1,4 +1,4 @@
-import { AnyState } from '../store/types';
+import type { AnyState } from '../store/types';
 import { getAllPaths, getFromPath, setOnPath } from './object';
 
 export const clone = <T>(value: T): T => {

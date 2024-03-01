@@ -1,4 +1,4 @@
-import { NestedPathOf, NestedValueOf } from '../@types/helpers';
+import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
 import { isNullable, isValidObject } from './type';
 
 export const deepEqual = (a: unknown, b: unknown): boolean => {
