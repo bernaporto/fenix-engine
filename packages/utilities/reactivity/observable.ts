@@ -1,7 +1,8 @@
+import { clone } from '../misc/clone';
 import type { Observable, Observer } from './types';
 
 export const observable = <T>(initialValue: T): Observable<T> => {
-  let value: Readonly<T> = structuredClone(initialValue);
+  let value: Readonly<T> = clone(initialValue);
   const observers = new Map<Symbol, Observer<T>>();
 
   const observable: Observable<T> = {
@@ -9,15 +10,16 @@ export const observable = <T>(initialValue: T): Observable<T> => {
       observers.clear();
     },
 
-    get: () => structuredClone(value),
+    get: () => clone(value),
 
     set: (newValue) => {
-      const prevValue = structuredClone(value);
-      value = structuredClone(newValue);
+      const prevValue = clone(value);
+      value = clone(newValue);
 
-      observers.forEach((observer) =>
-        observer(structuredClone(value), prevValue)
-      );
+      // don't notify observers if the value hasn't changed
+      if (prevValue === value) return;
+
+      observers.forEach((observer) => observer(clone(value), prevValue));
     },
 
     subscribe: (observer) => {

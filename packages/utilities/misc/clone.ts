@@ -2,6 +2,8 @@ import { AnyState } from '../store/types';
 import { getAllPaths, getFromPath, setOnPath } from './object';
 
 export const clone = <T>(value: T): T => {
+  if (isWhitelisted(value)) return value;
+
   const type = typeof value;
   if (type !== 'object' || value === null) {
     return value;
@@ -28,4 +30,12 @@ export const clone = <T>(value: T): T => {
 
     return cloned as T;
   }
+};
+
+const isWhitelisted = (value: unknown): boolean => {
+  return (
+    value instanceof Window ||
+    value instanceof Document ||
+    value instanceof HTMLElement
+  );
 };
