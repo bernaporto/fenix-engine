@@ -1,6 +1,6 @@
 {
   "name": "@fenix-engine/services",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {

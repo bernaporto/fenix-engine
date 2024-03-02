@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.16.1](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.16.0...v0.16.1) (2024-03-02)
+
+
+### Bug Fixes
+
+* solve mouse event issues ([bc6d289](http://bitbucket.org/bernaporto/fenix-engine/commits/bc6d2891b28dc438673ba4b7c32722596c972dad))
+
+
+
+
+
 # [0.16.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.15.0...v0.16.0) (2024-03-01)
 
 
