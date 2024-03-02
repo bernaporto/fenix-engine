@@ -170,7 +170,11 @@ const handleWheel =
   (target: HTMLElement, state: Observable<MouseState>) =>
   (event: WheelEvent): void => {
     // Only act if on top of canvas
-    if (event.target !== target) return;
+    if (
+      event.target !== target &&
+      !(event.target instanceof HTMLElement && target.contains(event.target))
+    )
+      return;
 
     const { delta } = getMouseMovementData(target, event);
 
@@ -203,8 +207,8 @@ export const getMouseMovementData = (
   }
 
   const screenPosition: Vector2 = {
-    x: event.clientX,
-    y: event.clientY,
+    x: event.pageX,
+    y: event.pageY,
   };
 
   const targetRect = target.getBoundingClientRect();
