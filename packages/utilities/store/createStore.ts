@@ -136,6 +136,10 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       debugKey = key ?? '';
     },
 
+    clearListeners: (path) => {
+      listeners.clear(path);
+    },
+
     clearAllListeners: listeners.clear,
   };
 

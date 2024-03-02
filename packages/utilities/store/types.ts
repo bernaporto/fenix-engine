@@ -12,6 +12,7 @@ export type Writeable<T> = Pick<Observable<T>, 'get' | 'set' | 'subscribe'>;
 export type AnyState = Record<string, unknown>;
 
 export type Store<State extends AnyState> = {
+  clearListeners: <Path extends NestedPathOf<State>>(path: Path) => void;
   clearAllListeners: VoidFunction;
   get: <Path extends NestedPathOf<State>>(
     path: Path

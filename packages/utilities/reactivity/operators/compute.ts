@@ -8,10 +8,17 @@ export const compute = <T, U>(
     get: () => {
       return map(input.get());
     },
+
     subscribe: (observer) => {
       return input.subscribe((value) => {
+        if (!value) return;
+
         observer(map(value));
       });
+    },
+
+    clearObservers: () => {
+      input.clearObservers();
     },
   };
 };

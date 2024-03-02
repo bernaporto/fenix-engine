@@ -10,4 +10,4 @@ export type Observable<T> = {
   subscribe: (observer: Observer<T>) => Usubscriber;
 };
 
-export type Readable<T> = Pick<Observable<T>, 'get' | 'subscribe'>;
+export type Readable<T> = Omit<Observable<T>, 'set'>;

@@ -1,15 +1,12 @@
 import type { VoidFunction } from '../@types';
-import type { NestedPathOf, NestedValueOf } from '../@types/helpers';
-import { isNullable } from '../misc';
+import type { NestedPathOf } from '../@types/helpers';
 import type { AnyState } from './types';
-
-declare const structuredClone: <T>(value: T) => T;
 
 export type NestedObservableMap<T, U> = {
   get: <Path extends NestedPathOf<T>>(path: Path) => U[];
   add: <Path extends NestedPathOf<T>>(path: Path, listener: U) => VoidFunction;
   keys: () => NestedPathOf<T>[];
-  clear: VoidFunction;
+  clear: <Path extends NestedPathOf<T>>(path?: Path) => void;
 };
 
 export const createNestedObservableMap = <T, U>(): NestedObservableMap<
@@ -40,7 +37,12 @@ export const createNestedObservableMap = <T, U>(): NestedObservableMap<
       };
     },
 
-    clear: () => {
+    clear: (path) => {
+      if (path) {
+        map.delete(path);
+        return;
+      }
+
       map.clear();
     },
 
