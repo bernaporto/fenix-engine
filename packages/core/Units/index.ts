@@ -6,4 +6,5 @@ export { Plane } from './Plane';
 export { Prefab } from './Prefab';
 export { Prop } from './Prop';
 export { Puppet } from './Puppet';
+export { Sphere } from './Sphere';
 export { Unit } from './Unit';

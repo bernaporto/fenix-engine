@@ -7,6 +7,7 @@ import {
   Prefab,
   Prop,
   Puppet,
+  Sphere,
   Unit,
 } from '../../Units';
 
@@ -21,4 +22,5 @@ UnitRegistry.add('plane', Plane);
 UnitRegistry.add('prefab', Prefab);
 UnitRegistry.add('prop', Prop);
 UnitRegistry.add('puppet', Puppet);
+UnitRegistry.add('sphere', Sphere);
 UnitRegistry.add('unit', Unit);
