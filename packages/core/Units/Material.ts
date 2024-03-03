@@ -2,12 +2,14 @@ import {
   Material as THREE_Material,
   MeshBasicMaterial,
   MeshStandardMaterial,
+  RawShaderMaterial,
 } from 'three';
 import { MaterialConfig } from '../@types';
 import { MaterialRegistry } from '../Game/registries';
 
 const materialConstructorMap = {
   basic: MeshBasicMaterial,
+  rawShader: RawShaderMaterial,
   standard: MeshStandardMaterial,
 };
 

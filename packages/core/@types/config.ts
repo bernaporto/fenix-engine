@@ -1,6 +1,7 @@
 import type {
   MeshBasicMaterialParameters,
   MeshStandardMaterialParameters,
+  ShaderMaterialParameters,
   ShadowMapType,
 } from 'three';
 import type { Material } from '../Units';
@@ -32,6 +33,9 @@ export type MaterialConfig = { key?: string } & (
   | ({
       type: 'basic';
     } & MeshBasicMaterialParameters)
+  | ({
+      type: 'rawShader';
+    } & ShaderMaterialParameters)
   | ({
       type: 'standard';
     } & MeshStandardMaterialParameters)
