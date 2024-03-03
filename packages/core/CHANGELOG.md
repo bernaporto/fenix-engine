@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.18.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.17.0...v0.18.0) (2024-03-03)
+
+
+### Features
+
+* add raw shader material support ([2888eb9](http://bitbucket.org/bernaporto/fenix-engine/commits/2888eb9d46d3d7b92db91666f25d378e806f8b2c))
+
+
+
+
+
 # [0.17.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.16.1...v0.17.0) (2024-03-03)
 
 
