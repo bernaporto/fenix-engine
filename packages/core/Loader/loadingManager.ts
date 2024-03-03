@@ -1,6 +1,6 @@
 import { FileLoader, LoadingManager } from 'three';
-import { GLTFLoader } from './loaders/GLTFLoader';
-import { OBJLoader } from './loaders/OBJLoader';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
 export const loadingManager = new LoadingManager();
 
