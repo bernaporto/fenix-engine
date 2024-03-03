@@ -6,23 +6,23 @@ import { applyMeshConfig } from './utils';
 
 type SphereConfig = MeshUnitConfig & {
   radius?: number;
-  subdivision?: Vector2;
+  segments?: Vector2;
 };
 
 export class Sphere extends Unit {
   constructor(config?: SphereConfig) {
     super(config);
 
-    const { radius, subdivision, ...meshUnitConfig } = {
+    const { radius, segments, ...meshUnitConfig } = {
       radius: 1,
-      subdivision: {
+      segments: {
         x: 32,
         y: 16,
       },
       ...config,
     };
 
-    const geometry = new SphereGeometry(radius, subdivision.x, subdivision.y);
+    const geometry = new SphereGeometry(radius, segments.x, segments.y);
     const mesh = new Mesh(geometry);
 
     applyMeshConfig(mesh, meshUnitConfig);
