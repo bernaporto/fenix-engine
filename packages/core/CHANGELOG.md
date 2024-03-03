@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.17.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.16.1...v0.17.0) (2024-03-03)
+
+
+### Features
+
+* add sphere unit ([058f7cd](http://bitbucket.org/bernaporto/fenix-engine/commits/058f7cdcce395b18bea777f253fef141a09aff96))
+
+
+
+
+
 # [0.16.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.15.0...v0.16.0) (2024-03-01)
 
 **Note:** Version bump only for package @fenix-engine/core
