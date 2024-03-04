@@ -45,4 +45,8 @@ export class Material {
 
     return new Material(keyOrModel);
   }
+
+  get material() {
+    return this._material;
+  }
 }
