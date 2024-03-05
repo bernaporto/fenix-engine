@@ -1,17 +1,18 @@
 import type { NestedPathOf, NestedValueOf } from '../../@types/helpers';
-import type { AnyState, BranchStore } from '../types';
+import type { AnyState, BranchStore, Store } from '../types';
 
 export const branch = <
   T extends AnyState,
   P extends NestedPathOf<T>,
   U extends NestedValueOf<T, P>
 >(
-  store: BranchStore<T>,
+  store: Store<T> | BranchStore<T>,
   path: P
   // @ts-ignore
 ): BranchStore<U> => {
   const subscriptions = new Set<VoidFunction>();
-  const getBranchedPath = (subPath: string) => `${path}.${subPath}`;
+  const getBranchedPath = (subPath?: string) =>
+    [path, subPath].filter(Boolean).join('.');
 
   return {
     clearAllListeners: () => {

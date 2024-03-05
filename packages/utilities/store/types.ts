@@ -41,4 +41,9 @@ export type Store<State extends AnyState> = {
   _setDebugMode: (debug: boolean, key?: string) => void;
 };
 
-export type BranchStore<T extends AnyState> = Omit<Store<T>, '_setDebugMode'>;
+export type BranchStore<T extends AnyState> = Omit<
+  Store<T>,
+  '_setDebugMode'
+> & {
+  reset: <Path extends NestedPathOf<T>>(path?: Path) => void;
+};

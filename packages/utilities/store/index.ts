@@ -7,6 +7,7 @@ export type {
   BranchStore as TBranchStore,
   AnyState as TStoreState,
 } from './types';
+export type { Readable, Observable as Writable } from '../reactivity';
 export { branch, compute, readable, writable, createStore };
 export default {
   branch,
