@@ -30,6 +30,10 @@ export const observable = <T>(initialValue: T): Observable<T> => {
         observers.delete(id);
       };
     },
+
+    update: (updater) => {
+      observable.set(updater(clone(value)));
+    },
   };
 
   return observable;

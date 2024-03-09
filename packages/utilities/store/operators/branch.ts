@@ -27,10 +27,13 @@ export const branch = <
     getState: () => store.get(path),
 
     // @ts-ignore
-    reset: (subPath) => store.reset(getBranchedPath(subPath)),
+    reset: (subPath, notifyPath) =>
+      // @ts-ignore
+      store.reset(getBranchedPath(subPath), notifyPath),
 
-    // @ts-ignore
-    set: (subPath, value) => store.set(getBranchedPath(subPath), value),
+    set: (subPath, value, silent) =>
+      // @ts-ignore
+      store.set(getBranchedPath(subPath), value, silent),
 
     subscribe: (subPath, listener, notifyImmediately) => {
       const subscription = store.subscribe(
@@ -44,8 +47,8 @@ export const branch = <
       return subscription;
     },
 
-    update: (subPath, updater) =>
+    update: (subPath, updater, silent) =>
       // @ts-ignore
-      store.update(getBranchedPath(subPath), updater),
+      store.update(getBranchedPath(subPath), updater, silent),
   };
 };

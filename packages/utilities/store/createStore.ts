@@ -37,14 +37,20 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 
     getWritable: (path) => writable(store, path),
 
-    update: (path, updater) => {
+    update: (path, updater, silent = false) => {
       const oldValue = store.get(path);
       const newValue = updater(oldValue);
 
-      store.set(path, newValue);
+      store.set(
+        path,
+        newValue,
+        silent,
+        // @ts-ignore-next-line
+        'update'
+      );
     },
 
-    set: (path, newValue) => {
+    set: (path, newValue, silent = false, logKey = 'set') => {
       // do shallow comparison and return if value is the same
       if (getFromPath(state, path) === newValue) return;
 
@@ -62,7 +68,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       if (debug) {
         log({
           path,
-          baseMsg: getDebugMessage('store.set', debugKey),
+          baseMsg: getDebugMessage(`store.${logKey}`, debugKey),
           newValue: clone(newValue),
           oldValue: clone(getFromPath(oldState, path)),
           listeners: otherNotifiableKeys.reduce(
@@ -71,6 +77,8 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
           ),
         });
       }
+
+      if (silent) return;
 
       // notify listeners
       notifyListeners(listeners, state, oldState, path);
@@ -92,7 +100,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       return unsubscribe;
     },
 
-    reset: (path) => {
+    reset: (path, notifyTargetPath = false) => {
       const resetState = clone(cleanState);
 
       // reset value
@@ -104,6 +112,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 
         const parentPath = getParentPath(path) as NestedPathOf<T>;
         const notifiableKeys = [
+          notifyTargetPath ? path : undefined,
           parentPath,
           ...(parentPath
             ? getNotifiableKeys(listeners, parentPath, isParentKey)
@@ -127,7 +136,13 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
           });
         }
       } else {
-        store.set(path, value);
+        store.set(
+          path,
+          value,
+          false,
+          // @ts-ignore-next-line
+          'reset'
+        );
       }
     },
 

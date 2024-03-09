@@ -4,13 +4,20 @@ import type { AnyState, BranchStore, Store } from '../types';
 
 export const writable = <T extends AnyState, P extends NestedPathOf<T>>(
   store: BranchStore<T> | Store<T>,
-  path: P
+  path: P,
+  silent = false
 ): Observable<NestedValueOf<T, P>> => {
   const subscriptions = new Set<VoidFunction>();
 
   return {
+    clearObservers: () => {
+      subscriptions.forEach((unsubscribe) => unsubscribe());
+      subscriptions.clear();
+    },
     get: () => store.get(path),
-    set: (newValue) => store.set(path, newValue),
+    set: (newValue) => {
+      store.set(path, newValue, silent);
+    },
     subscribe: (observer) => {
       const unsubscribe = store.subscribe(path, observer);
       subscriptions.add(unsubscribe);
@@ -20,9 +27,8 @@ export const writable = <T extends AnyState, P extends NestedPathOf<T>>(
         subscriptions.delete(unsubscribe);
       };
     },
-    clearObservers: () => {
-      subscriptions.forEach((unsubscribe) => unsubscribe());
-      subscriptions.clear();
+    update: (updater) => {
+      store.update(path, updater, silent);
     },
   };
 };

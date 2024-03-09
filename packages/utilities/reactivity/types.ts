@@ -8,6 +8,10 @@ export type Observable<T> = {
   get: () => Readonly<T>;
   set: (value: T) => void;
   subscribe: (observer: Observer<T>) => Usubscriber;
+  update: (updater: (value: T) => T) => void;
 };
 
-export type Readable<T> = Omit<Observable<T>, 'set'>;
+export type Readable<T> = Pick<
+  Observable<T>,
+  'clearObservers' | 'get' | 'subscribe'
+>;

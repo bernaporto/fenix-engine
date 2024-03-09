@@ -24,10 +24,14 @@ export type Store<State extends AnyState> = {
   getWritable: <Path extends NestedPathOf<State>>(
     path: Path
   ) => Writeable<NestedValueOf<State, Path>>;
-  reset: <Path extends NestedPathOf<State>>(path: Path) => void;
+  reset: <Path extends NestedPathOf<State>>(
+    path: Path,
+    notifyTargetPath?: boolean
+  ) => void;
   set: <Path extends NestedPathOf<State>>(
     path: Path,
-    value: NestedValueOf<State, Path>
+    value: NestedValueOf<State, Path>,
+    silent?: boolean
   ) => void;
   subscribe: <Path extends NestedPathOf<State>>(
     path: Path,
@@ -36,14 +40,18 @@ export type Store<State extends AnyState> = {
   ) => VoidFunction;
   update: <Path extends NestedPathOf<State>>(
     path: Path,
-    updater: UpdaterFn<State, Path>
+    updater: UpdaterFn<State, Path>,
+    silent?: boolean
   ) => void;
   _setDebugMode: (debug: boolean, key?: string) => void;
 };
 
 export type BranchStore<T extends AnyState> = Omit<
   Store<T>,
-  '_setDebugMode'
+  '_setDebugMode' | 'reset'
 > & {
-  reset: <Path extends NestedPathOf<T>>(path?: Path) => void;
+  reset: <Path extends NestedPathOf<T>>(
+    path?: Path,
+    notifyTargetPath?: boolean
+  ) => void;
 };

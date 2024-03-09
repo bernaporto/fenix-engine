@@ -10,10 +10,8 @@ export const compute = <T, U>(
     },
 
     subscribe: (observer) => {
-      return input.subscribe((value) => {
-        if (!value) return;
-
-        observer(map(value));
+      return input.subscribe((value, prevValue) => {
+        observer(map(value), prevValue && map(prevValue));
       });
     },
 
