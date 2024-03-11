@@ -80,8 +80,8 @@ describe('LinkedList', () => {
 
   it('should find a node by id or return null otherwise', () => {
     const tree = LinkedList.create(testItems[0], findChildren);
-    const nodeA = tree.find('1');
-    const nodeB = tree.find('5');
+    const nodeA = tree.findNode((node) => node.id === '1');
+    const nodeB = tree.findNode((node) => node.id === '4');
 
     expect(nodeA).toBeDefined();
     expect(nodeA?.id).toEqual('1');

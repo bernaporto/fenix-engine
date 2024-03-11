@@ -11,7 +11,12 @@ export const compute = <T, U>(
 
     subscribe: (observer) => {
       return input.subscribe((value, prevValue) => {
-        observer(map(value), prevValue && map(prevValue));
+        if (prevValue === undefined) {
+          observer(map(value));
+          return;
+        }
+
+        observer(map(value), map(prevValue));
       });
     },
 

@@ -14,6 +14,6 @@ describe('compute', () => {
     value.set(10);
     expect(readable.get()).toBe('value: 10');
     expect(observer).toHaveBeenCalledTimes(1);
-    expect(observer).toHaveBeenLastCalledWith('value: 10');
+    expect(observer).toHaveBeenLastCalledWith('value: 10', 'value: 0');
   });
 });

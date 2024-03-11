@@ -12,7 +12,10 @@ export type LinkedItem<T> = LinkableItem<T> & {
 export type LinkedList<T> = {
   nodes: LinkedItem<T>[];
   root: LinkedItem<T>;
-  find: (id: string) => LinkedItem<T> | null;
+  findNode: (
+    predicate: (node: LinkedItem<T>) => boolean
+  ) => LinkedItem<T> | null;
+  getNode: (id: string) => LinkedItem<T> | null;
 };
 
 // TODO: improve brunch to avoid recreating the tree
@@ -42,11 +45,15 @@ const create = <T>(
     };
   const root = visit(0)(parent);
 
-  const find = (id: string) => elTree.get(id) ?? null;
+  const getNode = (id: string) => elTree.get(id) ?? null;
+
+  const findNode = (predicate: (node: LinkedItem<T>) => boolean) =>
+    [...elTree.values()].find(predicate) ?? null;
 
   return {
+    findNode,
+    getNode,
     root,
-    find,
     get nodes() {
       return [...elTree.values()];
     },

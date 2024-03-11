@@ -151,8 +151,13 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       debugKey = key ?? '';
     },
 
-    clearListeners: (path) => {
+    clearListeners: (path, includeChildKeys = false) => {
       listeners.clear(path);
+
+      if (includeChildKeys) {
+        const childKeys = getNotifiableKeys(listeners, path, isChildKey);
+        childKeys.forEach((key) => listeners.clear(key));
+      }
     },
 
     clearAllListeners: listeners.clear,
