@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.19.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.18.0...v0.19.0) (2024-03-11)
+
+
+### Features
+
+* add node based linked list utility ([50212d2](http://bitbucket.org/bernaporto/fenix-engine/commits/50212d2041d61184db6c2345b1d75a2feaa850cd))
+* add store options ([6e66373](http://bitbucket.org/bernaporto/fenix-engine/commits/6e66373360afc24e95dc58cee0933aec53f5ed92))
+
+
+
+
+
 # [0.18.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.17.0...v0.18.0) (2024-03-03)
 
 **Note:** Version bump only for package @fenix-engine/utilities
