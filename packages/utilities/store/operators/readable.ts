@@ -11,7 +11,7 @@ export const readable = <T extends AnyState, P extends NestedPathOf<T>>(
   return {
     get: () => store.get(path),
     subscribe: (observer) => {
-      const unsubscribe = store.subscribe(path, observer, false);
+      const unsubscribe = store.subscribe(path, observer);
       subscriptions.add(unsubscribe);
 
       return () => {
