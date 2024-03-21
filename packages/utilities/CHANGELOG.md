@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.19.0...v0.20.0) (2024-03-21)
+
+
+### Bug Fixes
+
+* add missing resources to branch ([e247c26](http://bitbucket.org/bernaporto/fenix-engine/commits/e247c2665659223ccebb91b436812dcdaee69e23))
+* remove readable forced silent subscribe ([898cb03](http://bitbucket.org/bernaporto/fenix-engine/commits/898cb03e1087f3ca2de694b0725b660387025654))
+
+
+
+
+
 # [0.19.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.18.0...v0.19.0) (2024-03-11)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.20.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.19.0...v0.20.0) (2024-03-21)
+
+
+### Features
+
+* add key up events to KeyboardHandler ([3f4d250](http://bitbucket.org/bernaporto/fenix-engine/commits/3f4d25067127400f3f6d24e8f68179eee0ffce8c))
+
+
+
+
+
 # [0.19.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.18.0...v0.19.0) (2024-03-11)
 
 **Note:** Version bump only for package @fenix-engine/services
