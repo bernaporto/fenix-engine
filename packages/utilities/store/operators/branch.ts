@@ -26,6 +26,14 @@ export const branch = <
     // @ts-ignore
     getState: () => store.get(path),
 
+    getReadable: (subPath) =>
+      // @ts-ignore
+      store.getReadable(getBranchedPath(subPath)),
+
+    getWritable: (subPath) =>
+      // @ts-ignore
+      store.getWritable(getBranchedPath(subPath)),
+
     // @ts-ignore
     reset: (subPath, notifyPath) =>
       // @ts-ignore
