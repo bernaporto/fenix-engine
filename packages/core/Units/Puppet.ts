@@ -85,14 +85,14 @@ const makePuppeteer = (puppet: Puppet, defaultClip?: string): Puppeteer => {
         throw new Error(`No animation found with key: ${key}`);
       }
 
+      action.reset().play();
+
       if (currentAction) {
-        // TODO: create fadeOut/fadeIn configuration
-        currentAction.fadeOut(0.25);
-        action.fadeIn(0.25);
+        // TODO: create crossFade configuration
+        currentAction.crossFadeTo(action.reset(), 0.25, true);
       }
 
       currentAction = action;
-      currentAction.play();
     },
 
     update: (delta: number) => {
