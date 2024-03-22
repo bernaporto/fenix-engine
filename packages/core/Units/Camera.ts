@@ -12,7 +12,7 @@ import {
   remap,
 } from '@fenix-engine/utilities/misc';
 import type { CameraConfig } from '../@types';
-import { Vector2, type Vector3 } from '../Math';
+import { Vector2, Vector3 } from '../Math';
 import { Unit } from './Unit';
 import { findNodeUnit, resizeCamera } from './utils';
 
@@ -116,15 +116,13 @@ export class Camera extends Unit {
   }
 
   public raycast(normalizedMousePos: Vector2, root: Unit): Unit[] {
-    raycaster.setFromCamera(
-      new THREE_Vector2(normalizedMousePos.x, normalizedMousePos.y),
-      this._camera
+    return raycast(normalizedMousePos, this._camera, root).map(
+      ({ unit }) => unit
     );
+  }
 
-    return raycaster
-      .intersectObjects([root.node], true)
-      .map(({ object }) => findNodeUnit(object as Object3D))
-      .filter(isNotNullable);
+  public raycastPoint(normalizedMousePos: Vector2, root: Unit): Vector3 | null {
+    return raycast(normalizedMousePos, this._camera, root)[0]?.point ?? null;
   }
 
   public worldToScreen(worldPos: Vector3, canvas: HTMLCanvasElement): Vector2 {
@@ -157,4 +155,26 @@ const createCamera = (
   joint.name = 'camera_joint';
 
   return { camera, joint };
+};
+
+const raycast = (
+  normalizedMousePos: Vector2,
+  camera: OrthographicCamera | PerspectiveCamera,
+  root: Unit
+): { unit: Unit; point: Vector3 }[] => {
+  raycaster.setFromCamera(
+    new THREE_Vector2(normalizedMousePos.x, normalizedMousePos.y),
+    camera
+  );
+
+  return raycaster
+    .intersectObjects([root.node], true)
+    .map(({ object, point }) => ({
+      unit: findNodeUnit(object),
+      point: { x: point.x, y: point.y, z: point.z },
+    }))
+    .filter(({ unit }) => isNotNullable(unit)) as {
+    unit: Unit;
+    point: Vector3;
+  }[];
 };
