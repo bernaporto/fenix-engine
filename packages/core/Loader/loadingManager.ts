@@ -1,4 +1,4 @@
-import { FileLoader, LoadingManager } from 'three';
+import { FileLoader, LoadingManager, TextureLoader } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 
@@ -17,3 +17,7 @@ loadingManager.addHandler(/\.obj$/i, objLoader);
 
 const gltfLoader = new GLTFLoader(loadingManager);
 loadingManager.addHandler(/\.(glb|gltf)$/i, gltfLoader);
+
+/* Textures */
+const textureLoader = new TextureLoader(loadingManager);
+loadingManager.addHandler(/\.(jpg|jpeg|png|tga)$/i, textureLoader);

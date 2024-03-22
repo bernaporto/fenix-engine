@@ -26,6 +26,10 @@ type Loader = {
     url: string,
     onProgress?: ProgressListener
   ): Promise<SkinnedObject>;
+  loadTexture(
+    url: string,
+    onProgress?: ProgressListener
+  ): Promise<THREE.Texture>;
 };
 
 const initLoader = (): Loader => {
@@ -60,6 +64,7 @@ const initLoader = (): Loader => {
     loadJSON: (...args) => load<any>(...args).then(JSON.parse),
     loadObject: (...args) => load<Object3D>(...args),
     loadSkinnedObject: (...args) => load<GltfObject>(...args).then(unwrapGltf),
+    loadTexture: (...args) => load<THREE.Texture>(...args),
   };
 };
 
