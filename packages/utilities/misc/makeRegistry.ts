@@ -1,6 +1,7 @@
 export type Registry<T, U = T> = {
   add: (key: string, value: T) => U;
   get: (key: string) => U | null;
+  list: () => string[];
   remove: (key: string) => void;
 };
 
@@ -23,6 +24,8 @@ export const makeRegistry = <T, U = T>(
     },
 
     get: (key) => registry.get(key) ?? null,
+
+    list: () => Array.from(registry.keys()),
 
     remove: (key) => registry.delete(key),
   };

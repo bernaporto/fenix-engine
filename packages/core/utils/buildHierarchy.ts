@@ -22,7 +22,11 @@ const buildSceneItem =
     const UnitConstructor = UnitRegistry.get(type);
 
     if (!UnitConstructor) {
-      throw new Error(`Unknown unit type: ${type}`);
+      throw new Error(
+        `Unknown unit type: ${type} | Available: ${UnitRegistry.list().join(
+          ', '
+        )}`
+      );
     }
 
     const unit = new UnitConstructor(node);
