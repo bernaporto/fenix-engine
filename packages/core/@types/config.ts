@@ -29,6 +29,10 @@ export type SceneConfig = CustomProperties & {
 };
 
 // MATERIAL
+export type MaterialAssetConfig = {
+  map?: string;
+};
+
 export type MaterialConfig = { key?: string } & (
   | ({
       type: 'basic';

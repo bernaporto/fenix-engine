@@ -4,8 +4,9 @@ import {
   MeshStandardMaterial,
   RawShaderMaterial,
 } from 'three';
-import { MaterialConfig } from '../@types';
+import type { MaterialAssetConfig, MaterialConfig } from '../@types';
 import { MaterialRegistry } from '../Game/registries';
+import { loadMaterialAssets } from './utils';
 
 const materialConstructorMap = {
   basic: MeshBasicMaterial,
@@ -21,14 +22,18 @@ const materialConstructorMap = {
 export class Material {
   private _material: THREE_Material | null = null;
 
-  constructor(private config?: MaterialConfig) {}
+  constructor(
+    private config?: MaterialConfig,
+    private assets?: MaterialAssetConfig
+  ) {}
 
   build() {
     const { type, ...params } = this.config ?? { type: 'basic' };
-    const Material = materialConstructorMap[type];
+    const ThreeMaterial = materialConstructorMap[type];
 
     if (!this._material) {
-      this._material = new Material(params);
+      this._material = new ThreeMaterial(params);
+      loadMaterialAssets(this._material, this.assets);
     }
 
     return this._material;
