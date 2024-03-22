@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.20.0...v0.21.0) (2024-03-22)
+
+**Note:** Version bump only for package @fenix-engine/custom-geometry-example
+
+
+
+
+
 # [0.20.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.19.0...v0.20.0) (2024-03-21)
 
 **Note:** Version bump only for package @fenix-engine/custom-geometry-example

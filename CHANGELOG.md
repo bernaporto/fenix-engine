@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.21.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.20.0...v0.21.0) (2024-03-22)
+
+
+### Features
+
+* add material asset config ([ac03b4c](http://bitbucket.org/bernaporto/fenix-engine/commits/ac03b4c1de55182ed34ed46ecfa8e40b880794f4))
+* add texture loading functionality ([348e652](http://bitbucket.org/bernaporto/fenix-engine/commits/348e6523ad81ded898191f9ead7abe75630437b0))
+
+
+
+
+
 # [0.20.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.19.0...v0.20.0) (2024-03-21)
 
 
