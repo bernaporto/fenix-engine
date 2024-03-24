@@ -42,7 +42,14 @@ export class Puppet extends Unit {
 type Puppeteer = {
   actions: string[];
   currentAction: string | null;
+  crossPlay: (name: string, duration?: number) => Promise<void>;
+  /**
+   * @deprecated
+   * use `crossPlay` or `playOne` instead
+   */
   play: (name: string) => Promise<void>;
+  setSpeed: (value: number) => void;
+  setWeight: (name: string, value: number) => Promise<void>;
   update: (delta: number) => void;
 };
 
@@ -65,6 +72,16 @@ const makePuppeteer = (puppet: Puppet, defaultClip?: string): Puppeteer => {
     });
   });
 
+  const getAction = (name: string) => {
+    const action = actions.get(name);
+
+    if (!action) {
+      throw new Error(`No animation found with name: ${name}`);
+    }
+
+    return action;
+  };
+
   const puppeteer: Puppeteer = {
     get actions() {
       return [...actions.keys()];
@@ -76,23 +93,35 @@ const makePuppeteer = (puppet: Puppet, defaultClip?: string): Puppeteer => {
       return currentAction.getClip().name;
     },
 
-    play: async (key: string) => {
+    crossPlay: async (name, duration = 0.25) => {
       await loadPromise;
 
-      const action = actions.get(key);
-
-      if (!action) {
-        throw new Error(`No animation found with key: ${key}`);
-      }
-
+      const action = getAction(name);
       action.reset().play();
 
       if (currentAction) {
-        // TODO: create crossFade configuration
-        currentAction.crossFadeTo(action.reset(), 0.25, true);
+        action.syncWith(currentAction);
+        currentAction.crossFadeTo(action, duration, true);
       }
 
       currentAction = action;
+    },
+
+    play: async (name: string) => {
+      await loadPromise;
+
+      puppeteer.crossPlay(name);
+    },
+
+    setSpeed: (value: number) => {
+      mixer.timeScale = value;
+    },
+
+    setWeight: async (name: string, value: number) => {
+      await loadPromise;
+
+      const action = getAction(name);
+      action.setEffectiveWeight(value);
     },
 
     update: (delta: number) => {
