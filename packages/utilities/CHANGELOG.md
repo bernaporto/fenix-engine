@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.21.0...v0.22.0) (2024-03-24)
+
+
+### Features
+
+* add state machine utility ([62b0fde](http://bitbucket.org/bernaporto/fenix-engine/commits/62b0fdee36a09939f65d60cabd31825a012bee11))
+
+
+
+
+
 # [0.21.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.20.0...v0.21.0) (2024-03-22)
 
 **Note:** Version bump only for package @fenix-engine/utilities

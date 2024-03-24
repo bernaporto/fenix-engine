@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.22.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.21.0...v0.22.0) (2024-03-24)
+
+
+### Bug Fixes
+
+* solve puppeteer not updating animations on second run ([d584e71](http://bitbucket.org/bernaporto/fenix-engine/commits/d584e716eb0648581cd8b60db5511cf3ae021341))
+
+
+### Features
+
+* add raycast point function to camera ([4017785](http://bitbucket.org/bernaporto/fenix-engine/commits/40177856d0c140d8a08ce3d6502df8de128154b6))
+* add state machine utility ([62b0fde](http://bitbucket.org/bernaporto/fenix-engine/commits/62b0fdee36a09939f65d60cabd31825a012bee11))
+
+
+
+
+
 # [0.21.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.20.0...v0.21.0) (2024-03-22)
 
 
