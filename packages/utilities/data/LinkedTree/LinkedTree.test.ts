@@ -1,6 +1,7 @@
-import { type LinkableItem, LinkedList } from './LinkedList';
+import type { TLinkableItem } from './types';
+import { LinkedTree } from './LinkedTree';
 
-type LinkableTestItem = LinkableItem<{ input?: string[]; output?: string }>;
+type LinkableTestItem = TLinkableItem<{ input?: string[]; output?: string }>;
 const linkA = 'link-a';
 const linkB = 'link-b';
 const linkC = 'link-c';
@@ -30,9 +31,9 @@ const findChildren = (item: LinkableTestItem) => {
   );
 };
 
-describe('LinkedList', () => {
+describe('LinkedTree', () => {
   it('should create a linked list', () => {
-    const tree = LinkedList.create(testItems[0], findChildren);
+    const tree = LinkedTree.create(testItems[0], findChildren);
 
     expect(tree).toBeDefined();
     expect(tree.root).toBeDefined();
@@ -40,8 +41,8 @@ describe('LinkedList', () => {
   });
 
   it('should create a branch', () => {
-    const tree = LinkedList.create(testItems[0], findChildren);
-    const branch = LinkedList.branch(tree.nodes[1]);
+    const tree = LinkedTree.create(testItems[0], findChildren);
+    const branch = LinkedTree.branch(tree.nodes[1]);
 
     expect(branch).toBeDefined();
     expect(branch.root).toBeDefined();
@@ -49,17 +50,17 @@ describe('LinkedList', () => {
   });
 
   it('should find all childless nodes', () => {
-    const tree = LinkedList.create(testItems[0], findChildren);
-    const childlessNodes = LinkedList.childless(tree.root);
+    const tree = LinkedTree.create(testItems[0], findChildren);
+    const childlessNodes = LinkedTree.childless(tree.root);
 
     expect(childlessNodes[0]?.id).toEqual('2');
   });
 
   it('should traverse the tree', () => {
-    const tree = LinkedList.create(testItems[0], findChildren);
+    const tree = LinkedTree.create(testItems[0], findChildren);
     const nodes = new Set<LinkableTestItem>();
 
-    LinkedList.traverse(tree, (node) => {
+    LinkedTree.traverse(tree, (node) => {
       console.log('node', node);
       nodes.add(node);
     });
@@ -69,17 +70,17 @@ describe('LinkedList', () => {
   });
 
   it('should traverse the tree in reverse', () => {
-    const tree = LinkedList.create(testItems[0], findChildren);
+    const tree = LinkedTree.create(testItems[0], findChildren);
     const nodes = new Set<LinkableTestItem>();
 
-    LinkedList.reversedTraverse(tree, (node) => nodes.add(node));
+    LinkedTree.reversedTraverse(tree, (node) => nodes.add(node));
 
     expect([...nodes]).toHaveLength(4);
     expect([...nodes].at(-1)).toEqual(tree.root);
   });
 
   it('should find a node by id or return null otherwise', () => {
-    const tree = LinkedList.create(testItems[0], findChildren);
+    const tree = LinkedTree.create(testItems[0], findChildren);
     const nodeA = tree.findNode((node) => node.id === '1');
     const nodeB = tree.findNode((node) => node.id === '4');
 

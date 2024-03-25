@@ -1,37 +1,19 @@
-export type LinkableItem<T> = {
-  id: string;
-  payload: T;
-};
-
-export type LinkedItem<T> = LinkableItem<T> & {
-  children: LinkedItem<T>[];
-  depth: number;
-  parent: LinkedItem<T> | null;
-};
-
-export type LinkedList<T> = {
-  nodes: LinkedItem<T>[];
-  root: LinkedItem<T>;
-  findNode: (
-    predicate: (node: LinkedItem<T>) => boolean
-  ) => LinkedItem<T> | null;
-  getNode: (id: string) => LinkedItem<T> | null;
-};
+import { TLinkableItem, TLinkedItem, TLinkedTree } from './types';
 
 // TODO: improve brunch to avoid recreating the tree
-const branch = <T>(node: LinkedItem<T>) =>
-  create(node, (el) => (el as LinkedItem<T>).children);
+const branch = <T>(node: TLinkedItem<T>) =>
+  create(node, (el) => (el as TLinkedItem<T>).children);
 
 const create = <T>(
-  parent: LinkableItem<T>,
-  getChildren: (el: LinkableItem<T>) => LinkableItem<T>[]
-): LinkedList<T> => {
-  const elTree = new Map<string, LinkedItem<T>>();
+  parent: TLinkableItem<T>,
+  getChildren: (el: TLinkableItem<T>) => TLinkableItem<T>[]
+): TLinkedTree<T> => {
+  const elTree = new Map<string, TLinkedItem<T>>();
 
   const visit =
-    (depth: number, parent?: LinkedItem<T>) => (node: LinkableItem<T>) => {
+    (depth: number, parent?: TLinkedItem<T>) => (node: TLinkableItem<T>) => {
       const childrenElements = getChildren(node);
-      const linkedNode: LinkedItem<T> = {
+      const linkedNode: TLinkedItem<T> = {
         depth,
         parent: parent ?? null,
         children: [],
@@ -47,7 +29,7 @@ const create = <T>(
 
   const getNode = (id: string) => elTree.get(id) ?? null;
 
-  const findNode = (predicate: (node: LinkedItem<T>) => boolean) =>
+  const findNode = (predicate: (node: TLinkedItem<T>) => boolean) =>
     [...elTree.values()].find(predicate) ?? null;
 
   return {
@@ -60,10 +42,10 @@ const create = <T>(
   };
 };
 
-const childless = <T>(node: LinkedItem<T>) => {
-  const childless = new Set<LinkedItem<T>>();
+const childless = <T>(node: TLinkedItem<T>) => {
+  const childless = new Set<TLinkedItem<T>>();
 
-  const visit = (node: LinkedItem<T>) => {
+  const visit = (node: TLinkedItem<T>) => {
     if (node.children.length === 0) {
       childless.add(node);
     } else {
@@ -77,10 +59,10 @@ const childless = <T>(node: LinkedItem<T>) => {
 };
 
 const traverse = <T>(
-  tree: LinkedList<T>,
-  callback: (node: LinkedItem<T>) => void
+  tree: TLinkedTree<T>,
+  callback: (node: TLinkedItem<T>) => void
 ) => {
-  const visit = (node: LinkedItem<T>) => {
+  const visit = (node: TLinkedItem<T>) => {
     callback(node);
     node.children.forEach(visit);
   };
@@ -89,10 +71,10 @@ const traverse = <T>(
 };
 
 const reversedTraverse = <T>(
-  tree: LinkedList<T>,
-  callback: (node: LinkedItem<T>) => void
+  tree: TLinkedTree<T>,
+  callback: (node: TLinkedItem<T>) => void
 ) => {
-  const nodesByDepth: Record<number, Set<LinkedItem<T>>> = {};
+  const nodesByDepth: Record<number, Set<TLinkedItem<T>>> = {};
   tree.nodes.forEach((node) => {
     const list = nodesByDepth[node.depth] ?? new Set();
     list.add(node);
@@ -107,7 +89,7 @@ const reversedTraverse = <T>(
     });
 };
 
-export const LinkedList = {
+export const LinkedTree = {
   branch,
   create,
   childless,
