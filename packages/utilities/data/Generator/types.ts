@@ -3,26 +3,21 @@ export type TMetadata = Record<string, unknown>;
 
 type TSymbol = {
   type: string;
-  count?: number;
+  payload?: TDataMap;
 };
 
 type TApplyResult = {
-  produces: TSymbol[];
+  produces?: TSymbol[];
   metadata?: TMetadata;
 };
 
-export type TProductionRule<T extends TDataMap = TDataMap> = {
+export type TProductionRule<
+  T extends TDataMap = TDataMap,
+  U extends TDataMap = TDataMap
+> = {
   type: string;
-} & (
-  | {
-      terminal?: false;
-      apply: (settings: T) => TApplyResult;
-    }
-  | {
-      terminal: true;
-      apply: (settings: T) => Omit<TApplyResult, 'produces'>;
-    }
-);
+  apply: (settings: T, payload: U) => TApplyResult;
+};
 
 export type TProductionItem = {
   type: string;
@@ -42,5 +37,3 @@ export type TGenerator = {
     register: <T extends TDataMap>(rule: TProductionRule<T>) => void;
   };
 };
-
-export type TValidationFn = (type: string, data: TDataMap) => boolean;

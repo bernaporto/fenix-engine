@@ -7,8 +7,7 @@ enum ERuleType {
   WALL = 'wall',
 }
 
-type TTestSettings = { wallCount: number };
-type TTestRule = TProductionRule<TTestSettings>;
+type TTestRule = TProductionRule;
 
 const floorRule: TTestRule = {
   type: ERuleType.FLOOR,
@@ -19,14 +18,13 @@ const floorRule: TTestRule = {
 
 const roomRule: TTestRule = {
   type: ERuleType.ROOM,
-  apply: ({ wallCount }) => ({
-    produces: [{ type: ERuleType.WALL, count: wallCount }],
+  apply: () => ({
+    produces: [{ type: ERuleType.WALL }, { type: ERuleType.WALL }],
   }),
 };
 
 const wallRule: TTestRule = {
   type: ERuleType.WALL,
-  terminal: true,
   apply: () => ({
     metadata: {
       type: 'empty',
@@ -44,9 +42,6 @@ describe('Generator', () => {
 
     const result = generator.generate({
       fromRule: ERuleType.FLOOR,
-      settings: {
-        wallCount: 2,
-      },
     });
 
     expect(result).toStrictEqual({

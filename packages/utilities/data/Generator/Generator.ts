@@ -1,18 +1,12 @@
-import { Registry, makeRegistry } from '@fenix-engine/utilities/misc';
+import { makeRegistry, type Registry } from '@fenix-engine/utilities/misc';
 import type {
   TDataMap,
   TGenerator,
   TProductionItem,
   TProductionRule,
-  TValidationFn,
 } from './types';
 
-type TGeneratorConfig = {
-  validateFn?: TValidationFn;
-  maxIterations?: number;
-};
-
-const create = (config?: TGeneratorConfig): TGenerator => {
+const create = (): TGenerator => {
   const registry = makeRegistry<TProductionRule>();
 
   return {
@@ -21,8 +15,6 @@ const create = (config?: TGeneratorConfig): TGenerator => {
         registry,
         settings,
         type: fromRule,
-        validate: config?.validateFn,
-        maxIterations: config?.maxIterations,
       }),
 
     rules: {
@@ -34,15 +26,13 @@ const create = (config?: TGeneratorConfig): TGenerator => {
 const handleRule = ({
   registry,
   type,
-  validate,
-  maxIterations = 10,
+  payload = {},
   settings = {},
 }: {
   registry: Registry<TProductionRule>;
   type: string;
-  maxIterations?: number;
+  payload?: TDataMap;
   settings?: TDataMap;
-  validate?: TValidationFn;
 }): TProductionItem => {
   const rule = registry.get(type);
 
@@ -52,37 +42,10 @@ const handleRule = ({
     );
   }
 
-  if (rule.terminal) {
-    const { metadata } = validate
-      ? applyRuleWithValidation(
-          type,
-          rule.apply,
-          validate,
-          maxIterations,
-          settings
-        )
-      : rule.apply(settings);
+  const { metadata, produces } = rule.apply(settings, payload);
 
-    return {
-      type,
-      metadata,
-    };
-  }
-
-  const { metadata, produces } = validate
-    ? applyRuleWithValidation(
-        type,
-        rule.apply,
-        validate,
-        maxIterations,
-        settings
-      )
-    : rule.apply(settings);
-
-  const children = produces.flatMap(({ type, count = 1 }) =>
-    Array.from({ length: count }).map(() =>
-      handleRule({ registry, type, validate, maxIterations, settings })
-    )
+  const children = produces?.map(({ payload, type }) =>
+    handleRule({ payload, registry, settings, type })
   );
 
   return {
@@ -90,32 +53,6 @@ const handleRule = ({
     metadata,
     children,
   };
-};
-
-const applyRuleWithValidation = <T extends { metadata?: TDataMap }>(
-  type: string,
-  apply: (settings: TDataMap) => T,
-  validate: TValidationFn,
-  maxIterations: number,
-  settings: TDataMap = {}
-) => {
-  const isValid = (result: T) => {
-    return result.metadata ? validate(type, result.metadata) : true;
-  };
-  let attempts = 1;
-
-  while (attempts < maxIterations - 1) {
-    const result = apply(settings);
-    const valid = isValid(result);
-
-    if (valid) {
-      return result;
-    }
-
-    attempts++;
-  }
-
-  return apply(settings);
 };
 
 export const Generator = {
