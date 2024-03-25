@@ -1,17 +1,29 @@
 import { Registry, makeRegistry } from '@fenix-engine/utilities/misc';
 import type {
-  TAnySettings,
+  TDataMap,
   TGenerator,
   TProductionItem,
   TProductionRule,
+  TValidationFn,
 } from './types';
 
-const create = (): TGenerator => {
+type TGeneratorConfig = {
+  validateFn?: TValidationFn;
+  maxIterations?: number;
+};
+
+const create = (config?: TGeneratorConfig): TGenerator => {
   const registry = makeRegistry<TProductionRule>();
 
   return {
     generate: ({ fromRule, settings }) =>
-      handleRule(registry, fromRule, settings),
+      handleRule({
+        registry,
+        settings,
+        type: fromRule,
+        validate: config?.validateFn,
+        maxIterations: config?.maxIterations,
+      }),
 
     rules: {
       register: (rule) => registry.add(rule.type, rule as TProductionRule),
@@ -19,11 +31,19 @@ const create = (): TGenerator => {
   };
 };
 
-const handleRule = (
-  registry: Registry<TProductionRule>,
-  type: string,
-  settings: TAnySettings = {}
-): TProductionItem => {
+const handleRule = ({
+  registry,
+  type,
+  validate,
+  maxIterations = 10,
+  settings = {},
+}: {
+  registry: Registry<TProductionRule>;
+  type: string;
+  maxIterations?: number;
+  settings?: TDataMap;
+  validate?: TValidationFn;
+}): TProductionItem => {
   const rule = registry.get(type);
 
   if (!rule) {
@@ -33,7 +53,15 @@ const handleRule = (
   }
 
   if (rule.terminal) {
-    const { metadata } = rule.apply(settings);
+    const { metadata } = validate
+      ? applyRuleWithValidation(
+          type,
+          rule.apply,
+          validate,
+          maxIterations,
+          settings
+        )
+      : rule.apply(settings);
 
     return {
       type,
@@ -41,11 +69,19 @@ const handleRule = (
     };
   }
 
-  const { metadata, produces } = rule.apply(settings);
+  const { metadata, produces } = validate
+    ? applyRuleWithValidation(
+        type,
+        rule.apply,
+        validate,
+        maxIterations,
+        settings
+      )
+    : rule.apply(settings);
 
   const children = produces.flatMap(({ type, count = 1 }) =>
     Array.from({ length: count }).map(() =>
-      handleRule(registry, type, settings)
+      handleRule({ registry, type, validate, maxIterations, settings })
     )
   );
 
@@ -54,6 +90,32 @@ const handleRule = (
     metadata,
     children,
   };
+};
+
+const applyRuleWithValidation = <T extends { metadata?: TDataMap }>(
+  type: string,
+  apply: (settings: TDataMap) => T,
+  validate: TValidationFn,
+  maxIterations: number,
+  settings: TDataMap = {}
+) => {
+  const isValid = (result: T) => {
+    return result.metadata ? validate(type, result.metadata) : true;
+  };
+  let attempts = 1;
+
+  while (attempts < maxIterations - 1) {
+    const result = apply(settings);
+    const valid = isValid(result);
+
+    if (valid) {
+      return result;
+    }
+
+    attempts++;
+  }
+
+  return apply(settings);
 };
 
 export const Generator = {

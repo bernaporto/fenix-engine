@@ -1,4 +1,4 @@
-export type TAnySettings = Record<string, unknown>;
+export type TDataMap = Record<string, unknown>;
 export type TMetadata = Record<string, unknown>;
 
 type TSymbol = {
@@ -11,7 +11,7 @@ type TApplyResult = {
   metadata?: TMetadata;
 };
 
-export type TProductionRule<T extends TAnySettings = TAnySettings> = {
+export type TProductionRule<T extends TDataMap = TDataMap> = {
   type: string;
 } & (
   | {
@@ -32,13 +32,15 @@ export type TProductionItem = {
 
 type TGenerateOptions = {
   fromRule: string;
-  settings?: TAnySettings;
+  settings?: TDataMap;
 };
 
 export type TGenerator = {
   generate: (options: TGenerateOptions) => TProductionItem;
 
   rules: {
-    register: <T extends TAnySettings>(rule: TProductionRule<T>) => void;
+    register: <T extends TDataMap>(rule: TProductionRule<T>) => void;
   };
 };
+
+export type TValidationFn = (type: string, data: TDataMap) => boolean;
