@@ -1,4 +1,4 @@
-import { createSubtractive } from './createSubtractive';
+import { Generator } from './Generator';
 
 enum EBuildingRule {
   BUILDING = 'building',
@@ -9,9 +9,9 @@ enum EBuildingRule {
   WINGS = 'wings',
 }
 
-describe('createSubtractive', () => {
+describe('Generator', () => {
   it('should generate content with defined rules', () => {
-    const generator = createSubtractive();
+    const generator = Generator.create();
 
     generator.rules.register({
       type: EBuildingRule.BUILDING,

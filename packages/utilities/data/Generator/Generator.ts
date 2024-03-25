@@ -6,7 +6,7 @@ import type {
   TProductionRule,
 } from './types';
 
-export const createSubtractive = (): TGenerator => {
+const create = (): TGenerator => {
   const registry = makeRegistry<TProductionRule>();
 
   return {
@@ -14,7 +14,7 @@ export const createSubtractive = (): TGenerator => {
       handleRule(registry, fromRule, settings),
 
     rules: {
-      register: (rule) => registry.add(rule.type, rule),
+      register: (rule) => registry.add(rule.type, rule as TProductionRule),
     },
   };
 };
@@ -54,4 +54,8 @@ const handleRule = (
     metadata,
     children,
   };
+};
+
+export const Generator = {
+  create,
 };

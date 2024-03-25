@@ -11,21 +11,18 @@ type TApplyResult = {
   metadata?: TMetadata;
 };
 
-export type TProductionRule = TSymbol &
-  (
-    | {
-        terminal?: false;
-        apply: <T extends TAnySettings = TAnySettings>(
-          settings: T
-        ) => TApplyResult;
-      }
-    | {
-        terminal: true;
-        apply: <T extends TAnySettings = TAnySettings>(
-          settings: T
-        ) => Omit<TApplyResult, 'produces'>;
-      }
-  );
+export type TProductionRule<T extends TAnySettings = TAnySettings> = {
+  type: string;
+} & (
+  | {
+      terminal?: false;
+      apply: (settings: T) => TApplyResult;
+    }
+  | {
+      terminal: true;
+      apply: (settings: T) => Omit<TApplyResult, 'produces'>;
+    }
+);
 
 export type TProductionItem = {
   type: string;
@@ -42,6 +39,6 @@ export type TGenerator = {
   generate: (options: TGenerateOptions) => TProductionItem;
 
   rules: {
-    register: (rule: TProductionRule) => void;
+    register: <T extends TAnySettings>(rule: TProductionRule<T>) => void;
   };
 };
