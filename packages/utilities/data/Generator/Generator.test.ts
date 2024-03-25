@@ -1,142 +1,89 @@
+import { TProductionRule } from '.';
 import { Generator } from './Generator';
 
-enum EBuildingRule {
-  BUILDING = 'building',
-  ROOF = 'roof',
-  STORY = 'story',
+enum ERuleType {
+  FLOOR = 'floor',
+  ROOM = 'room',
   WALL = 'wall',
-  WING = 'wing',
-  WINGS = 'wings',
 }
 
+type TTestSettings = { wallCount: number };
+type TTestRule = TProductionRule<TTestSettings>;
+
+const floorRule: TTestRule = {
+  type: ERuleType.FLOOR,
+  apply: () => ({
+    produces: [{ type: ERuleType.ROOM }],
+  }),
+};
+
+const roomRule: TTestRule = {
+  type: ERuleType.ROOM,
+  apply: ({ wallCount }) => ({
+    produces: [{ type: ERuleType.WALL, count: wallCount }],
+  }),
+};
+
+const wallRule: TTestRule = {
+  type: ERuleType.WALL,
+  terminal: true,
+  apply: () => ({
+    metadata: {
+      type: 'empty',
+    },
+  }),
+};
+
 describe('Generator', () => {
-  it('should generate content with defined rules', () => {
+  it('should generate content with defined rules.', () => {
     const generator = Generator.create();
 
-    generator.rules.register({
-      type: EBuildingRule.BUILDING,
-      apply: () => ({
-        produces: [{ type: EBuildingRule.WINGS }],
-        metadata: {
-          size: { x: 10, y: 10 },
-        },
-      }),
-    });
-
-    generator.rules.register({
-      type: EBuildingRule.WINGS,
-      apply: () => ({
-        produces: [{ type: EBuildingRule.WING }],
-      }),
-    });
-
-    generator.rules.register({
-      type: EBuildingRule.WING,
-      apply: () => ({
-        produces: [{ type: EBuildingRule.STORY }, { type: EBuildingRule.ROOF }],
-        metadata: {
-          position: { x: 0, y: 0 },
-          size: { x: 5, y: 10 },
-        },
-      }),
-    });
-
-    generator.rules.register({
-      type: EBuildingRule.STORY,
-      apply: () => ({
-        produces: [{ type: EBuildingRule.WALL, count: 4 }],
-        metadata: {
-          level: 0,
-        },
-      }),
-    });
-
-    generator.rules.register({
-      type: EBuildingRule.WALL,
-      terminal: true,
-      apply: () => ({
-        metadata: {
-          type: 'empty',
-        },
-      }),
-    });
-
-    generator.rules.register({
-      type: EBuildingRule.ROOF,
-      terminal: true,
-      apply: () => ({
-        metadata: {
-          type: 'flat',
-          direction: 'north',
-        },
-      }),
-    });
+    [floorRule, roomRule, wallRule].forEach((rule) =>
+      generator.rules.register(rule)
+    );
 
     const result = generator.generate({
-      fromRule: 'building',
+      fromRule: ERuleType.FLOOR,
+      settings: {
+        wallCount: 2,
+      },
     });
 
     expect(result).toStrictEqual({
-      type: 'building',
-      metadata: {
-        size: { x: 10, y: 10 },
-      },
+      type: 'floor',
+      metadata: undefined,
       children: [
         {
-          type: 'wings',
+          type: 'room',
           metadata: undefined,
           children: [
             {
-              type: 'wing',
+              type: 'wall',
               metadata: {
-                position: { x: 0, y: 0 },
-                size: { x: 5, y: 10 },
+                type: 'empty',
               },
-              children: [
-                {
-                  type: 'story',
-                  metadata: {
-                    level: 0,
-                  },
-                  children: [
-                    {
-                      type: 'wall',
-                      metadata: {
-                        type: 'empty',
-                      },
-                    },
-                    {
-                      type: 'wall',
-                      metadata: {
-                        type: 'empty',
-                      },
-                    },
-                    {
-                      type: 'wall',
-                      metadata: {
-                        type: 'empty',
-                      },
-                    },
-                    {
-                      type: 'wall',
-                      metadata: {
-                        type: 'empty',
-                      },
-                    },
-                  ],
-                },
-                {
-                  type: 'roof',
-                  metadata: {
-                    type: 'flat',
-                    direction: 'north',
-                  },
-                },
-              ],
+            },
+            {
+              type: 'wall',
+              metadata: {
+                type: 'empty',
+              },
             },
           ],
         },
       ],
     });
+  });
+
+  it('should fail if a rule is not registered.', () => {
+    const generator = Generator.create();
+
+    [floorRule, roomRule].forEach((rule) => generator.rules.register(rule));
+
+    expect(() => {
+      generator.generate({ fromRule: ERuleType.FLOOR });
+    }).toThrowError(
+      "[Generator] Failed to get rule of type 'wall'. Was it registered?"
+    );
   });
 });
