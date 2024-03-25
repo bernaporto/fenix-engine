@@ -1,13 +1,15 @@
-import type { TGenerator } from '@fenix-engine/utilities/data/Generator';
+import type {
+  TGenerator,
+  TProductionRule,
+} from '@fenix-engine/utilities/data/Generator';
 export type { EBuildingRule } from '../types';
 import { buildingRule } from './building';
 import { roofRule } from './roof';
 import { floorRule } from './floor';
 import { wallRule } from './wall';
-import { wingRule, wingsRule } from './wings';
 
 export const registerRules = (generator: TGenerator) => {
-  [buildingRule, floorRule, roofRule, wallRule, wingsRule, wingRule].forEach(
-    (rule) => generator.rules.register(rule)
+  [buildingRule, floorRule, roofRule, wallRule].forEach((rule) =>
+    generator.rules.register(rule as TProductionRule)
   );
 };

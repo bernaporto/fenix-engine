@@ -1,8 +1,8 @@
 import Generator from '@fenix-engine/utilities/data/Generator';
 import {
   EBuildingRule,
-  type TBuildingSettings,
   type TArchProject,
+  type TBuildingSettings,
 } from './types';
 import { getBuilder } from './builder';
 import { registerRules } from './rules';

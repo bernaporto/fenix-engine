@@ -1,14 +1,17 @@
 import { sampleOne } from '@fenix-engine/utilities/misc';
-import { EBuildingRule, type TBuildingRule } from '../types';
+import { EBuildingRule, ERoofType, type TBuildingRule } from '../types';
+
+type TRoofMetadata = {
+  type: ERoofType;
+};
 
 export const roofRule: TBuildingRule = {
   type: EBuildingRule.ROOF,
-  terminal: true,
   apply: ({ roof }) => {
-    return {
-      metadata: {
-        type: sampleOne(roof.types),
-      },
+    const metadata: TRoofMetadata = {
+      type: sampleOne(roof.types) ?? ERoofType.FLAT,
     };
+
+    return { metadata };
   },
 };

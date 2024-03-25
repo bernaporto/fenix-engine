@@ -1,15 +1,26 @@
 import { EBuildingRule, type TBuildingRule } from '../types';
 
-export const floorRule: TBuildingRule = {
+type TFloorPayload = {
+  level: number;
+};
+
+export const floorRule: TBuildingRule<TFloorPayload> = {
   type: EBuildingRule.FLOOR,
-  apply: ({ building }) => {
+  apply: (
+    { building },
+    {
+      /* level */
+    }
+  ) => {
+    const wallCount = building.size.x * 2 + building.size.y * 2;
+
     return {
-      produces: [
-        {
-          type: EBuildingRule.WALL,
-          count: (building.size.x + building.size.y) * 2,
+      produces: Array.from({ length: wallCount }, () => ({
+        type: EBuildingRule.WALL,
+        payload: {
+          /* typeOverride: EWallType.DOOR */
         },
-      ],
+      })),
     };
   },
 };

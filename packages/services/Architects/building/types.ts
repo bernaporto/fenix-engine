@@ -15,8 +15,6 @@ export enum EBuildingRule {
   ROOF = 'roof',
   FLOOR = 'floor',
   WALL = 'wall',
-  WING = 'wing',
-  WINGS = 'wings',
 }
 
 export enum ERoofType {
@@ -43,13 +41,7 @@ export type TBuildingSettings = {
   building: {
     size: Vector2;
   };
-  wings: {
-    count: TMinMax;
-    size: TMinMax<Vector2>;
-  };
-  wing: {
-    floors: TMinMax;
-  };
+  floors: TMinMax;
   roof: {
     types: ERoofType[];
   };
@@ -59,4 +51,8 @@ export type TBuildingSettings = {
 };
 
 /* RULES */
-export type TBuildingRule = TProductionRule<TBuildingSettings>;
+type TDataMap = Record<string, unknown>;
+export type TBuildingRule<T extends TDataMap = TDataMap> = TProductionRule<
+  TBuildingSettings,
+  T
+>;
