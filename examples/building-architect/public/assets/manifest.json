@@ -1,0 +1,8 @@
+{
+  "scenes": [
+    {
+      "key": "basic-scene",
+      "path": "assets/scenes/basic-scene.json"
+    }
+  ]
+}
