@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.22.0...v0.23.0) (2024-03-26)
+
+
+### Features
+
+* add building architect service ([1911183](http://bitbucket.org/bernaporto/fenix-engine/commits/19111837d30562c30db9108f7147051400741504))
+* add Generator service ([3d29a48](http://bitbucket.org/bernaporto/fenix-engine/commits/3d29a486e6d2f9532f869a62a2e12f523d1b16ae))
+* add theme factory service ([fd2c975](http://bitbucket.org/bernaporto/fenix-engine/commits/fd2c975a54f50e181ea7e235d80e48f8f0be365b))
+* implement building builder ([1cf70c4](http://bitbucket.org/bernaporto/fenix-engine/commits/1cf70c4b8509ea1f88e10c65bfebdcaece5b415f))
+
+
+
+
+
 # [0.22.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.21.0...v0.22.0) (2024-03-24)
 
 **Note:** Version bump only for package @fenix-engine/services

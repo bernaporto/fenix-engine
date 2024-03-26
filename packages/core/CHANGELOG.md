@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.23.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.22.0...v0.23.0) (2024-03-26)
+
+
+### Features
+
+* implement building builder ([1cf70c4](http://bitbucket.org/bernaporto/fenix-engine/commits/1cf70c4b8509ea1f88e10c65bfebdcaece5b415f))
+* improve puppeteer functionalities ([934f555](http://bitbucket.org/bernaporto/fenix-engine/commits/934f5550f08a411f23c2638e7642f030786f0ac0))
+
+
+
+
+
 # [0.22.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.21.0...v0.22.0) (2024-03-24)
 
 
