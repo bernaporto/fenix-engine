@@ -1,4 +1,5 @@
 import Generator from '@fenix-engine/utilities/data/Generator';
+import PRNG from '@fenix-engine/utilities/PRNG';
 import {
   EBuildingRule,
   type TArchProject,
@@ -12,6 +13,8 @@ registerRules(generator);
 
 export const BuildingArchitect = {
   plan: (settings: TBuildingSettings): TArchProject => {
+    settings.seed && PRNG.seed.set(settings.seed);
+
     const blueprint = generator.generate({
       settings,
       fromRule: EBuildingRule.BUILDING,

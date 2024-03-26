@@ -56,6 +56,7 @@ export type TBuildingSettings = {
   roof?: {
     allowed: ERoofType[];
   };
+  seed?: number;
   walls?: {
     disallowed: EWallType[];
   };

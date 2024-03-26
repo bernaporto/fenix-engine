@@ -1,4 +1,4 @@
-import { sampleOne } from '@fenix-engine/utilities/misc';
+import PRNG from '@fenix-engine/utilities/PRNG';
 import type { Vector3 } from '@fenix-engine/core/Math';
 import { EBuildingRule, ERoofType, type TBuildingRule } from '../types';
 
@@ -16,7 +16,7 @@ export const roofRule: TBuildingRule<TRoofPayload> = {
   apply: ({ roof }, { position }) => {
     const metadata: TRoofMetadata = {
       position,
-      type: (roof?.allowed && sampleOne(roof.allowed)) ?? ERoofType.FLAT,
+      type: (roof?.allowed && PRNG.choices(roof.allowed)) ?? ERoofType.FLAT,
     };
 
     return { metadata };

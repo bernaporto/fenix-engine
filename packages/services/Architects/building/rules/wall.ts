@@ -1,4 +1,4 @@
-import { sampleOne } from '@fenix-engine/utilities/misc';
+import PRNG from '@fenix-engine/utilities/PRNG';
 import type { Vector3 } from '@fenix-engine/core/Math';
 import {
   EBuildingRule,
@@ -25,7 +25,7 @@ export const wallRule: TBuildingRule<TWallPayload> = {
     const metadata: TWallMetadata = {
       direction,
       position,
-      type: sampleOne(types) ?? EWallType.EMPTY,
+      type: PRNG.choices(types) ?? EWallType.EMPTY,
     };
 
     return { metadata };
