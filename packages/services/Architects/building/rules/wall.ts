@@ -1,19 +1,31 @@
 import { sampleOne } from '@fenix-engine/utilities/misc';
-import { EBuildingRule, EWallType, type TBuildingRule } from '../types';
+import type { Vector3 } from '@fenix-engine/core/Math';
+import {
+  EBuildingRule,
+  EFaceDirection,
+  EWallType,
+  type TBuildingRule,
+} from '../types';
 
-type TWallMetadata = {
+export type TWallMetadata = {
+  direction: EFaceDirection;
   type: EWallType;
+  position: Vector3;
 };
 
 type TWallPayload = {
-  typeOverride?: EWallType;
+  direction: EFaceDirection;
+  position: Vector3;
+  types: EWallType[];
 };
 
 export const wallRule: TBuildingRule<TWallPayload> = {
   type: EBuildingRule.WALL,
-  apply: ({ wall }, { typeOverride }) => {
+  apply: (_, { position, types, direction }) => {
     const metadata: TWallMetadata = {
-      type: typeOverride ?? sampleOne(wall.types) ?? EWallType.EMPTY,
+      direction,
+      position,
+      type: sampleOne(types) ?? EWallType.EMPTY,
     };
 
     return { metadata };

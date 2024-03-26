@@ -27,4 +27,4 @@ export class Prop extends Unit {
   }
 }
 
-const cloneObject = (obj: Object3D): Object3D => obj.clone();
+const cloneObject = (obj: Object3D): Object3D => obj.clone(true);

@@ -2,11 +2,13 @@ import type {
   TProductionItem,
   TProductionRule,
 } from '@fenix-engine/utilities/data/Generator';
+import { Unit } from '@fenix-engine/core/Units';
 import type { Vector2 } from '@fenix-engine/core/Math';
+import type { TTheme } from '../theme';
 
 export type TArchProject = {
   blueprint: TProductionItem;
-  build: () => void;
+  build: (theme: TTheme) => Unit;
 };
 
 /* ENUMS */
@@ -15,6 +17,13 @@ export enum EBuildingRule {
   ROOF = 'roof',
   FLOOR = 'floor',
   WALL = 'wall',
+}
+
+export enum EFaceDirection {
+  NORTH = 'north',
+  EAST = 'east',
+  SOUTH = 'south',
+  WEST = 'west',
 }
 
 export enum ERoofType {
@@ -40,13 +49,15 @@ type TMinMax<T = number> = {
 export type TBuildingSettings = {
   building: {
     size: Vector2;
+    entrance?: EFaceDirection;
+    windows?: EFaceDirection[];
   };
   floors: TMinMax;
-  roof: {
-    types: ERoofType[];
+  roof?: {
+    allowed: ERoofType[];
   };
-  wall: {
-    types: EWallType[];
+  walls?: {
+    disallowed: EWallType[];
   };
 };
 

@@ -10,7 +10,7 @@ import { registerRules } from './rules';
 const generator = Generator.create();
 registerRules(generator);
 
-const BuildingArchitect = {
+export const BuildingArchitect = {
   plan: (settings: TBuildingSettings): TArchProject => {
     const blueprint = generator.generate({
       settings,
@@ -23,5 +23,3 @@ const BuildingArchitect = {
     };
   },
 };
-
-export default BuildingArchitect;

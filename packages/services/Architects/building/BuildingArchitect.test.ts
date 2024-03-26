@@ -1,4 +1,4 @@
-import BuildingArchitect from './BuildingArchitect';
+import { BuildingArchitect } from './BuildingArchitect';
 import { EBuildingRule, ERoofType, EWallType } from './types';
 
 describe('BuildingArchitect', () => {
@@ -11,10 +11,10 @@ describe('BuildingArchitect', () => {
         min: 1,
       },
       roof: {
-        types: [ERoofType.FLAT],
+        allowed: [ERoofType.FLAT],
       },
-      wall: {
-        types: [EWallType.EMPTY],
+      walls: {
+        disallowed: [EWallType.DOOR, EWallType.WINDOW],
       },
     });
 
