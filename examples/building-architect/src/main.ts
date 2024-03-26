@@ -65,8 +65,9 @@ game
     const scene = await game.stage.load('basic-scene');
 
     const building = BuildingArchitect.plan({
+      seed: 1389734156395,
       building: {
-        size: { x: 10, y: 3 },
+        size: { x: 7, y: 3 },
         entrance: EFaceDirection.SOUTH,
         windows: [
           EFaceDirection.SOUTH,
