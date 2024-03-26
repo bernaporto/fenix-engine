@@ -3,18 +3,43 @@
   "hierarchy": [
     {
       "type": "camera",
-      "angle": { "x": 45, "y": 45 },
+      "cameraType": "perspective",
       "behaviours": ["orbit"],
       "distance": 5
     },
     {
+      "type": "light",
+      "lightType": "ambient",
+      "color": "#fff",
+      "intensity": 1
+    },
+    {
+      "type": "light",
+      "lightType": "directional",
+      "color": "#fff",
+      "castShadow": true,
+      "intensity": 0.6,
+      "position": {
+        "x": 10,
+        "y": 20,
+        "z": 10
+      },
+      "target": {
+        "x": -6,
+        "y": 0,
+        "z": 5
+      },
+      "shadowMapWidth": 2048,
+      "shadowMapHeight": 2048
+    },
+    {
       "type": "plane",
       "material": {
-        "type": "basic",
+        "type": "standard",
         "color": "#333333"
       },
-      "rotation": { "x": 90, "y": 0, "z": 0 },
-      "scale": { "x": 10, "y": 10, "z": 10 }
+      "scale": { "x": 10, "y": 10, "z": 10 },
+      "rotation": { "x": -90, "y": 0, "z": 0 }
     }
   ]
 }
