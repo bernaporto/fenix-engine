@@ -1,6 +1,5 @@
 import { Vector2 } from '@fenix-engine/core/Math';
 import { EBuildingRule, type TBuildingRule } from '../types';
-import { randomInt } from '@fenix-engine/utilities/misc';
 
 export type TBuildingMetadata = {
   size: Vector2;
@@ -8,13 +7,18 @@ export type TBuildingMetadata = {
 
 export const buildingRule: TBuildingRule = {
   type: EBuildingRule.BUILDING,
-  apply: ({ building, floors }) => {
+  apply: ({ building, defaultPRNG, floors, seed }) => {
+    const floorStrategy = floors.strategy ?? 'copy';
+    const floorSeed =
+      floorStrategy === 'copy' ? seed ?? Date.now() * Math.random() : undefined;
+
     const totalFloors = floors.max
-      ? randomInt(floors.min, floors.max)
+      ? defaultPRNG.rangeInt(floors.min, floors.max)
       : floors.min;
+
     const floorSymbols = Array.from({ length: totalFloors }, (_, floor) => ({
       type: EBuildingRule.FLOOR,
-      payload: { floor, totalFloors },
+      payload: { floor, seed: floorSeed },
     }));
 
     const roofPartsCount = building.size.x * building.size.y;

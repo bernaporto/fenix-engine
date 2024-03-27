@@ -21,7 +21,9 @@ export const initScene = (scene: Scene) => {
       ],
     },
     floors: {
+      strategy: 'copy',
       min: 4,
+      max: 8,
     },
     roof: {
       allowed: [ERoofType.FLAT],

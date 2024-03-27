@@ -1,7 +1,7 @@
 import type { Unit } from '@fenix-engine/core/Units';
-import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
-import PRNG from '@fenix-engine/utilities/PRNG';
+import type { TPRNG } from '@fenix-engine/utilities/PRNG';
+import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import type { TTheme } from '../../theme';
 import type { TBuildingMetadata, TRoofMetadata } from '../rules';
 import { buildProp } from './utils';
@@ -10,7 +10,8 @@ export const buildRoof = (
   node: TLinkableItem<TProductionItem>,
   theme: TTheme,
   root: Unit,
-  building: TBuildingMetadata
+  building: TBuildingMetadata,
+  PRNG: TPRNG
 ) => {
   const metadata = node.payload.metadata as TRoofMetadata;
   const roofTheme = theme

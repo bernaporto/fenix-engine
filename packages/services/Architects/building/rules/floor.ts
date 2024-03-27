@@ -1,13 +1,16 @@
+import PRNG from '@fenix-engine/utilities/PRNG';
 import { EBuildingRule, EFaceDirection, type TBuildingRule } from '../types';
 
 type TFloorPayload = {
   floor: number;
-  totalFloors: number;
+  seed?: number;
 };
 
 export const floorRule: TBuildingRule<TFloorPayload> = {
   type: EBuildingRule.FLOOR,
-  apply: (settings, { floor }) => {
+  apply: (settings, { floor, seed }) => {
+    const prng = seed ? PRNG.create(seed) : settings.defaultPRNG;
+
     const getWallSymbol = (
       x: number,
       y: number,
@@ -17,6 +20,7 @@ export const floorRule: TBuildingRule<TFloorPayload> = {
       payload: {
         floor,
         direction,
+        prng,
         position: { x, y },
       },
     });

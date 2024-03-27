@@ -1,7 +1,7 @@
 import type { Unit } from '@fenix-engine/core/Units';
-import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
-import PRNG from '@fenix-engine/utilities/PRNG';
+import type { TPRNG } from '@fenix-engine/utilities/PRNG';
+import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import type { TTheme } from '../../theme';
 import type { TBuildingMetadata, TWallMetadata } from '../rules';
 import { buildProp } from './utils';
@@ -10,7 +10,8 @@ export const buildFloor = (
   node: TLinkableItem<TProductionItem>,
   theme: TTheme,
   root: Unit,
-  building: TBuildingMetadata
+  building: TBuildingMetadata,
+  PRNG: TPRNG
 ) => {
   node.payload.children?.forEach((wall) => {
     const metadata = wall.metadata as TWallMetadata;

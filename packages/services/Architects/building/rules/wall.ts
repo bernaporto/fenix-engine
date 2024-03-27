@@ -1,4 +1,4 @@
-import PRNG from '@fenix-engine/utilities/PRNG';
+import type { TPRNG } from '@fenix-engine/utilities/PRNG';
 import { Vector2, type Vector3 } from '@fenix-engine/core/Math';
 import {
   EBuildingRule,
@@ -18,19 +18,20 @@ export type TWallMetadata = {
 type TWallPayload = {
   direction: EFaceDirection;
   floor: number;
+  prng: TPRNG;
   position: Vector2;
 };
 
 export const wallRule: TBuildingRule<TWallPayload> = {
   type: EBuildingRule.WALL,
-  apply: (settings, { floor, position, direction }) => {
+  apply: (settings, { floor, position, direction, prng }) => {
     const types = getAllowedWalls(settings, floor, position, direction);
     const pos = offsetByDirection(position, direction, 0.5);
 
     const metadata: TWallMetadata = {
       direction,
       position: { x: pos.x, y: floor, z: pos.y },
-      type: PRNG.choices(types) ?? EWallType.EMPTY,
+      type: prng.choices(types) ?? EWallType.EMPTY,
     };
 
     return { metadata };

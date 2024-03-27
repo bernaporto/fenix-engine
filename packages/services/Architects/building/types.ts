@@ -1,3 +1,4 @@
+import type { TPRNG } from '@fenix-engine/utilities/PRNG';
 import type {
   TProductionItem,
   TProductionRule,
@@ -51,6 +52,10 @@ type TMinMax<T = number> = {
   min: T;
   max?: T;
 };
+type TBooleanVector2 = {
+  x: boolean;
+  y: boolean;
+};
 
 export type TBuildingSettings = {
   building: {
@@ -58,7 +63,10 @@ export type TBuildingSettings = {
     entrance?: EFaceDirection;
     windows?: EFaceDirection[];
   };
-  floors: TMinMax;
+  floors: TMinMax & {
+    mirror?: TBooleanVector2;
+    strategy?: 'random' | 'copy';
+  };
   roof?: {
     allowed: ERoofType[];
   };
@@ -71,6 +79,8 @@ export type TBuildingSettings = {
 /* RULES */
 type TDataMap = Record<string, unknown>;
 export type TBuildingRule<T extends TDataMap = TDataMap> = TProductionRule<
-  TBuildingSettings,
+  TBuildingSettings & {
+    defaultPRNG: TPRNG;
+  },
   T
 >;

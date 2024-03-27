@@ -1,4 +1,3 @@
-import PRNG from '@fenix-engine/utilities/PRNG';
 import { Vector2, Vector3 } from '@fenix-engine/core/Math';
 import {
   EBuildingRule,
@@ -23,7 +22,7 @@ export type TRoofMetadata = {
 
 export const roofRule: TBuildingRule<TRoofPayload> = {
   type: EBuildingRule.ROOF,
-  apply: ({ building, roof }, { position, roofLevel }) => {
+  apply: ({ building, defaultPRNG, roof }, { position, roofLevel }) => {
     const worldPos = Vector2.add(position, { x: 0.5, y: 0.5 });
     const maxPos = Vector2.subtract(building.size, Vector2.one);
     const tileType = getTileType(position, maxPos);
@@ -36,7 +35,8 @@ export const roofRule: TBuildingRule<TRoofPayload> = {
       tileType,
       direction,
       position: { x: worldPos.x, y: roofLevel, z: worldPos.y },
-      type: (roof?.allowed && PRNG.choices(roof.allowed)) ?? ERoofType.FLAT,
+      type:
+        (roof?.allowed && defaultPRNG.choices(roof.allowed)) ?? ERoofType.FLAT,
     };
 
     return { metadata };

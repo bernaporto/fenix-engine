@@ -9,17 +9,31 @@ const splitmix32 = (a: number) => () => {
   return ((t = t ^ (t >>> 15)) >>> 0) / 4294967296;
 };
 
-const getPRNG = () => {
+export type TPRNG = {
+  seed: {
+    get: () => number;
+    set: (value: number) => void;
+    reset: () => void;
+  };
+
+  int: () => number;
+  float: () => number;
+  rangeInt: (min: number, max: number) => number;
+  rangeFloat: (min: number, max: number) => number;
+  choices: <T>(array: T[]) => T | null;
+};
+
+const getPRNG = (): TPRNG => {
   let seed = Date.now() * Math.random();
   let prng = splitmix32(seed);
 
-  return {
+  const self: TPRNG = {
     seed: {
       get: () => {
         return seed;
       },
 
-      set: (value: number) => {
+      set: (value) => {
         seed = value;
         prng = splitmix32(value);
       },
@@ -38,14 +52,28 @@ const getPRNG = () => {
       return prng();
     },
 
-    range: (min: number, max: number) => {
-      return Math.floor(prng() * (max - min) + min);
+    rangeInt: (min, max) => {
+      return Math.floor(self.rangeFloat(min, max));
+    },
+
+    rangeFloat: (min, max) => {
+      return prng() * (max - min) + min;
     },
 
     choices: <T>(array: T[]): T | null => {
       return array[Math.floor(prng() * array.length)] ?? null;
     },
   };
+
+  return self;
 };
 
-export const PRNG = getPRNG();
+export const PRNG = {
+  create: (seed?: number) => {
+    const prng = getPRNG();
+    seed && prng.seed.set(seed);
+
+    return prng;
+  },
+  default: getPRNG(),
+};

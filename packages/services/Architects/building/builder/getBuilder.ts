@@ -2,8 +2,9 @@ import { isNotNullable } from '@fenix-engine/utilities/misc';
 import LinkedTree, {
   type TLinkableItem,
 } from '@fenix-engine/utilities/data/LinkedTree';
-import { Unit } from '@fenix-engine/core/Units';
+import { TPRNG } from '@fenix-engine/utilities/PRNG/PRNG';
 import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
+import { Unit } from '@fenix-engine/core/Units';
 import type { TTheme } from '../../theme';
 import { EBuildingRule } from '../types';
 import type { TBuildingMetadata } from '../rules';
@@ -11,7 +12,7 @@ import { buildFloor } from './buildFloor';
 import { buildRoof } from './buildRoof';
 
 export const getBuilder =
-  (blueprint: TProductionItem) =>
+  (blueprint: TProductionItem, PRNG: TPRNG) =>
   (theme: TTheme): Unit => {
     const bpTree = LinkedTree.create(toLinkableItem(blueprint), (item) =>
       (item.payload.children ?? []).map((c, index) =>
@@ -25,10 +26,10 @@ export const getBuilder =
     LinkedTree.traverse(bpTree, (node) => {
       switch (node.payload.type) {
         case EBuildingRule.FLOOR:
-          buildFloor(node, theme, root, building);
+          buildFloor(node, theme, root, building, PRNG);
           break;
         case EBuildingRule.ROOF:
-          buildRoof(node, theme, root, building);
+          buildRoof(node, theme, root, building, PRNG);
           break;
       }
     });
