@@ -1,0 +1,1 @@
+export { applyStrategies } from './applyStrategies';

@@ -19,10 +19,10 @@ export type TProductionRule<
   apply: (settings: T, payload: U) => TApplyResult;
 };
 
-export type TProductionItem = {
+export type TProductionItem<T extends TMetadata = TMetadata> = {
   type: string;
   children?: TProductionItem[];
-  metadata?: TMetadata;
+  metadata?: T;
 };
 
 type TGenerateOptions = {

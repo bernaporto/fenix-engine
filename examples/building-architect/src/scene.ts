@@ -11,7 +11,7 @@ import { theme } from './theme';
 const config: TBuildingSettings = {
   seed: 124390050350.37036,
   building: {
-    size: { x: 7, y: 3 },
+    size: { x: 6, y: 3 },
     entranceOn: EFaceDirection.SOUTH,
     allowWindowsOn: [
       EFaceDirection.NORTH,
@@ -21,10 +21,11 @@ const config: TBuildingSettings = {
     ],
   },
   floors: {
+    // strategy: 'random',
     count: {
       min: 4,
-      max: 8,
     },
+    mirror: true,
   },
   roof: {
     allowed: [ERoofType.FLAT],

@@ -6,6 +6,7 @@ import { TPRNG } from '@fenix-engine/utilities/PRNG/PRNG';
 import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import { Unit } from '@fenix-engine/core/Units';
 import type { TTheme } from '../../theme';
+import { applyStrategies } from '../strategies';
 import { EBuildingRule, type TBuildingSettings } from '../types';
 import { buildFloor } from './floor';
 import { buildRoof } from './roof';
@@ -21,6 +22,7 @@ export const build = (
       toLinkableItem(c, item, index)
     )
   );
+  applyStrategies(settings, bpTree);
 
   const root = new Unit();
 
