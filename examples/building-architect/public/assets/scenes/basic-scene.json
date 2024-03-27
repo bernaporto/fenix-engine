@@ -5,7 +5,8 @@
       "type": "camera",
       "cameraType": "perspective",
       "behaviours": ["orbit"],
-      "distance": 5
+      "angle": { "x": -15, "y": 0 },
+      "distance": 16
     },
     {
       "type": "light",

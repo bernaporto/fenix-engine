@@ -2,37 +2,40 @@ import { AxesHelper } from 'three';
 import BuildingArchitect, {
   EFaceDirection,
   ERoofType,
+  type TBuildingSettings,
 } from '@fenix-engine/services/Architects/building';
 import { Scene } from '@fenix-engine/core/Scene';
 import { Unit } from '@fenix-engine/core/Units';
 import { theme } from './theme';
 
-export const initScene = (scene: Scene) => {
-  const building = BuildingArchitect.plan({
-    seed: 1389734156395,
-    building: {
-      size: { x: 7, y: 3 },
-      entrance: EFaceDirection.SOUTH,
-      windows: [
-        EFaceDirection.NORTH,
-        EFaceDirection.EAST,
-        EFaceDirection.SOUTH,
-        EFaceDirection.WEST,
-      ],
-    },
-    floors: {
-      strategy: 'copy',
+const config: TBuildingSettings = {
+  seed: 124390050350.37036,
+  building: {
+    size: { x: 7, y: 3 },
+    entranceOn: EFaceDirection.SOUTH,
+    allowWindowsOn: [
+      EFaceDirection.NORTH,
+      EFaceDirection.EAST,
+      EFaceDirection.SOUTH,
+      EFaceDirection.WEST,
+    ],
+  },
+  floors: {
+    count: {
       min: 4,
       max: 8,
     },
-    roof: {
-      allowed: [ERoofType.FLAT],
-    },
-  }).build(theme);
-
-  scene.append(building);
-
+  },
+  roof: {
+    allowed: [ERoofType.FLAT],
+  },
+};
+export const initScene = (scene: Scene) => {
   addAxisHeplers(scene);
+
+  const building = BuildingArchitect.build(config, theme);
+  // console.log(building.seed);
+  scene.append(building.unit);
 };
 
 const addAxisHeplers = (scene: Scene) => {

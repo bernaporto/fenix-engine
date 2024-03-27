@@ -3,14 +3,15 @@ import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
 import type { TPRNG } from '@fenix-engine/utilities/PRNG';
 import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import type { TTheme } from '../../theme';
-import type { TBuildingMetadata, TWallMetadata } from '../rules';
+import type { TBuildingSettings } from '../types';
+import type { TWallMetadata } from '../rules';
 import { buildProp } from './utils';
 
 export const buildFloor = (
   node: TLinkableItem<TProductionItem>,
   theme: TTheme,
   root: Unit,
-  building: TBuildingMetadata,
+  settings: TBuildingSettings,
   PRNG: TPRNG
 ) => {
   node.payload.children?.forEach((wall) => {
@@ -24,6 +25,6 @@ export const buildFloor = (
       );
     }
 
-    root.append(buildProp(themeItem, building, metadata));
+    root.append(buildProp(themeItem, settings, metadata));
   });
 };

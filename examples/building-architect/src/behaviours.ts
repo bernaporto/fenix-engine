@@ -7,6 +7,8 @@ export const registerBehaviours = (game: Game) => {
     const camera = (unit as unknown as Camera).camera;
     const controls = new OrbitControls(camera, game.renderer.domElement);
     controls.enableDamping = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
 
     return {
       onUpdate: () => {

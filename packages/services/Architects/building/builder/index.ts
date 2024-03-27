@@ -1,1 +1,1 @@
-export { getBuilder } from './getBuilder';
+export { build } from './build';

@@ -8,3 +8,9 @@ export {
   ETileType,
   EWallType,
 } from './types';
+export type {
+  TBuildingConfig,
+  TBuildingSettings,
+  TFloorConfig,
+  TFloorStrategy,
+} from './types';

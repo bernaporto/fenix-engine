@@ -1,6 +1,10 @@
 import PRNG from '@fenix-engine/utilities/PRNG';
 import { EBuildingRule, EFaceDirection, type TBuildingRule } from '../types';
 
+export type TFloorMetadata = {
+  floor: number;
+};
+
 type TFloorPayload = {
   floor: number;
   seed?: number;
@@ -40,8 +44,10 @@ export const floorRule: TBuildingRule<TFloorPayload> = {
       getWallSymbol(i, building.size.y, EFaceDirection.SOUTH)
     );
 
+    const metadata: TFloorMetadata = { floor };
+
     return {
-      metadata: { floor },
+      metadata,
       produces: [...northWalls, ...eastWalls, ...southWalls, ...westWalls],
     };
   },

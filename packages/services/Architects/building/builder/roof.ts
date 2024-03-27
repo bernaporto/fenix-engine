@@ -3,14 +3,15 @@ import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
 import type { TPRNG } from '@fenix-engine/utilities/PRNG';
 import type { TProductionItem } from '@fenix-engine/utilities/data/Generator';
 import type { TTheme } from '../../theme';
-import type { TBuildingMetadata, TRoofMetadata } from '../rules';
+import type { TBuildingSettings } from '../types';
+import type { TRoofMetadata } from '../rules';
 import { buildProp } from './utils';
 
 export const buildRoof = (
   node: TLinkableItem<TProductionItem>,
   theme: TTheme,
   root: Unit,
-  building: TBuildingMetadata,
+  settings: TBuildingSettings,
   PRNG: TPRNG
 ) => {
   const metadata = node.payload.metadata as TRoofMetadata;
@@ -25,5 +26,5 @@ export const buildRoof = (
     );
   }
 
-  root.append(buildProp(themeItem, building, metadata));
+  root.append(buildProp(themeItem, settings, metadata));
 };

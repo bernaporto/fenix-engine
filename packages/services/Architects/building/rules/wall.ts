@@ -47,7 +47,7 @@ const getAllowedWalls = (
   const groundFloor = floor === 0;
   const { building, walls } = settings;
 
-  if (groundFloor && building.entrance === direction) {
+  if (groundFloor && building.entranceOn === direction) {
     const doorPos = getDoorPosition(building, direction);
 
     if (Vector2.equals(position, doorPos)) {
@@ -57,12 +57,12 @@ const getAllowedWalls = (
 
   const allowedWalls: EWallType[] = [EWallType.EMPTY];
 
-  if (building.windows && building.windows.includes(direction)) {
+  if (building.allowWindowsOn && building.allowWindowsOn.includes(direction)) {
     allowedWalls.push(EWallType.WINDOW);
   }
 
   return allowedWalls.filter(
-    (type) => !(walls && walls.disallowed.includes(type))
+    (type) => !(walls && walls.disallowed?.includes(type))
   );
 };
 

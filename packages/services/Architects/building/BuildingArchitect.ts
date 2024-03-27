@@ -1,18 +1,19 @@
 import Generator from '@fenix-engine/utilities/data/Generator';
 import PRNG from '@fenix-engine/utilities/PRNG';
+import type { TTheme } from '../theme';
 import {
   EBuildingRule,
   type TArchProject,
   type TBuildingSettings,
 } from './types';
-import { getBuilder } from './builder';
+import { build } from './builder';
 import { registerRules } from './rules';
 
 const generator = Generator.create();
 registerRules(generator);
 
 export const BuildingArchitect = {
-  plan: (settings: TBuildingSettings): TArchProject => {
+  build: (settings: TBuildingSettings, theme: TTheme): TArchProject => {
     const defaultPRNG = PRNG.create(settings.seed);
 
     const blueprint = generator.generate({
@@ -24,8 +25,8 @@ export const BuildingArchitect = {
     });
 
     return {
-      blueprint,
-      build: getBuilder(blueprint, defaultPRNG),
+      seed: defaultPRNG.seed.get(),
+      unit: build(settings, blueprint, theme, defaultPRNG),
     };
   },
 };

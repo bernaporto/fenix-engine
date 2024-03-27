@@ -2,10 +2,10 @@ import type {
   TGenerator,
   TProductionRule,
 } from '@fenix-engine/utilities/data/Generator';
-import { buildingRule, type TBuildingMetadata } from './building';
+import { buildingRule } from './building';
 import { roofRule, type TRoofMetadata } from './roof';
-import { floorRule } from './floor';
-import { wallRule, TWallMetadata } from './wall';
+import { floorRule, type TFloorMetadata } from './floor';
+import { wallRule, type TWallMetadata } from './wall';
 
 export const registerRules = (generator: TGenerator) => {
   [buildingRule, floorRule, roofRule, wallRule].forEach((rule) =>
@@ -13,4 +13,4 @@ export const registerRules = (generator: TGenerator) => {
   );
 };
 
-export type { TBuildingMetadata, TRoofMetadata, TWallMetadata };
+export type { TFloorMetadata, TRoofMetadata, TWallMetadata };

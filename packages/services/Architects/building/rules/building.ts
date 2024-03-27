@@ -1,26 +1,27 @@
-import { Vector2 } from '@fenix-engine/core/Math';
 import { EBuildingRule, type TBuildingRule } from '../types';
-
-export type TBuildingMetadata = {
-  size: Vector2;
-};
 
 export const buildingRule: TBuildingRule = {
   type: EBuildingRule.BUILDING,
-  apply: ({ building, defaultPRNG, floors, seed }) => {
-    const floorStrategy = floors.strategy ?? 'copy';
-    const floorSeed =
-      floorStrategy === 'copy' ? seed ?? Date.now() * Math.random() : undefined;
+  apply: (settings) => {
+    const { building, defaultPRNG, floors, seed } = settings;
 
-    const totalFloors = floors.max
-      ? defaultPRNG.rangeInt(floors.min, floors.max)
-      : floors.min;
+    /* FLOORS */
+    const { count } = floors;
+    const floorStrategy = floors.strategy ?? 'default';
+    const floorSeed =
+      floorStrategy === 'default'
+        ? seed ?? Date.now() * Math.random()
+        : undefined;
+    const totalFloors = count.max
+      ? defaultPRNG.rangeInt(count.min, count.max)
+      : count.min;
 
     const floorSymbols = Array.from({ length: totalFloors }, (_, floor) => ({
       type: EBuildingRule.FLOOR,
       payload: { floor, seed: floorSeed },
     }));
 
+    /* ROOF */
     const roofPartsCount = building.size.x * building.size.y;
     const roofSymbols = Array.from({ length: roofPartsCount }, (_, i) => ({
       type: EBuildingRule.ROOF,
@@ -33,12 +34,7 @@ export const buildingRule: TBuildingRule = {
       },
     }));
 
-    const metadata: TBuildingMetadata = {
-      size: building.size,
-    };
-
     return {
-      metadata,
       produces: [...floorSymbols, ...roofSymbols],
     };
   },
