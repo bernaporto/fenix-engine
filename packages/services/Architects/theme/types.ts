@@ -1,5 +1,5 @@
-import type { MaterialConfig } from '@fenix-engine/core/@types';
 import type { Material } from '@fenix-engine/core/Units';
+import type { MaterialConfig } from '@fenix-engine/core/@types';
 
 export type TThemeItem = {
   asset: string;
@@ -7,7 +7,8 @@ export type TThemeItem = {
 };
 
 export type TThemeRule = {
-  add(...values: TThemeItem[]): void;
+  id: string;
+  add(...values: TThemeItem[]): string;
   get(): TThemeItem[];
 };
 

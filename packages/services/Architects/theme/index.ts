@@ -1,4 +1,4 @@
 import { ThemeFactory } from './ThemeFactory';
 
 export default ThemeFactory;
-export type { TTheme } from './types';
+export type { TTheme, TThemeItem, TThemeRule } from './types';

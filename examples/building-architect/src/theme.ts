@@ -3,6 +3,7 @@ import {
   EBuildingRule,
   EWallType,
   ERoofType,
+  ETileType,
 } from '@fenix-engine/services/Architects/building';
 import ThemeFactory from '@fenix-engine/services/Architects/theme';
 
@@ -35,25 +36,17 @@ theme.rule(EBuildingRule.WALL, [EWallType.WINDOW]).add(
 );
 
 /* ROOF */
-const roofCorner = theme
-  .rule(EBuildingRule.ROOF, [ERoofType.FLAT, 'corner'])
-  .add({
-    material,
-    asset: 'assets/buildings/sample/roof_corner.obj',
-  });
+theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.CORNER]).add({
+  material,
+  asset: 'assets/buildings/sample/roof_corner.obj',
+});
 
-const roofSide = theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, 'edge']).add({
+theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.EDGE]).add({
   material,
   asset: 'assets/buildings/sample/roof_side.obj',
 });
 
-const roofCenter = theme
-  .rule(EBuildingRule.ROOF, [ERoofType.FLAT, 'center'])
-  .add({
-    material,
-    asset: 'assets/buildings/sample/roof_center.obj',
-  });
-
-theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT]).add({
-  proxyFor: [roofCorner, roofSide, roofCenter],
+theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.CENTER]).add({
+  material,
+  asset: 'assets/buildings/sample/roof_center.obj',
 });

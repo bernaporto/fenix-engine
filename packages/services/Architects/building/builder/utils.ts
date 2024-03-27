@@ -1,10 +1,10 @@
 import { Vector2, Vector3 } from '@fenix-engine/core/Math';
 import { Material, Prop } from '@fenix-engine/core/Units';
-import type { TThemeItem } from '../../theme/types';
+import type { TThemeItem } from '../../theme';
 import { EFaceDirection } from '../types';
 import type { TBuildingMetadata, TRoofMetadata, TWallMetadata } from '../rules';
 
-export const buildAndAppend = (
+export const buildProp = (
   themeItem: TThemeItem,
   building: TBuildingMetadata,
   metadata: TRoofMetadata | TWallMetadata

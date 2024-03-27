@@ -21,10 +21,10 @@ export const buildingRule: TBuildingRule = {
     const roofSymbols = Array.from({ length: roofPartsCount }, (_, i) => ({
       type: EBuildingRule.ROOF,
       payload: {
+        roofLevel: totalFloors,
         position: {
-          x: (i % building.size.x) + 0.5,
-          y: totalFloors,
-          z: Math.floor(i / building.size.x) + 0.5,
+          x: i % building.size.x,
+          y: Math.floor(i / building.size.x),
         },
       },
     }));

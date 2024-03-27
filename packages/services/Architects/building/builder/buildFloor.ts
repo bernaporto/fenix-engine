@@ -4,7 +4,7 @@ import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
 import PRNG from '@fenix-engine/utilities/PRNG';
 import type { TTheme } from '../../theme';
 import type { TBuildingMetadata, TWallMetadata } from '../rules';
-import { buildAndAppend } from './utils';
+import { buildProp } from './utils';
 
 export const buildFloor = (
   node: TLinkableItem<TProductionItem>,
@@ -23,6 +23,6 @@ export const buildFloor = (
       );
     }
 
-    root.append(buildAndAppend(themeItem, building, metadata));
+    root.append(buildProp(themeItem, building, metadata));
   });
 };

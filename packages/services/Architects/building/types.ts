@@ -40,6 +40,12 @@ export enum EWallType {
   WINDOW = 'window',
 }
 
+export enum ETileType {
+  CENTER = 'center',
+  CORNER = 'corner',
+  EDGE = 'edge',
+}
+
 /* SETTINGS */
 type TMinMax<T = number> = {
   min: T;

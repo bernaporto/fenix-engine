@@ -4,7 +4,7 @@ import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
 import PRNG from '@fenix-engine/utilities/PRNG';
 import type { TTheme } from '../../theme';
 import type { TBuildingMetadata, TRoofMetadata } from '../rules';
-import { buildAndAppend } from './utils';
+import { buildProp } from './utils';
 
 export const buildRoof = (
   node: TLinkableItem<TProductionItem>,
@@ -13,7 +13,9 @@ export const buildRoof = (
   building: TBuildingMetadata
 ) => {
   const metadata = node.payload.metadata as TRoofMetadata;
-  const roofTheme = theme.rule('roof', [metadata.type as string]).get();
+  const roofTheme = theme
+    .rule('roof', [metadata.type, metadata.tileType])
+    .get();
 
   const themeItem = PRNG.choices(roofTheme);
   if (!themeItem) {
@@ -22,5 +24,5 @@ export const buildRoof = (
     );
   }
 
-  root.append(buildAndAppend(themeItem, building, metadata));
+  root.append(buildProp(themeItem, building, metadata));
 };

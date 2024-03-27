@@ -6,7 +6,11 @@ const create = (): TTheme => {
 
   const getRuleController = (rule: string): TThemeRule => {
     return {
-      add(...values): void {
+      get id() {
+        return rule;
+      },
+
+      add(...values) {
         const set = registry.get(rule) ?? new Set();
 
         if (!registry.has(rule)) {
@@ -14,6 +18,8 @@ const create = (): TTheme => {
         }
 
         values.forEach((value) => set.add(value));
+
+        return rule;
       },
 
       get() {
