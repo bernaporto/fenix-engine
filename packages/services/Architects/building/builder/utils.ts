@@ -1,4 +1,4 @@
-import type { Vector2, Vector3 } from '@fenix-engine/core/Math';
+import { Vector2, Vector3 } from '@fenix-engine/core/Math';
 import { Material, Prop } from '@fenix-engine/core/Units';
 import type { TThemeItem } from '../../theme/types';
 import { EFaceDirection } from '../types';
@@ -30,25 +30,27 @@ const applyTransformations = (
 ) => {
   if (!metadata) return;
 
-  const position3D = {
-    x: metadata.position.x - buildingSize.x / 2,
-    y: metadata.position.y,
-    z: metadata.position.z - buildingSize.y / 2,
+  const buildingOffset = {
+    x: buildingSize.x / 2,
+    y: 0,
+    z: buildingSize.y / 2,
   };
+
+  const position3D = Vector3.subtract(metadata.position, buildingOffset);
   prop.transform.setPosition(position3D);
 
   switch (metadata.direction) {
-    case EFaceDirection.SOUTH:
-      prop.transform.rotateY(0);
+    case EFaceDirection.NORTH:
+      prop.transform.rotateY(180);
       break;
     case EFaceDirection.EAST:
       prop.transform.rotateY(90);
       break;
-    case EFaceDirection.NORTH:
-      prop.transform.rotateY(180);
+    case EFaceDirection.SOUTH:
+      prop.transform.rotateY(0);
       break;
     case EFaceDirection.WEST:
-      prop.transform.rotateY(270);
+      prop.transform.rotateY(-90);
       break;
   }
 };

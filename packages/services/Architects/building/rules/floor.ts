@@ -30,17 +30,17 @@ export const floorRule: TBuildingRule<TFloorPayload> = {
 
     const { building } = settings;
 
-    const southWalls = Array.from({ length: building.size.x }, (_, i) =>
-      getWallSymbol(i + 0.5, 0, EFaceDirection.NORTH)
-    );
-    const westWalls = Array.from({ length: building.size.y }, (_, i) =>
+    const eastWalls = Array.from({ length: building.size.y }, (_, i) =>
       getWallSymbol(building.size.x, i + 0.5, EFaceDirection.EAST)
     );
     const northWalls = Array.from({ length: building.size.x }, (_, i) =>
-      getWallSymbol(i + 0.5, building.size.y, EFaceDirection.SOUTH)
+      getWallSymbol(i + 0.5, 0, EFaceDirection.NORTH)
     );
-    const eastWalls = Array.from({ length: building.size.y }, (_, i) =>
+    const westWalls = Array.from({ length: building.size.y }, (_, i) =>
       getWallSymbol(0, i + 0.5, EFaceDirection.WEST)
+    );
+    const southWalls = Array.from({ length: building.size.x }, (_, i) =>
+      getWallSymbol(i + 0.5, building.size.y, EFaceDirection.SOUTH)
     );
 
     return {
@@ -83,12 +83,12 @@ const getDoorPosition = (
   direction: EFaceDirection
 ) => {
   switch (direction) {
-    case EFaceDirection.SOUTH:
-      return { x: Math.floor(building.size.x / 2) + 0.5, y: building.size.y };
-    case EFaceDirection.WEST:
-      return { x: 0, y: Math.floor(building.size.y / 2) + 0.5 };
     case EFaceDirection.NORTH:
       return { x: Math.floor(building.size.x / 2) + 0.5, y: 0 };
+    case EFaceDirection.WEST:
+      return { x: 0, y: Math.floor(building.size.y / 2) + 0.5 };
+    case EFaceDirection.SOUTH:
+      return { x: Math.floor(building.size.x / 2) + 0.5, y: building.size.y };
     case EFaceDirection.EAST:
       return { x: building.size.x, y: Math.floor(building.size.y / 2) + 0.5 };
   }

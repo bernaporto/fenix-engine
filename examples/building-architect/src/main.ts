@@ -1,3 +1,4 @@
+import { AxesHelper } from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { game } from '@fenix-engine/core';
 import BuildingArchitect, {
@@ -7,7 +8,8 @@ import BuildingArchitect, {
   EWallType,
 } from '@fenix-engine/services/Architects/building';
 import ThemeFactory from '@fenix-engine/services/Architects/theme';
-import { Camera, Material } from '@fenix-engine/core/Units';
+import { Camera, Material, Unit } from '@fenix-engine/core/Units';
+import { Scene } from '@fenix-engine/core/Scene';
 
 /* BEHAVIOURS */
 game.behaviours.register('orbit', (unit) => {
@@ -70,10 +72,10 @@ game
         size: { x: 7, y: 3 },
         entrance: EFaceDirection.SOUTH,
         windows: [
-          EFaceDirection.SOUTH,
-          EFaceDirection.WEST,
           EFaceDirection.NORTH,
           EFaceDirection.EAST,
+          EFaceDirection.SOUTH,
+          EFaceDirection.WEST,
         ],
       },
       floors: {
@@ -85,4 +87,13 @@ game
     }).build(theme);
 
     scene.append(building);
+
+    addAxisHeplers(scene);
   });
+
+const addAxisHeplers = (scene: Scene) => {
+  const axesHelper = new AxesHelper(5);
+  const unit = new Unit();
+  unit.node.add(axesHelper);
+  scene.append(unit);
+};
