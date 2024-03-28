@@ -11,21 +11,20 @@ const applyMirror = (blueprint: TBlueprint, buildingSize: Vector2) => {
   const halfPoint = Vector2.divideScalar(buildingSize, 2);
   const mirrorArea = {
     x: halfPoint.x,
-    y: buildingSize.y,
+    y: buildingSize.y + 1,
   };
 
   LinkedTree.traverse(blueprint, (node) => {
     if (node.payload.type !== EBuildingRule.FLOOR) return;
 
     const branch = LinkedTree.branch(node);
-    // mirrorX
     node.children.forEach((child) => {
       if (!isWallMetadata(child.payload.metadata)) return;
 
       const metadata = child.payload.metadata;
       if (isInsideMirrorArea(metadata.position, mirrorArea)) return;
 
-      const oppositeChildType = findOppositeWallType(
+      const oppositeChild = findOppositeChild(
         metadata.position,
         halfPoint,
         branch,
@@ -33,18 +32,19 @@ const applyMirror = (blueprint: TBlueprint, buildingSize: Vector2) => {
       );
 
       if (
+        !oppositeChild ||
         metadata.type === EWallType.DOOR ||
-        oppositeChildType === EWallType.DOOR
+        oppositeChild.type === EWallType.DOOR
       ) {
         return;
       }
 
-      const newMetadata = {
+      child.payload.metadata = {
         ...metadata,
-        type: oppositeChildType ?? metadata.type,
+        ...oppositeChild,
+        position: metadata.position,
+        direction: metadata.direction,
       };
-
-      child.payload.metadata = newMetadata;
     });
   });
 };
@@ -55,12 +55,12 @@ const isWallMetadata = (metadata: unknown): metadata is TWallMetadata =>
   'position' in metadata &&
   'direction' in metadata;
 
-const findOppositeWallType = (
+const findOppositeChild = (
   position: Vector3,
   mirrorPos: Vector2,
   tree: TLinkedTree<TProductionItem>,
   mirrorX = true
-) => {
+): TWallMetadata | null => {
   const x = mirrorX ? mirrorPos.x - (position.x - mirrorPos.x) : position.x;
   const y = !mirrorX ? mirrorPos.y - (position.z - mirrorPos.y) : position.z;
 
@@ -72,7 +72,7 @@ const findOppositeWallType = (
     return metadata.position.x === x && metadata.position.z === y;
   });
 
-  return node?.payload.metadata?.type ?? null;
+  return (node?.payload.metadata as TWallMetadata) ?? null;
 };
 
 const isInsideMirrorArea = (position: Vector3, mirrorArea: Vector2) =>

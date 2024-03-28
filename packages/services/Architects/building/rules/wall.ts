@@ -13,6 +13,7 @@ export type TWallMetadata = {
   direction: EFaceDirection;
   type: EWallType;
   position: Vector3;
+  variant?: string;
 };
 
 type TWallPayload = {
@@ -27,11 +28,14 @@ export const wallRule: TBuildingRule<TWallPayload> = {
   apply: (settings, { floor, position, direction, prng }) => {
     const types = getAllowedWalls(settings, floor, position, direction);
     const pos = offsetByDirection(position, direction, 0.5);
+    const type = prng.choices(types) ?? EWallType.EMPTY;
+    const variant = prng.choices(settings.walls?.variants?.[type] ?? []);
 
     const metadata: TWallMetadata = {
       direction,
+      type,
       position: { x: pos.x, y: floor, z: pos.y },
-      type: prng.choices(types) ?? EWallType.EMPTY,
+      variant: variant ? variant : undefined,
     };
 
     return { metadata };

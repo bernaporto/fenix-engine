@@ -7,6 +7,11 @@ import {
 } from '@fenix-engine/services/Architects/building';
 import ThemeFactory from '@fenix-engine/services/Architects/theme';
 
+export enum EWallVariant {
+  SINGLE = 'single',
+  DOUBLE = 'double',
+}
+
 export const theme = ThemeFactory.create();
 const material = new Material({
   type: 'standard',
@@ -30,16 +35,15 @@ theme.rule(EBuildingRule.WALL, [EWallType.EMPTY]).add({
   asset: 'assets/buildings/sample/wall_solid.obj',
 });
 
-theme.rule(EBuildingRule.WALL, [EWallType.WINDOW]).add(
-  {
-    config,
-    asset: 'assets/buildings/sample/wall_windowA.obj',
-  },
-  {
-    config,
-    asset: 'assets/buildings/sample/wall_windowC.obj',
-  }
-);
+theme.rule(EBuildingRule.WALL, [EWallType.WINDOW, EWallVariant.SINGLE]).add({
+  config,
+  asset: 'assets/buildings/sample/wall_windowA.obj',
+});
+
+theme.rule(EBuildingRule.WALL, [EWallType.WINDOW, EWallVariant.DOUBLE]).add({
+  config,
+  asset: 'assets/buildings/sample/wall_windowC.obj',
+});
 
 /* ROOF */
 theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.CORNER]).add({

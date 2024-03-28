@@ -74,6 +74,7 @@ export type TRoofConfig = {
 /* WALL */
 export type TWallConfig = {
   disallowed?: EWallType[];
+  variants?: Partial<Record<EWallType, string[]>>;
 };
 
 export type TBuildingSettings = {

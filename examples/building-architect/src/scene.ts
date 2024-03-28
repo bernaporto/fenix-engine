@@ -6,7 +6,7 @@ import BuildingArchitect, {
 } from '@fenix-engine/services/Architects/building';
 import { Scene } from '@fenix-engine/core/Scene';
 import { Unit } from '@fenix-engine/core/Units';
-import { theme } from './theme';
+import { EWallVariant, theme } from './theme';
 
 const config: TBuildingSettings = {
   seed: 3483909132.145484,
@@ -23,6 +23,11 @@ const config: TBuildingSettings = {
   },
   roof: {
     allowed: [ERoofType.FLAT],
+  },
+  walls: {
+    variants: {
+      window: [EWallVariant.SINGLE, EWallVariant.DOUBLE],
+    },
   },
 };
 export const initScene = (scene: Scene) => {

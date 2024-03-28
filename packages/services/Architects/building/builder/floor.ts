@@ -1,3 +1,4 @@
+import { isNotNullable } from '@fenix-engine/utilities/misc';
 import type { Unit } from '@fenix-engine/core/Units';
 import type { TLinkableItem } from '@fenix-engine/utilities/data/LinkedTree';
 import type { TPRNG } from '@fenix-engine/utilities/PRNG';
@@ -16,7 +17,11 @@ export const buildFloor = (
 ) => {
   node.payload.children?.forEach((wall) => {
     const metadata = wall.metadata as TWallMetadata;
-    const items = theme.rule('wall', [metadata.type]).get();
+    const rule = theme.rule(
+      'wall',
+      [metadata.type, metadata.variant].filter(isNotNullable)
+    );
+    const items = rule.get();
     const themeItem = PRNG.choices(items);
 
     if (!themeItem) {

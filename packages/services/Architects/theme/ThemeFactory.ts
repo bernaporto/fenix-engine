@@ -31,8 +31,8 @@ const create = (): TTheme => {
   };
 
   return {
-    rule(rule, modifiers = []) {
-      return getRuleController(getRuleId(rule, modifiers));
+    rule(rule, variants = []) {
+      return getRuleController(getRuleId(rule, variants));
     },
 
     list() {
@@ -41,8 +41,8 @@ const create = (): TTheme => {
   };
 };
 
-const getRuleId = (rule: string, modifiers: string[]): string =>
-  [rule, ...modifiers].filter(isNotNullable).join(':');
+const getRuleId = (rule: string, variants: string[]): string =>
+  [rule, ...variants].filter(isNotNullable).join(':');
 
 export const ThemeFactory = {
   create,

@@ -25,7 +25,7 @@ describe('ThemeFactory', () => {
     ]);
   });
 
-  it('should create a theme with rules and modifiers.', () => {
+  it('should create a theme with rules and variants.', () => {
     const theme = ThemeFactory.create();
 
     const rule = theme.rule('floor', ['empty']);

@@ -12,6 +12,6 @@ export type TThemeRule = {
 };
 
 export type TTheme = {
-  rule(rule: string, modifiers?: string[]): TThemeRule;
+  rule(rule: string, variants?: string[]): TThemeRule;
   list(): string[];
 };
