@@ -26,20 +26,21 @@
         "z": 10
       },
       "target": {
-        "x": -6,
+        "x": -3,
         "y": 0,
-        "z": 5
+        "z": -3
       },
       "shadowMapWidth": 2048,
       "shadowMapHeight": 2048
     },
     {
       "type": "plane",
+      "receiveShadow": true,
       "material": {
         "type": "standard",
         "color": "#333333"
       },
-      "scale": { "x": 10, "y": 10, "z": 10 },
+      "scale": { "x": 20, "y": 20, "z": 20 },
       "rotation": { "x": -90, "y": 0, "z": 0 }
     }
   ]

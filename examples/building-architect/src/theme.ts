@@ -9,44 +9,50 @@ import ThemeFactory from '@fenix-engine/services/Architects/theme';
 
 export const theme = ThemeFactory.create();
 const material = new Material({
-  type: 'basic',
+  type: 'standard',
   vertexColors: true,
 });
 
+const config = {
+  material,
+  castShadow: true,
+  receiveShadow: true,
+};
+
 /* WALLS */
 theme.rule(EBuildingRule.WALL, [EWallType.DOOR]).add({
-  material,
+  config,
   asset: 'assets/buildings/sample/wall_doorA.obj',
 });
 
 theme.rule(EBuildingRule.WALL, [EWallType.EMPTY]).add({
-  material,
+  config,
   asset: 'assets/buildings/sample/wall_solid.obj',
 });
 
 theme.rule(EBuildingRule.WALL, [EWallType.WINDOW]).add(
   {
-    material,
+    config,
     asset: 'assets/buildings/sample/wall_windowA.obj',
   },
   {
-    material,
+    config,
     asset: 'assets/buildings/sample/wall_windowC.obj',
   }
 );
 
 /* ROOF */
 theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.CORNER]).add({
-  material,
+  config,
   asset: 'assets/buildings/sample/roof_corner.obj',
 });
 
 theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.EDGE]).add({
-  material,
+  config,
   asset: 'assets/buildings/sample/roof_side.obj',
 });
 
 theme.rule(EBuildingRule.ROOF, [ERoofType.FLAT, ETileType.CENTER]).add({
-  material,
+  config,
   asset: 'assets/buildings/sample/roof_center.obj',
 });

@@ -1,5 +1,5 @@
 import { Vector2, Vector3 } from '@fenix-engine/core/Math';
-import { Material, Prop } from '@fenix-engine/core/Units';
+import { Prop } from '@fenix-engine/core/Units';
 import type { TThemeItem } from '../../theme';
 import { EFaceDirection, TBuildingSettings } from '../types';
 import type { TRoofMetadata, TWallMetadata } from '../rules';
@@ -9,15 +9,9 @@ export const buildProp = (
   settings: TBuildingSettings,
   metadata: TRoofMetadata | TWallMetadata
 ) => {
-  const {
-    asset,
-    material = new Material({
-      type: 'standard',
-      side: 2,
-    }),
-  } = themeItem;
+  const { asset, config } = themeItem;
 
-  const prop = new Prop({ material, path: asset });
+  const prop = new Prop({ ...config, path: asset });
   applyTransformations(prop, settings.building.size, metadata);
 
   return prop;

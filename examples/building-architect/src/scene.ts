@@ -9,21 +9,15 @@ import { Unit } from '@fenix-engine/core/Units';
 import { theme } from './theme';
 
 const config: TBuildingSettings = {
-  seed: 124390050350.37036,
+  seed: 3483909132.145484,
   building: {
-    size: { x: 6, y: 3 },
+    size: { x: 7, y: 5 },
     entranceOn: EFaceDirection.SOUTH,
-    allowWindowsOn: [
-      EFaceDirection.NORTH,
-      EFaceDirection.EAST,
-      EFaceDirection.SOUTH,
-      EFaceDirection.WEST,
-    ],
+    allowWindowsOn: [EFaceDirection.NORTH, EFaceDirection.SOUTH],
   },
   floors: {
-    // strategy: 'random',
     count: {
-      min: 4,
+      min: 5,
     },
     mirror: true,
   },

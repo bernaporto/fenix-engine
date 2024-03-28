@@ -1,4 +1,7 @@
 {
+  "settings": {
+    "enableShadows": true
+  },
   "scenes": [
     {
       "key": "basic-scene",

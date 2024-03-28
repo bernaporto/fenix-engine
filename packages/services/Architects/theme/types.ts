@@ -1,9 +1,8 @@
-import type { Material } from '@fenix-engine/core/Units';
-import type { MaterialConfig } from '@fenix-engine/core/@types';
+import type { AssetUnitConfig } from '@fenix-engine/core/@types';
 
 export type TThemeItem = {
   asset: string;
-  material?: Material | MaterialConfig;
+  config?: Omit<AssetUnitConfig, 'path'>;
 };
 
 export type TThemeRule = {
