@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.24.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.23.0...v0.24.0) (2024-03-28)
+
+**Note:** Version bump only for package @fenix-engine/basic-example
+
+
+
+
+
 # [0.23.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.22.0...v0.23.0) (2024-03-26)
 
 **Note:** Version bump only for package @fenix-engine/basic-example
