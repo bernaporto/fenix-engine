@@ -87,8 +87,9 @@ export type TBuildingSettings = {
 /* RULES */
 type TDataMap = Record<string, unknown>;
 export type TBuildingRule<T extends TDataMap = TDataMap> = TProductionRule<
-  TBuildingSettings & {
+  Omit<TBuildingSettings, 'seed'> & {
     defaultPRNG: TPRNG;
+    seed: number;
   },
   T
 >;

@@ -3,22 +3,18 @@ import { EBuildingRule, type TBuildingRule } from '../types';
 export const buildingRule: TBuildingRule = {
   type: EBuildingRule.BUILDING,
   apply: (settings) => {
-    const { building, defaultPRNG, floors, seed } = settings;
+    const { building, defaultPRNG, floors } = settings;
 
     /* FLOORS */
     const { count } = floors;
-    const floorStrategy = floors.strategy ?? 'default';
-    const floorSeed =
-      floorStrategy === 'default'
-        ? seed ?? Date.now() * Math.random()
-        : undefined;
+
     const totalFloors = count.max
       ? defaultPRNG.rangeInt(count.min, count.max)
       : count.min;
 
     const floorSymbols = Array.from({ length: totalFloors }, (_, floor) => ({
       type: EBuildingRule.FLOOR,
-      payload: { floor, seed: floorSeed },
+      payload: { floor },
     }));
 
     /* ROOF */

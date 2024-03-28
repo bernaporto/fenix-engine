@@ -14,12 +14,15 @@ registerRules(generator);
 
 export const BuildingArchitect = {
   build: (settings: TBuildingSettings, theme: TTheme): TArchProject => {
-    const defaultPRNG = PRNG.create(settings.seed);
+    const defaultPRNG = PRNG.create(
+      settings.seed ?? Date.now() * Math.random()
+    );
 
     const blueprint = generator.generate({
       settings: {
         ...settings,
         defaultPRNG,
+        seed: defaultPRNG.seed.get(),
       },
       fromRule: EBuildingRule.BUILDING,
     });

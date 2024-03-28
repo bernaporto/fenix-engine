@@ -7,13 +7,15 @@ export type TFloorMetadata = {
 
 type TFloorPayload = {
   floor: number;
-  seed?: number;
 };
 
 export const floorRule: TBuildingRule<TFloorPayload> = {
   type: EBuildingRule.FLOOR,
-  apply: (settings, { floor, seed }) => {
-    const prng = seed ? PRNG.create(seed) : settings.defaultPRNG;
+  apply: (settings, { floor }) => {
+    const { floors, seed } = settings;
+    const floorStrategy = floors.strategy ?? 'default';
+    const floorSeed = floorStrategy === 'default' ? seed : undefined;
+    const prng = floorSeed ? PRNG.create(floorSeed) : settings.defaultPRNG;
 
     const getWallSymbol = (
       x: number,
