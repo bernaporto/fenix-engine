@@ -1,4 +1,4 @@
-import { TLinkableItem, TLinkedItem, TLinkedTree } from './types';
+import type { TLinkableItem, TLinkedItem, TLinkedTree } from './types';
 
 // TODO: improve brunch to avoid recreating the tree
 const branch = <T>(node: TLinkedItem<T>) =>
