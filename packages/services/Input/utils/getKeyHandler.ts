@@ -1,13 +1,11 @@
-import { EventEmitter, makeEventEmitter } from '@fenix-engine/utilities/events';
+import {
+  type EventEmitter,
+  makeEventEmitter,
+} from '@fenix-engine/utilities/events';
+import { KeyboardUtils } from './KeyboardUtils';
 
 export type TKeyEvent = 'keydown' | 'keyup';
 type TKeyEventEmitter = EventEmitter<TKeyEvent>;
-
-type TMetaKeyMap = {
-  meta: boolean;
-  shift: boolean;
-  alt: boolean;
-};
 
 export type TKeyHandler = {
   emitter: TKeyEventEmitter;
@@ -17,7 +15,7 @@ export type TKeyHandler = {
 };
 
 export const getKeyHandler = (keyBlob: string): TKeyHandler => {
-  const { key, metaKeys } = parseKeyBlob(keyBlob);
+  const { key, metaKeys } = KeyboardUtils.parseKeyBlob(keyBlob);
 
   if (metaKeys.length === 0) {
     return getDefaultKeyHandler(key);
@@ -29,17 +27,17 @@ export const getKeyHandler = (keyBlob: string): TKeyHandler => {
 const getDefaultKeyHandler = (key: string): TKeyHandler => ({
   key,
   emitter: makeEventEmitter<TKeyEvent>(),
-  validate: (event: KeyboardEvent) => getKey(event) === key,
+  validate: (event: KeyboardEvent) => KeyboardUtils.getKey(event) === key,
 });
 
 const getMetaPlusKeyHandler = (
   key: string,
   metaKeys: string[]
 ): TKeyHandler => {
-  const metaKeyMap = getMetaKeyMap(metaKeys);
+  const metaKeyMap = KeyboardUtils.getMetaKeyMap(metaKeys);
 
   const validate = (event: KeyboardEvent): boolean => {
-    if (getKey(event) !== key) return false;
+    if (KeyboardUtils.getKey(event) !== key) return false;
     if (metaKeyMap.meta && !event.metaKey) return false;
     if (metaKeyMap.shift && !event.shiftKey) return false;
     if (metaKeyMap.alt && !event.altKey) return false;
@@ -51,48 +49,5 @@ const getMetaPlusKeyHandler = (
     key,
     validate,
     emitter: makeEventEmitter<TKeyEvent>(),
-  };
-};
-
-const getKey = (event: KeyboardEvent): string => {
-  if (event.key === ' ') return 'space';
-
-  return event.key.toLowerCase();
-};
-
-const getMetaKeyMap = (keys: string[]): TMetaKeyMap => {
-  return keys.reduce<TMetaKeyMap>(
-    (acc, key) => {
-      switch (key) {
-        case 'meta':
-          return { ...acc, meta: true };
-        case 'shift':
-          return { ...acc, shift: true };
-        case 'alt':
-          return { ...acc, alt: true };
-        default:
-          return acc;
-      }
-    },
-    { meta: false, shift: false, alt: false }
-  );
-};
-
-export const parseKeyBlob = (
-  keyBlob: string
-): {
-  key: string;
-  metaKeys: string[];
-} => {
-  const parts = keyBlob.toLowerCase().trim().split('+');
-  const key = parts.pop();
-
-  if (!key) {
-    throw new Error(`Invalid key configuration: ${keyBlob}`);
-  }
-
-  return {
-    key,
-    metaKeys: parts,
   };
 };

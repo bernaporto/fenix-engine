@@ -1,9 +1,9 @@
 import {
-  TKeyEvent,
-  TKeyHandler,
   getKeyHandler,
-  parseKeyBlob,
-} from './utils/getKeyHandler';
+  KeyboardUtils,
+  type TKeyEvent,
+  type TKeyHandler,
+} from './utils';
 
 type TKeyEventHandler = {
   on: (
@@ -27,12 +27,13 @@ export class KeyboardHandler {
   private _handleKeyDown = (event: KeyboardEvent): void => {
     if (event.target instanceof HTMLInputElement) return;
 
-    event.preventDefault();
-
-    const key = getKey(event);
+    const key = KeyboardUtils.getKey(event);
     const handler = this._keyHandlerMap.get(key);
 
-    handler?.emitter.emit('keydown', event);
+    if (!handler || !handler.validate(event)) return;
+    event.preventDefault();
+
+    handler.emitter.emit('keydown', event);
   };
 
   private _handleKeyUp = (event: KeyboardEvent): void => {
@@ -40,7 +41,7 @@ export class KeyboardHandler {
 
     event.preventDefault();
 
-    const key = getKey(event);
+    const key = KeyboardUtils.getKey(event);
     const handler = this._keyHandlerMap.get(key);
 
     handler?.emitter.emit('keyup', event);
@@ -57,7 +58,7 @@ export class KeyboardHandler {
   };
 
   public watch = (key: string): TKeyEventHandler => {
-    const { key: lcKey } = parseKeyBlob(key);
+    const { key: lcKey } = KeyboardUtils.parseKeyBlob(key);
     const handler = this._keyHandlerMap.get(lcKey) ?? getKeyHandler(key);
 
     if (!this._keyHandlerMap.has(lcKey)) {
@@ -69,25 +70,4 @@ export class KeyboardHandler {
       once: handler.emitter.once,
     };
   };
-
-  public static isShiftPlusKey =
-    (key: string) =>
-    (event: KeyboardEvent): boolean =>
-      event.shiftKey && getKey(event) === key;
-
-  public static isMetaPlusKey =
-    (key: string) =>
-    (event: KeyboardEvent): boolean =>
-      (event.ctrlKey || event.metaKey) && getKey(event) === key;
-
-  public static isKey =
-    (key: string) =>
-    (event: KeyboardEvent): boolean =>
-      getKey(event) === key && !KeyboardHandler.isMetaPlusKey(key)(event);
 }
-
-const getKey = (event: KeyboardEvent): string => {
-  if (event.key === ' ') return 'space';
-
-  return event.key.toLowerCase();
-};

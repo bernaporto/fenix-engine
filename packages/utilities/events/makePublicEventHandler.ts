@@ -1,4 +1,4 @@
-import { EventEmitter, PublicEventHandler } from './types';
+import type { EventEmitter, PublicEventHandler } from './types';
 
 export const makePublicEventHandler = <
   Event extends string,

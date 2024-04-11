@@ -1,4 +1,4 @@
-import { EventArgs, EventListener, ListenerHandler } from './types';
+import type { EventArgs, EventListener, ListenerHandler } from './types';
 
 export const makeListenerHandler = <
   E extends string,
