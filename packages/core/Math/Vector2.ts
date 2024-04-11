@@ -87,6 +87,8 @@ export const Vector2 = {
   normalize: (a: Vector2): Vector2 => {
     const length = Vector2.length(a);
 
+    if (length === 0) return Vector2.zero;
+
     return {
       x: a.x / length,
       y: a.y / length,

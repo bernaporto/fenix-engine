@@ -99,6 +99,8 @@ export const Vector3 = {
   normalize: (a: Vector3): Vector3 => {
     const length = Vector3.length(a);
 
+    if (length === 0) return Vector3.zero;
+
     return Vector3.divideScalar(a, length);
   },
 
