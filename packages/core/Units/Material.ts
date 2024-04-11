@@ -28,12 +28,14 @@ export class Material {
   ) {}
 
   build() {
-    const { type, ...params } = this.config ?? { type: 'basic' };
+    const { type, assets, ...params } = this.config ?? { type: 'basic' };
     const ThreeMaterial = materialConstructorMap[type];
+
+    const allAssets = { ...this.assets, ...assets };
 
     if (!this._material) {
       this._material = new ThreeMaterial(params);
-      loadMaterialAssets(this._material, this.assets);
+      loadMaterialAssets(this._material, allAssets);
     }
 
     return this._material;

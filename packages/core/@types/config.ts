@@ -30,10 +30,11 @@ export type SceneConfig = CustomProperties & {
 
 // MATERIAL
 export type MaterialAssetConfig = {
+  alphaMap?: string;
   map?: string;
 };
 
-export type MaterialConfig = { key?: string } & (
+export type MaterialConfig = { key?: string; assets?: MaterialAssetConfig } & (
   | ({
       type: 'basic';
     } & MeshBasicMaterialParameters)
