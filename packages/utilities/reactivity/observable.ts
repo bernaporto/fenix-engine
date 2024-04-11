@@ -22,9 +22,13 @@ export const observable = <T>(initialValue: T): Observable<T> => {
       observers.forEach((observer) => observer(clone(value), prevValue));
     },
 
-    subscribe: (observer) => {
+    subscribe: (observer, notifyImmediately = true) => {
       const id = Symbol();
       observers.set(id, observer);
+
+      if (notifyImmediately) {
+        observer(clone(value));
+      }
 
       return () => {
         observers.delete(id);

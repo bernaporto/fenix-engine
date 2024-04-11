@@ -7,7 +7,10 @@ export type Observable<T> = {
   clearObservers: () => void;
   get: () => Readonly<T>;
   set: (value: T) => void;
-  subscribe: (observer: Observer<T>) => Usubscriber;
+  subscribe: (
+    observer: Observer<T>,
+    notifyImmediately?: boolean
+  ) => Usubscriber;
   update: (updater: (value: T) => T) => void;
 };
 
