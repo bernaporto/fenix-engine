@@ -1,81 +1,93 @@
-import type { VoidFunction } from '@fenix-engine/utilities/@types';
+import {
+  TKeyEvent,
+  TKeyHandler,
+  getKeyHandler,
+  parseKeyBlob,
+} from './utils/getKeyHandler';
 
-type KeyConfigMap = Record<
-  string,
-  (
-    | {
-        validate?: (event: KeyboardEvent) => boolean;
-        execute: (event: KeyboardEvent) => void;
-      }
-    | {
-        validate?: (event: KeyboardEvent) => boolean;
-        onKeyDown: (event: KeyboardEvent) => void;
-        onKeyUp?: (event: KeyboardEvent) => void;
-      }
-  )[]
->;
+type TKeyEventHandler = {
+  on: (
+    event: TKeyEvent,
+    callback: (event: KeyboardEvent) => void
+  ) => VoidFunction;
+  once: (
+    event: TKeyEvent,
+    callback: (event: KeyboardEvent) => void
+  ) => VoidFunction;
+};
 
 export class KeyboardHandler {
-  public readonly destroy: VoidFunction;
+  private _keyHandlerMap = new Map<string, TKeyHandler>();
 
-  constructor(keyConfigMap: KeyConfigMap) {
-    const onKeyDown = handleKeyDown(keyConfigMap);
-    const onKeyUp = handleKeyUp(keyConfigMap);
-
-    // Handle keyboard events
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('keyup', onKeyUp);
-
-    this.destroy = (): void => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('keyup', onKeyUp);
-    };
+  constructor() {
+    document.addEventListener('keydown', this._handleKeyDown);
+    document.addEventListener('keyup', this._handleKeyUp);
   }
+
+  private _handleKeyDown = (event: KeyboardEvent): void => {
+    if (event.target instanceof HTMLInputElement) return;
+
+    event.preventDefault();
+
+    const key = getKey(event);
+    const handler = this._keyHandlerMap.get(key);
+
+    handler?.emitter.emit('keydown', event);
+  };
+
+  private _handleKeyUp = (event: KeyboardEvent): void => {
+    if (event.target instanceof HTMLInputElement) return;
+
+    event.preventDefault();
+
+    const key = getKey(event);
+    const handler = this._keyHandlerMap.get(key);
+
+    handler?.emitter.emit('keyup', event);
+  };
+
+  public destroy = (): void => {
+    document.removeEventListener('keydown', this._handleKeyDown);
+    document.removeEventListener('keyup', this._handleKeyUp);
+
+    this._keyHandlerMap.forEach((handler) => {
+      handler.emitter.clear();
+    });
+    this._keyHandlerMap.clear();
+  };
+
+  public watch = (key: string): TKeyEventHandler => {
+    const { key: lcKey } = parseKeyBlob(key);
+    const handler = this._keyHandlerMap.get(lcKey) ?? getKeyHandler(key);
+
+    if (!this._keyHandlerMap.has(lcKey)) {
+      this._keyHandlerMap.set(lcKey, handler);
+    }
+
+    return {
+      on: handler.emitter.on,
+      once: handler.emitter.once,
+    };
+  };
+
+  public static isShiftPlusKey =
+    (key: string) =>
+    (event: KeyboardEvent): boolean =>
+      event.shiftKey && getKey(event) === key;
 
   public static isMetaPlusKey =
     (key: string) =>
     (event: KeyboardEvent): boolean =>
-      (event.ctrlKey || event.metaKey) && event.key === key;
+      (event.ctrlKey || event.metaKey) && getKey(event) === key;
 
   public static isKey =
     (key: string) =>
     (event: KeyboardEvent): boolean =>
-      event.key === key && !KeyboardHandler.isMetaPlusKey(key)(event);
+      getKey(event) === key && !KeyboardHandler.isMetaPlusKey(key)(event);
 }
 
-const handleKeyDown =
-  (keyConfigMap: KeyConfigMap) =>
-  (event: KeyboardEvent): void => {
-    if (event.target instanceof HTMLInputElement) return;
-    if (event.repeat || !(event.key in keyConfigMap)) return;
+const getKey = (event: KeyboardEvent): string => {
+  if (event.key === ' ') return 'space';
 
-    const keyConfig = keyConfigMap[event.key];
-
-    keyConfig.forEach((config) => {
-      if (config.validate && !config.validate(event)) return;
-
-      if ('execute' in config) {
-        config.execute(event);
-      }
-
-      if ('onKeyDown' in config) {
-        config.onKeyDown(event);
-      }
-    });
-  };
-
-const handleKeyUp =
-  (keyConfigMap: KeyConfigMap) =>
-  (event: KeyboardEvent): void => {
-    if (event.target instanceof HTMLInputElement) return;
-    if (event.repeat || !(event.key in keyConfigMap)) return;
-
-    const keyConfig = keyConfigMap[event.key];
-
-    keyConfig.forEach((config) => {
-      if (!('onKeyUp' in config)) return;
-      if (config.validate && !config.validate(event)) return;
-
-      config.onKeyUp?.(event);
-    });
-  };
+  return event.key.toLowerCase();
+};
