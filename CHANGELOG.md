@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.25.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.24.0...v0.25.0) (2024-04-11)
+
+
+### Bug Fixes
+
+* solve error when normalizing zeroed vectors ([79fc3b9](http://bitbucket.org/bernaporto/fenix-engine/commits/79fc3b95a12a99ebca215a655f2650851edcbdb2))
+
+
+### Features
+
+* add alphaMap to material assets config ([d9d35c7](http://bitbucket.org/bernaporto/fenix-engine/commits/d9d35c71ad04f307f0bb7ede78138901ff0d12ea))
+* add distance to Vector2 ([334684c](http://bitbucket.org/bernaporto/fenix-engine/commits/334684c8b2ab1affd115b33cb4f61d586026292b))
+* add wall variant options ([d571341](http://bitbucket.org/bernaporto/fenix-engine/commits/d571341bf6a1ee1443f12d57ed2796ca5d80ce0e))
+
+
+
+
+
 # [0.24.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.23.0...v0.24.0) (2024-03-28)
 
 
