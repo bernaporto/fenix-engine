@@ -25,6 +25,9 @@ export const Vector2 = {
 
   copy: (v: Vector2): Vector2 => ({ x: v.x, y: v.y }),
 
+  distance: (a: Vector2, b: Vector2): number =>
+    Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2),
+
   equals: (a: Vector2, b: Vector2): boolean => a.x === b.x && a.y === b.y,
 
   add: (a: Vector2, b: Vector2 | number): Vector2 => {
