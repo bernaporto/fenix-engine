@@ -14,7 +14,7 @@ export {
 } from './number';
 export { clone } from './clone';
 export { compareArrays, sampleMany, sampleOne } from './array';
-export { debounce } from './debounce';
+export { debounce, debounceList } from './debounce';
 export {
   deepEqual,
   deepMerge,
