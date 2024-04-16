@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.25.0...v0.26.0) (2024-04-16)
+
+
+### Features
+
+* add helper func debounceList ([5264be8](http://bitbucket.org/bernaporto/fenix-engine/commits/5264be8c5f326e3ce1368cc64a747441fc7283f1))
+* add history listener to store ([9a63a8f](http://bitbucket.org/bernaporto/fenix-engine/commits/9a63a8f99d871a27aaeac3d29935f1bde8dc37ee))
+
+
+
+
+
 # [0.25.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.24.0...v0.25.0) (2024-04-11)
 
 **Note:** Version bump only for package @fenix-engine/utilities

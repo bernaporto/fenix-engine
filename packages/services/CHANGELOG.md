@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.26.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.25.0...v0.26.0) (2024-04-16)
+
+
+### Bug Fixes
+
+* solve mouse wheel not working properly ([eafe4a2](http://bitbucket.org/bernaporto/fenix-engine/commits/eafe4a2003a4bf2b0e8be81d4f46a61d30567293))
+
+
+
+
+
 # [0.25.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.24.0...v0.25.0) (2024-04-11)
 
 
