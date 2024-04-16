@@ -7,9 +7,15 @@ type UpdaterFn<State extends AnyState, Path extends NestedPathOf<State>> = (
   value: NestedValueOf<State, Path>
 ) => NestedValueOf<State, Path>;
 
-export type Writeable<T> = Pick<Observable<T>, 'get' | 'set' | 'subscribe'>;
-
 export type AnyState = Record<string, unknown>;
+
+export type THistoryListener<State extends AnyState> = <
+  Path extends NestedPathOf<State>
+>(
+  path: Path,
+  next: NestedValueOf<State, Path>,
+  previous: NestedValueOf<State, Path>
+) => void;
 
 export type Store<State extends AnyState> = {
   clearListeners: <Path extends NestedPathOf<State>>(
@@ -26,7 +32,7 @@ export type Store<State extends AnyState> = {
   ) => Readable<NestedValueOf<State, Path>>;
   getWritable: <Path extends NestedPathOf<State>>(
     path: Path
-  ) => Writeable<NestedValueOf<State, Path>>;
+  ) => Observable<NestedValueOf<State, Path>>;
   reset: <Path extends NestedPathOf<State>>(
     path: Path,
     notifyTargetPath?: boolean

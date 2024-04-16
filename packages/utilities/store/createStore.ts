@@ -7,7 +7,7 @@ import {
   setOnPath,
 } from '../misc';
 import { readable, writable } from './operators';
-import type { AnyState, Listener, Store } from './types';
+import type { AnyState, Listener, Store, THistoryListener } from './types';
 import {
   type NestedObservableMap,
   createNestedObservableMap,
@@ -17,7 +17,10 @@ import {
   log,
 } from './utils';
 
-export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
+export const createStore = <T extends AnyState>(
+  initialState: T,
+  historyListener?: THistoryListener<T>
+): Store<T> => {
   const cleanState = clone(initialState);
   let state = clone(cleanState);
   const listeners = createNestedObservableMap<
@@ -57,8 +60,14 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       // make a copy of the old state
       const oldState = clone(state);
 
+      // make a copy of the old value
+      const previous = clone(getFromPath(state, path));
+
+      // make a copy of the new value
+      const next = clone(newValue);
+
       // update value
-      setOnPath(state, path, newValue);
+      setOnPath(state, path, next);
 
       const otherNotifiableKeys = [
         ...getNotifiableKeys(listeners, path, isParentKey),
@@ -69,8 +78,8 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
         log({
           path,
           baseMsg: getDebugMessage(`store.${logKey}`, debugKey),
-          newValue: clone(newValue),
-          oldValue: clone(getFromPath(oldState, path)),
+          newValue: next,
+          oldValue: previous,
           listeners: otherNotifiableKeys.reduce(
             (acc, key) => acc + (listeners.get(key)?.length ?? 0),
             listeners.get(path)?.length ?? 0
@@ -81,13 +90,19 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
       if (silent) return;
 
       // notify listeners
-      notifyListeners(listeners, state, oldState, path);
+      notifyListeners(listeners, next, previous, path);
 
       otherNotifiableKeys.forEach((key) => {
         if (getFromPath(oldState, key) === getFromPath(state, key)) return;
 
-        notifyListeners(listeners, state, oldState, key);
+        const n = clone(getFromPath(state, key));
+        const p = clone(getFromPath(oldState, key));
+
+        notifyListeners(listeners, n, p, key);
       });
+
+      // notify history listener
+      historyListener?.(path, next, previous);
     },
 
     subscribe: (path, listener, notifyImmediately = true) => {
@@ -108,6 +123,7 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
 
       if (value === undefined) {
         const oldState = clone(state);
+        const previous = clone(getFromPath(state, path));
         deletePath(state, path);
 
         const parentPath = getParentPath(path) as NestedPathOf<T>;
@@ -119,16 +135,24 @@ export const createStore = <T extends AnyState>(initialState: T): Store<T> => {
             : []),
         ].filter(isNotNullable);
 
-        notifiableKeys.forEach((path) => {
-          notifyListeners(listeners, state, oldState, path);
+        notifiableKeys.forEach((key) => {
+          if (getFromPath(oldState, key) === getFromPath(state, key)) return;
+
+          const n = clone(getFromPath(state, key));
+          const p = clone(getFromPath(oldState, key));
+
+          notifyListeners(listeners, n, p, key);
         });
+
+        // notify history listener
+        historyListener?.(path, undefined as any, previous);
 
         if (debug) {
           log({
             path,
             baseMsg: getDebugMessage('store.reset', debugKey),
             newValue: undefined,
-            oldValue: getFromPath(oldState, path),
+            oldValue: previous,
             listeners: notifiableKeys.reduce(
               (acc, key) => acc + (listeners.get(key)?.length ?? 0),
               0
@@ -174,18 +198,11 @@ const getNotifiableKeys = <T extends AnyState, Path extends NestedPathOf<T>>(
 
 const notifyListeners = <T extends AnyState, Path extends NestedPathOf<T>>(
   listeners: NestedObservableMap<T, Listener<NestedValueOf<T, Path>>>,
-  state: T,
-  prevState: T,
+  next: NestedValueOf<T, Path>,
+  previous: NestedValueOf<T, Path>,
   path: Path
 ): void => {
-  listeners
-    .get(path)
-    ?.forEach((listener) =>
-      listener(
-        clone(getFromPath(state, path) as NestedValueOf<T, Path>),
-        clone(getFromPath(prevState, path) as NestedValueOf<T, Path>)
-      )
-    );
+  listeners.get(path)?.forEach((listener) => listener(next, previous));
 };
 
 const getDebugMessage = (action: string, key?: string) => {
