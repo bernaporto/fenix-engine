@@ -169,13 +169,6 @@ const handleMouseLeave = (state: Observable<MouseState>) => () => {
 const handleWheel =
   (target: HTMLElement, state: Observable<MouseState>) =>
   (event: WheelEvent): void => {
-    // Only act if on top of canvas
-    if (
-      event.target !== target &&
-      !(event.target instanceof HTMLElement && target.contains(event.target))
-    )
-      return;
-
     const { delta } = getMouseMovementData(target, event);
 
     state.set({
