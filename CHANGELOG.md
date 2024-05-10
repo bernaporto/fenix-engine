@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.27.1](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.27.0...v0.27.1) (2024-05-10)
+
+
+### Bug Fixes
+
+* **core:** solve known units "unknown type" error ([892e926](http://bitbucket.org/bernaporto/fenix-engine/commits/892e9262eb6ffa7f841f9132921c824d5fd85038))
+
+
+
+
+
 # [0.27.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.26.0...v0.27.0) (2024-05-10)
 
 
