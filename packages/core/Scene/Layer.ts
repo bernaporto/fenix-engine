@@ -1,4 +1,4 @@
-import { Scene as THREE_Scene } from 'three';
+import { Color, Scene as THREE_Scene } from 'three';
 import { SceneItem } from './SceneItem';
 import type { QueryEnabled } from '../@types';
 import { makeQueryHandler } from '../utils';
@@ -13,7 +13,7 @@ export class Layer extends SceneItem implements QueryEnabled {
     this.node = new THREE_Scene();
   }
 
-  public set background(color: THREE.Color) {
+  public set background(color: Color) {
     this.node.background = color;
   }
 

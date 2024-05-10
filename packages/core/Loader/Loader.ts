@@ -1,4 +1,4 @@
-import type { AnimationClip, Group, Object3D } from 'three';
+import type { AnimationClip, Group, Object3D, Texture } from 'three';
 import type { SkinnedObject } from '../@types';
 import { loadingManager } from './loadingManager';
 
@@ -26,10 +26,7 @@ type Loader = {
     url: string,
     onProgress?: ProgressListener
   ): Promise<SkinnedObject>;
-  loadTexture(
-    url: string,
-    onProgress?: ProgressListener
-  ): Promise<THREE.Texture>;
+  loadTexture(url: string, onProgress?: ProgressListener): Promise<Texture>;
 };
 
 const initLoader = (): Loader => {
@@ -64,7 +61,7 @@ const initLoader = (): Loader => {
     loadJSON: (...args) => load<any>(...args).then(JSON.parse),
     loadObject: (...args) => load<Object3D>(...args),
     loadSkinnedObject: (...args) => load<GltfObject>(...args).then(unwrapGltf),
-    loadTexture: (...args) => load<THREE.Texture>(...args),
+    loadTexture: (...args) => load<Texture>(...args),
   };
 };
 
