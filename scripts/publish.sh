@@ -28,6 +28,9 @@ print "Preparing environment..."
 # clone repo
 git clone https://x-token-auth:$ACCESS_TOKEN@bitbucket.org/bernaporto/$REPO_NAME.git
 
+# clear $REPO_NAME content
+rm -rf $REPO_NAME/*
+
 # copy $SRC_DIR content to $REPO_NAME
 cp -R $SRC_DIR/* $REPO_NAME
 
