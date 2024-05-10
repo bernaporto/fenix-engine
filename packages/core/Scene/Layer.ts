@@ -13,7 +13,7 @@ export class Layer extends SceneItem implements QueryEnabled {
     this.node = new THREE_Scene();
   }
 
-  public set background(color: Color) {
+  public set background(color: Color | null) {
     this.node.background = color;
   }
 

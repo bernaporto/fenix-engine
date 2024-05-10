@@ -1,4 +1,4 @@
-import { WebGLRenderer, SRGBColorSpace, ShadowMapType } from 'three';
+import { WebGLRenderer, SRGBColorSpace, type ShadowMapType } from 'three';
 import type {
   CustomEvent,
   EventEnabled,
@@ -107,11 +107,23 @@ export class Game implements EventEnabled {
   }
 
   private applySettings(settings?: GameSettings) {
-    const { enableShadows, initialScene, shadowMapType, ...stageConfig } = {
+    const {
+      alpha,
+      enableShadows,
+      initialScene,
+      shadowMapType,
+      ...stageConfig
+    } = {
+      alpha: false,
       enableShadows: false,
       shadowMapType: 1,
       ...settings,
     };
+
+    this.renderer.setClearColor(
+      0x000000,
+      typeof alpha === 'boolean' ? (alpha ? 0 : 1) : alpha
+    );
 
     this.renderer.shadowMap.enabled = enableShadows;
     this.renderer.shadowMap.type = shadowMapType as ShadowMapType;

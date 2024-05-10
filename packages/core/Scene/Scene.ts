@@ -16,6 +16,7 @@ import type { SceneChild, SceneManifest } from '../Data/Model';
 import { SceneRegistry } from '../Game/registries';
 import { Ticker } from '../Tools/Ticker';
 import { Layer } from './Layer';
+import { isNotNullable } from '@fenix-engine/utilities/misc';
 
 type SceneEvent = 'load' | 'dispose' | CustomEvent;
 
@@ -66,9 +67,9 @@ export class Scene implements EventEnabled, LifecycleEnabled {
   }
 
   /* Background */
-  public setBackgroundColor(color: number | string): void {
+  public setBackgroundColor(color: number | string | null): void {
     this._layers.forEach((layer) => {
-      layer.background = new Color(color);
+      layer.background = isNotNullable(color) ? new Color(color) : null;
     });
   }
 

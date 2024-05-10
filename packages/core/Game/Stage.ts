@@ -61,8 +61,7 @@ export class Stage {
     this._currentScene?.update();
   }
 
-  public setBackgroundColor(color: number | string): void {
+  public setBackgroundColor(color: number | string | null): void {
     this.currentScene?.setBackgroundColor(color);
-    this.renderer.setClearColor(color);
   }
 }

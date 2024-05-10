@@ -12,6 +12,7 @@ import type { Transformable } from './transform';
 
 // GAME
 export type GameConfig = CustomProperties & {
+  alha?: boolean | number;
   enableShadows?: boolean;
   initialScene?: string;
   shadowMapType?: ShadowMapType;
@@ -19,7 +20,7 @@ export type GameConfig = CustomProperties & {
 
 export type StageConfig = {
   autoResize?: boolean;
-  backgroundColor?: number | string;
+  backgroundColor?: number | string | null;
 };
 
 export type GameSettings = StageConfig & GameConfig;
