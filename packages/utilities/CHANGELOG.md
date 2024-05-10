@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.27.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.26.0...v0.27.0) (2024-05-10)
+
+
+### Features
+
+* **utilities:** add linked list utility ([ed9615a](http://bitbucket.org/bernaporto/fenix-engine/commits/ed9615a9e02d31a1b9293aef230d36cec75a5c06))
+
+
+
+
+
 # [0.26.0](http://bitbucket.org/bernaporto/fenix-engine/compare/v0.25.0...v0.26.0) (2024-04-16)
 
 
