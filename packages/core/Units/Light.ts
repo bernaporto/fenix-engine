@@ -1,9 +1,10 @@
 import { AmbientLight, DirectionalLight, PointLight } from 'three';
 import type { LightConfig } from '../@types';
+import { UnitRegistry } from '../Game/registries';
 import { applyLightConfig, resizeCamera } from './utils';
 import { Unit } from './Unit';
 
-export class Light extends Unit {
+class Light extends Unit {
   private _light: AmbientLight | DirectionalLight | PointLight;
 
   constructor(config?: LightConfig) {
@@ -44,6 +45,9 @@ export class Light extends Unit {
     resizeCamera(this._light.shadow.camera, aspect, 40);
   }
 }
+
+UnitRegistry.add('light', Light);
+export { Light };
 
 /* UTILS */
 const constructorMap = {

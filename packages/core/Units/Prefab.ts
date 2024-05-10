@@ -1,9 +1,9 @@
 import type { PrefabConfig } from '../@types';
-import { PrefabAssetRegistry } from '../Game/registries';
+import { PrefabAssetRegistry, UnitRegistry } from '../Game/registries';
 import { buildHierarchy } from '../utils';
 import { Unit } from './Unit';
 
-export class Prefab extends Unit {
+class Prefab extends Unit {
   constructor({ path, ...unitConfig }: PrefabConfig) {
     super(unitConfig);
 
@@ -19,3 +19,6 @@ export class Prefab extends Unit {
     });
   }
 }
+
+UnitRegistry.add('prefab', Prefab);
+export { Prefab };

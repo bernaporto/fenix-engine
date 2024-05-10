@@ -1,5 +1,6 @@
 import { PlaneGeometry, Mesh } from 'three';
 import type { MeshUnitConfig } from '../@types';
+import { UnitRegistry } from '../Game/registries';
 import type { Vector2 } from '../Math';
 import { Unit } from './Unit';
 import { applyMeshConfig } from './utils';
@@ -10,7 +11,7 @@ type PlaneConfig = MeshUnitConfig & {
   segments?: Vector2;
 };
 
-export class Plane extends Unit {
+class Plane extends Unit {
   constructor(config?: PlaneConfig) {
     super(config);
 
@@ -30,3 +31,6 @@ export class Plane extends Unit {
     this.node.add(mesh);
   }
 }
+
+UnitRegistry.add('plane', Plane);
+export { Plane };

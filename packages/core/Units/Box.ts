@@ -1,5 +1,6 @@
 import { BoxGeometry, Mesh } from 'three';
 import type { MeshUnitConfig } from '../@types';
+import { UnitRegistry } from '../Game/registries';
 import type { Vector3 } from '../Math';
 import { Unit } from './Unit';
 import { applyMeshConfig } from './utils';
@@ -11,7 +12,7 @@ type BoxConfig = MeshUnitConfig & {
   segments?: Vector3;
 };
 
-export class Box extends Unit {
+class Box extends Unit {
   constructor(config?: BoxConfig) {
     super(config);
 
@@ -39,3 +40,6 @@ export class Box extends Unit {
     this.node.add(mesh);
   }
 }
+
+UnitRegistry.add('box', Box);
+export { Box };

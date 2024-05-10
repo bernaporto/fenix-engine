@@ -1,5 +1,6 @@
 import { SphereGeometry, Mesh } from 'three';
 import type { MeshUnitConfig } from '../@types';
+import { UnitRegistry } from '../Game/registries';
 import type { Vector2 } from '../Math';
 import { Unit } from './Unit';
 import { applyMeshConfig } from './utils';
@@ -9,7 +10,7 @@ type SphereConfig = MeshUnitConfig & {
   segments?: Vector2;
 };
 
-export class Sphere extends Unit {
+class Sphere extends Unit {
   constructor(config?: SphereConfig) {
     super(config);
 
@@ -30,3 +31,6 @@ export class Sphere extends Unit {
     this.node.add(mesh);
   }
 }
+
+UnitRegistry.add('sphere', Sphere);
+export { Sphere };

@@ -12,13 +12,14 @@ import {
   remap,
 } from '@fenix-engine/utilities/misc';
 import type { CameraConfig } from '../@types';
+import { UnitRegistry } from '../Game/registries';
 import { Vector2, Vector3 } from '../Math';
 import { Unit } from './Unit';
 import { findNodeUnit, resizeCamera } from './utils';
 
 const raycaster = new Raycaster();
 
-export class Camera extends Unit {
+class Camera extends Unit {
   private _angle: Vector2;
   private _camera: OrthographicCamera | PerspectiveCamera;
   private _joint: Object3D;
@@ -137,6 +138,9 @@ export class Camera extends Unit {
     };
   }
 }
+
+UnitRegistry.add('camera', Camera);
+export { Camera };
 
 /* UTILS */
 const createCamera = (

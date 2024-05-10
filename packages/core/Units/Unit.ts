@@ -13,10 +13,11 @@ import {
   BehaviourController,
   BehaviourRegistry,
 } from '../Game/registries/BehaviourRegistry';
-import { Queryable, QueryEnabled, UnitConfig } from '../@types';
-import type { TickerState } from '../Tools/Ticker';
 import { makeQueryHandler, makeTransformController } from '../utils';
+import type { Queryable, QueryEnabled, UnitConfig } from '../@types';
 import { SceneItem } from '../Scene';
+import type { TickerState } from '../Tools/Ticker';
+import { UnitRegistry } from '../Game/registries';
 import {
   PropertiesHandler,
   assignUnitToNode,
@@ -35,10 +36,7 @@ export type UnitEvent = keyof UnitEventCallbackMap;
  * A Unit represents any kind of element that can be placed in the scene.
  * Units can receive Behaviour scripts, which are defined by the developer.
  */
-export class Unit
-  extends SceneItem
-  implements EventEnabled, Queryable, QueryEnabled
-{
+class Unit extends SceneItem implements EventEnabled, Queryable, QueryEnabled {
   public readonly events: PublicEventHandler<UnitEvent, CustomEvent>;
   public readonly properties: PropertiesHandler;
   public readonly query = makeQueryHandler(this);
@@ -183,3 +181,6 @@ export class Unit
     this._behaviours.forEach((controller) => controller.onUpdate?.(state));
   }
 }
+
+UnitRegistry.add('unit', Unit);
+export { Unit };
