@@ -1,6 +1,6 @@
 import type { PrefabManifest, SceneChild, SceneManifest } from '../Data/Model';
 import type { SceneItem } from '../Scene';
-import { UnitRegistry } from '../Game/registries';
+import { UnitRegistry } from '../Game/registries/UnitRegistry';
 
 type OnBuildCallback = (item: SceneItem) => void;
 
