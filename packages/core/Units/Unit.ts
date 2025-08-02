@@ -17,7 +17,7 @@ import { makeQueryHandler, makeTransformController } from '../utils';
 import type { Queryable, QueryEnabled, UnitConfig } from '../@types';
 import { SceneItem } from '../Scene';
 import type { TickerState } from '../Tools/Ticker';
-import { UnitRegistry } from '../Game/registries';
+import { UnitRegistry } from '../Game/registries/UnitRegistry';
 import {
   PropertiesHandler,
   assignUnitToNode,

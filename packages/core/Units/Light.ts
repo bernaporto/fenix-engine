@@ -1,6 +1,6 @@
 import { AmbientLight, DirectionalLight, PointLight } from 'three';
 import type { LightConfig } from '../@types';
-import { UnitRegistry } from '../Game/registries';
+import { UnitRegistry } from '../Game/registries/UnitRegistry';
 import { applyLightConfig, resizeCamera } from './utils';
 import { Unit } from './Unit';
 

@@ -12,7 +12,7 @@ import {
   remap,
 } from '@fenix-engine/utilities/misc';
 import type { CameraConfig } from '../@types';
-import { UnitRegistry } from '../Game/registries';
+import { UnitRegistry } from '../Game/registries/UnitRegistry';
 import { Vector2, Vector3 } from '../Math';
 import { Unit } from './Unit';
 import { findNodeUnit, resizeCamera } from './utils';

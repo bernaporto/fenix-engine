@@ -1,6 +1,6 @@
 import { BoxGeometry, Mesh } from 'three';
 import type { MeshUnitConfig } from '../@types';
-import { UnitRegistry } from '../Game/registries';
+import { UnitRegistry } from '../Game/registries/UnitRegistry';
 import type { Vector3 } from '../Math';
 import { Unit } from './Unit';
 import { applyMeshConfig } from './utils';
