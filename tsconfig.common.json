@@ -15,7 +15,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
-    "downlevelIteration": true,
 
     /* Type Checking */
     "strict": true,
