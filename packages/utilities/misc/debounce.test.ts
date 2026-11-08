@@ -1,16 +1,17 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { debounce } from './debounce';
 
 describe('debounce', () => {
   beforeAll(() => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
   });
 
   afterAll(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should gracefully debounce a function.', () => {
-    const mock = jest.fn();
+    const mock = vi.fn();
     const debounced = debounce(mock, 100);
 
     debounced();
@@ -19,7 +20,7 @@ describe('debounce', () => {
 
     expect(mock).toHaveBeenCalledTimes(0);
 
-    jest.advanceTimersByTime(100);
+    vi.advanceTimersByTime(100);
 
     expect(mock).toHaveBeenCalledTimes(1);
   });

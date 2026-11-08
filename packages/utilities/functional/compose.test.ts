@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { compose } from './compose';
 
 const sum10 = (x: number) => x + 10;

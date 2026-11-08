@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { compareArrays, sampleMany, sampleOne } from './array';
 
 describe('sampleOne', () => {

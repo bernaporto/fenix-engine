@@ -1,10 +1,11 @@
+import { describe, expect, it, vi } from 'vitest';
 import { parallel } from './parallel';
 
 describe('parallel', () => {
   it('should run all functions in parallel.', () => {
-    const mock1 = jest.fn();
-    const mock2 = jest.fn();
-    const mock3 = jest.fn();
+    const mock1 = vi.fn();
+    const mock2 = vi.fn();
+    const mock3 = vi.fn();
 
     const parallelMock = parallel(mock1, mock2, mock3);
 
@@ -16,9 +17,9 @@ describe('parallel', () => {
   });
 
   it('should pass the same arguments to all functions.', () => {
-    const mock1 = jest.fn();
-    const mock2 = jest.fn();
-    const mock3 = jest.fn();
+    const mock1 = vi.fn();
+    const mock2 = vi.fn();
+    const mock3 = vi.fn();
 
     const parallelMock = parallel(mock1, mock2, mock3);
 

@@ -1,3 +1,4 @@
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { getFromPath, setOnPath, clone } from '../misc';
 import { compute } from '../reactivity/operators';
 import { createStore } from './createStore';
@@ -9,7 +10,7 @@ describe('Store', () => {
   describe('subscribe', () => {
     it('should report updates to subscribers.', () => {
       const store = createStore({ foo: 'bar' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo', subscriber);
       store.set('foo', 'baz');
@@ -19,7 +20,7 @@ describe('Store', () => {
 
     it('should not report updates to subscribers if value do not change.', () => {
       const store = createStore({ foo: 'bar' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo', subscriber, false);
       store.set('foo', 'bar');
@@ -29,7 +30,7 @@ describe('Store', () => {
 
     it('should not report updates to unsubscribed subscribers.', () => {
       const store = createStore({ foo: 'bar' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       const unsubscribe = store.subscribe('foo', subscriber, false);
       unsubscribe();
@@ -41,7 +42,7 @@ describe('Store', () => {
 
     it('should not report updates to subscribers of other keys.', () => {
       const store = createStore({ foo: 'bar', baz: 'qux' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo', subscriber, false);
       store.set('baz', 'baz');
@@ -51,8 +52,8 @@ describe('Store', () => {
 
     it('should report updates to all subscribers in parent keys for nested keys.', () => {
       const store = createStore({ foo: { bar: 'baz' } });
-      const subscriberA = jest.fn();
-      const subscriberB = jest.fn();
+      const subscriberA = vi.fn();
+      const subscriberB = vi.fn();
 
       store.subscribe('foo.bar', subscriberA);
       store.subscribe('foo', subscriberB);
@@ -68,7 +69,7 @@ describe('Store', () => {
 
     it('should report updates to subscribers in child keys for nested keys if value changes.', () => {
       const store = createStore({ foo: { bar: 'baz' } });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo.bar', subscriber);
 
@@ -81,7 +82,7 @@ describe('Store', () => {
 
     it('should not report updates to subscribers in child keys, for nested keys, if value do not change.', () => {
       const store = createStore({ foo: { bar: 'baz', baz: 'qux' } });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo.bar', subscriber, false);
 
@@ -95,8 +96,8 @@ describe('Store', () => {
 
     it('should not report updates to other subscribers for sibling keys.', () => {
       const store = createStore({ foo: { bar: 'baz', baz: 'qux' } });
-      const subscriberA = jest.fn();
-      const subscriberB = jest.fn();
+      const subscriberA = vi.fn();
+      const subscriberB = vi.fn();
 
       store.subscribe('foo.bar', subscriberA, false);
       store.subscribe('foo.baz', subscriberB, false);
@@ -162,7 +163,7 @@ describe('Store', () => {
 
     it('should notify subscribers of a key.', () => {
       const store = createStore({ foo: 'bar' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo', subscriber);
 
@@ -176,7 +177,7 @@ describe('Store', () => {
   describe('clear', () => {
     it('should clear all listeners.', () => {
       const store = createStore({ foo: 'bar' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo', subscriber, false);
       store.clearAllListeners();
@@ -187,7 +188,7 @@ describe('Store', () => {
 
     it('should clear listeners of a key.', () => {
       const store = createStore({ foo: 'bar' });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo', subscriber, false);
       store.clearListeners('foo');
@@ -198,7 +199,7 @@ describe('Store', () => {
 
     it('should clear listeners of a nested key.', () => {
       const store = createStore({ foo: { bar: 'baz' } });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo.bar', subscriber, false);
       store.clearListeners('foo.bar');
@@ -209,7 +210,7 @@ describe('Store', () => {
 
     it('should clear listeners of child keys when clearing a parent key.', () => {
       const store = createStore({ foo: { bar: 'baz' } });
-      const subscriber = jest.fn();
+      const subscriber = vi.fn();
 
       store.subscribe('foo.bar', subscriber, false);
       store.clearListeners('foo', true);
@@ -251,7 +252,7 @@ describe('Store', () => {
       store.subscribe('foo', () => {});
       store._setDebugMode(true);
 
-      const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+      const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
       store.set('foo.bar', 'qux');
 
@@ -264,7 +265,7 @@ describe('Store', () => {
       store.subscribe('foo', () => {});
       store._setDebugMode(true);
 
-      const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+      const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
       // @ts-ignore
       store.reset('foo.baz');
@@ -354,7 +355,7 @@ describe('clone', () => {
 // LOG
 describe('log', () => {
   it('should log a message.', () => {
-    const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
     log({
       baseMsg: 'foo',
@@ -389,7 +390,7 @@ describe('compute + store', () => {
       readable(store, 'value'),
       (value: number) => `value: ${value}`,
     );
-    const observer = jest.fn();
+    const observer = vi.fn();
     computedValue.subscribe(observer);
 
     expect(computedValue.get()).toBe('value: 0');

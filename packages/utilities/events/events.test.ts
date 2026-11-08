@@ -1,10 +1,11 @@
+import { describe, expect, it, vi } from 'vitest';
 import { makeEventEmitter } from './makeEventEmitter';
 
 describe('EventEmitter', () => {
   describe('on', () => {
     it('should allow to subscribe to events', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       emitter.on('test', callback);
       emitter.emit('test');
@@ -14,7 +15,7 @@ describe('EventEmitter', () => {
 
     it('should return a function to unsubscribe', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       const off = emitter.on('test', callback);
       off();
@@ -27,7 +28,7 @@ describe('EventEmitter', () => {
   describe('once', () => {
     it('should allow to subscribe to events only once', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       emitter.once('test', callback);
       emitter.emit('test');
@@ -38,7 +39,7 @@ describe('EventEmitter', () => {
 
     it('should return a function to unsubscribe', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       const off = emitter.once('test', callback);
       off();
@@ -51,7 +52,7 @@ describe('EventEmitter', () => {
   describe('off', () => {
     it('should allow to unsubscribe from events', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       emitter.on('test', callback);
       emitter.off('test', callback);
@@ -64,7 +65,7 @@ describe('EventEmitter', () => {
   describe('emit', () => {
     it('should allow to emit events', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       emitter.on('test', callback);
       emitter.emit('test');
@@ -74,7 +75,7 @@ describe('EventEmitter', () => {
 
     it('should pass arguments to the event listeners', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       emitter.on('test', callback);
       emitter.emit('test', 1, 2, 3);
@@ -87,10 +88,10 @@ describe('EventEmitter', () => {
     it('should allow to clear listeners for a specific event', () => {
       const emitter = makeEventEmitter();
 
-      const callbackA = jest.fn();
+      const callbackA = vi.fn();
       emitter.on('testA', callbackA);
 
-      const callbackB = jest.fn();
+      const callbackB = vi.fn();
       emitter.on('testB', callbackB);
 
       emitter.clear('testA');
@@ -103,7 +104,7 @@ describe('EventEmitter', () => {
 
     it('should allow to clear all listeners', () => {
       const emitter = makeEventEmitter();
-      const callback = jest.fn();
+      const callback = vi.fn();
 
       emitter.on('test', callback);
       emitter.clear();

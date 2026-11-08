@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import type { TLinkableItem } from './types';
 import { LinkedTree } from './LinkedTree';
 

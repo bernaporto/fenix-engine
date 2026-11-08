@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { PRNG } from './PRNG';
 
 const seed = 12345;

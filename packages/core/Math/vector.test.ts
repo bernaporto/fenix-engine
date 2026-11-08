@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { Vector2 } from './Vector2';
 import { Vector3 } from './Vector3';
 

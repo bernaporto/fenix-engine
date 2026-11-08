@@ -1,10 +1,11 @@
+import { describe, expect, it, vi } from 'vitest';
 import { readable } from './readable';
 import { observable } from './observable';
 
 describe('Observable', () => {
   it('should be able to subscribe to changes', () => {
     const value = observable(0);
-    const observer = jest.fn();
+    const observer = vi.fn();
 
     value.subscribe(observer);
     value.set(1);
@@ -14,7 +15,7 @@ describe('Observable', () => {
 
   it('should be able to unsubscribe from changes', () => {
     const value = observable(0);
-    const observer = jest.fn();
+    const observer = vi.fn();
 
     const unsubscriber = value.subscribe(observer);
     unsubscriber();
@@ -31,7 +32,7 @@ describe('Observable', () => {
 
   it('should clear all observers with clearObservers.', () => {
     const value = observable(0);
-    const observer = jest.fn();
+    const observer = vi.fn();
 
     value.subscribe(observer);
     value.clearObservers();

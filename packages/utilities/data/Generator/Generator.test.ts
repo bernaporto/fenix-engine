@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { TProductionRule } from '.';
 import { Generator } from './Generator';
 

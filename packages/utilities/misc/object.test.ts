@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { deepEqual, deepMerge, traverse } from './object';
 
 describe('traverse', () => {

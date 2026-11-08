@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from 'vitest';
 import { filter, forEach, map } from './list';
 
 describe('filter', () => {
@@ -14,7 +15,7 @@ describe('filter', () => {
 describe('forEach', () => {
   it('should iterate over a list.', () => {
     const list = [1, 2, 3, 4, 5];
-    const mock = jest.fn();
+    const mock = vi.fn();
 
     forEach(mock)(list);
 
@@ -27,7 +28,7 @@ describe('forEach', () => {
 describe('map', () => {
   it('should map a list.', () => {
     const list = [1, 2, 3, 4, 5];
-    const double = jest.fn((n: number) => n * 2);
+    const double = vi.fn((n: number) => n * 2);
 
     const result = map(double)(list);
 

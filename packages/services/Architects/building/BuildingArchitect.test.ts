@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { BuildingArchitect } from './BuildingArchitect';
 import { EBuildingRule, ERoofType, EWallType } from './types';
 

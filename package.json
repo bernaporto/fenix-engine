@@ -4,18 +4,25 @@
   "private": true,
   "packageManager": "pnpm@10.20.0",
   "license": "UNLICENSED",
+  "engines": {
+    "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+  },
   "scripts": {
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "typecheck": "pnpm --recursive --if-present typecheck",
-    "test": "pnpm --recursive --if-present test",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest",
     "build:examples": "pnpm --filter './examples/*' build"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "5.1.0",
+    "jsdom": "^27.4.0",
     "oxfmt": "0.77.0",
     "oxlint": "1.92.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "vitest": "5.1.0"
   }
 }

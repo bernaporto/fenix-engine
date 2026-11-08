@@ -4,15 +4,9 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "typecheck": "tsc --noEmit",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.3",
-    "jest": "^29.6.1",
-    "jest-environment-jsdom": "^29.7.0",
-    "ts-jest": "^29.1.1",
     "typescript": "^5.0.2"
   }
 }
