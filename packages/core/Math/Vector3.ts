@@ -1,4 +1,4 @@
-import { lerp } from '@fenix-engine/utilities/misc';
+import { Vector3 as ThreeVector3 } from 'three';
 
 export type Vector3String = `Vector3(${number},${number},${number})`;
 const VECTOR3_REGEX =
@@ -10,9 +10,14 @@ export type Vector3 = {
   z: number;
 };
 
+const toThreeVector3 = ({ x, y, z }: Vector3): ThreeVector3 =>
+  new ThreeVector3(x, y, z);
+
+const fromThreeVector3 = ({ x, y, z }: ThreeVector3): Vector3 => ({ x, y, z });
+
 export const Vector3 = {
   get up(): Vector3 {
-    return { x: 0, y: 1, z: 0 };
+    return fromThreeVector3(new ThreeVector3(0, 1, 0));
   },
 
   get zero(): Vector3 {
@@ -20,109 +25,62 @@ export const Vector3 = {
   },
 
   get one(): Vector3 {
-    return { x: 1, y: 1, z: 1 };
+    return fromThreeVector3(new ThreeVector3(1, 1, 1));
   },
 
-  create: (): Vector3 => ({
-    x: 0,
-    y: 0,
-    z: 0,
-  }),
+  create: (): Vector3 => fromThreeVector3(new ThreeVector3()),
 
-  copy: (v: Vector3): Vector3 => ({ x: v.x, y: v.y, z: v.z }),
+  copy: (v: Vector3): Vector3 => fromThreeVector3(toThreeVector3(v)),
 
   add: (a: Vector3, b: Vector3 | number): Vector3 => {
-    if (typeof b === 'number') {
-      return {
-        x: a.x + b,
-        y: a.y + b,
-        z: a.z + b,
-      };
-    }
-
-    return {
-      x: a.x + b.x,
-      y: a.y + b.y,
-      z: a.z + b.z,
-    };
+    const result = toThreeVector3(a);
+    return fromThreeVector3(
+      typeof b === 'number'
+        ? result.addScalar(b)
+        : result.add(toThreeVector3(b)),
+    );
   },
 
   subtract: (a: Vector3, b: Vector3 | number): Vector3 => {
-    if (typeof b === 'number') {
-      return {
-        x: a.x - b,
-        y: a.y - b,
-        z: a.z - b,
-      };
-    }
-
-    return {
-      x: a.x - b.x,
-      y: a.y - b.y,
-      z: a.z - b.z,
-    };
+    const result = toThreeVector3(a);
+    return fromThreeVector3(
+      typeof b === 'number'
+        ? result.subScalar(b)
+        : result.sub(toThreeVector3(b)),
+    );
   },
 
-  multiply: (a: Vector3, b: Vector3): Vector3 => ({
-    x: a.x * b.x,
-    y: a.y * b.y,
-    z: a.z * b.z,
-  }),
+  multiply: (a: Vector3, b: Vector3): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).multiply(toThreeVector3(b))),
 
-  multiplyScalar: (a: Vector3, b: number): Vector3 => ({
-    x: a.x * b,
-    y: a.y * b,
-    z: a.z * b,
-  }),
+  multiplyScalar: (a: Vector3, b: number): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).multiplyScalar(b)),
 
-  divide: (a: Vector3, b: Vector3): Vector3 => ({
-    x: a.x / b.x,
-    y: a.y / b.y,
-    z: a.z / b.z,
-  }),
+  divide: (a: Vector3, b: Vector3): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).divide(toThreeVector3(b))),
 
-  divideScalar: (a: Vector3, b: number): Vector3 => ({
-    x: a.x / b,
-    y: a.y / b,
-    z: a.z / b,
-  }),
+  divideScalar: (a: Vector3, b: number): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).divideScalar(b)),
 
-  dot: (a: Vector3, b: Vector3): number => a.x * b.x + a.y * b.y + a.z * b.z,
+  dot: (a: Vector3, b: Vector3): number =>
+    toThreeVector3(a).dot(toThreeVector3(b)),
 
-  cross: (a: Vector3, b: Vector3): Vector3 => ({
-    x: a.y * b.z - a.z * b.y,
-    y: a.z * b.x - a.x * b.z,
-    z: a.x * b.y - a.y * b.x,
-  }),
+  cross: (a: Vector3, b: Vector3): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).cross(toThreeVector3(b))),
 
-  length: (a: Vector3): number => Math.sqrt(a.x * a.x + a.y * a.y + a.z * a.z),
+  length: (a: Vector3): number => toThreeVector3(a).length(),
 
-  normalize: (a: Vector3): Vector3 => {
-    const length = Vector3.length(a);
+  normalize: (a: Vector3): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).normalize()),
 
-    if (length === 0) return Vector3.zero;
+  lerp: (a: Vector3, b: Vector3, t: number): Vector3 =>
+    fromThreeVector3(toThreeVector3(a).lerp(toThreeVector3(b), t)),
 
-    return Vector3.divideScalar(a, length);
-  },
-
-  lerp: (a: Vector3, b: Vector3, t: number): Vector3 => {
-    return {
-      x: lerp(a.x, b.x, t),
-      y: lerp(a.y, b.y, t),
-      z: lerp(a.z, b.z, t),
-    };
-  },
-
-  distance: (a: Vector3, b: Vector3): number => {
-    const dx = a.x - b.x;
-    const dy = a.y - b.y;
-    const dz = a.z - b.z;
-
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
-  },
+  distance: (a: Vector3, b: Vector3): number =>
+    toThreeVector3(a).distanceTo(toThreeVector3(b)),
 
   equals: (a: Vector3, b: Vector3): boolean =>
-    a.x === b.x && a.y === b.y && a.z === b.z,
+    toThreeVector3(a).equals(toThreeVector3(b)),
 
   fromString: (s: Vector3String): Vector3 => {
     const match = s.match(VECTOR3_REGEX);

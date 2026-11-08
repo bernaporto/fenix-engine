@@ -71,11 +71,13 @@ describe('Vector3', () => {
 
   it('calculates dot product, cross product, length, and distance', () => {
     expect(Vector3.dot({ x: 1, y: 2, z: 3 }, { x: 4, y: 5, z: 6 })).toBe(32);
-    expect(Vector3.cross({ x: 1, y: 0, z: 0 }, { x: 0, y: 1, z: 0 })).toEqual({
+    const vector = { x: 1, y: 0, z: 0 };
+    expect(Vector3.cross(vector, { x: 0, y: 1, z: 0 })).toEqual({
       x: 0,
       y: 0,
       z: 1,
     });
+    expect(vector).toEqual({ x: 1, y: 0, z: 0 });
     expect(Vector3.length({ x: 2, y: 3, z: 6 })).toBe(7);
     expect(Vector3.distance({ x: 1, y: 2, z: 3 }, { x: 4, y: 6, z: 3 })).toBe(
       5,
@@ -83,11 +85,11 @@ describe('Vector3', () => {
   });
 
   it('normalizes vectors and returns zero for a zero vector', () => {
-    expect(Vector3.normalize({ x: 0, y: 3, z: 4 })).toEqual({
-      x: 0,
-      y: 0.6,
-      z: 0.8,
-    });
+    const normalized = Vector3.normalize({ x: 0, y: 3, z: 4 });
+
+    expect(normalized.x).toBe(0);
+    expect(normalized.y).toBeCloseTo(0.6);
+    expect(normalized.z).toBeCloseTo(0.8);
     expect(Vector3.normalize(Vector3.zero)).toEqual(Vector3.zero);
   });
 

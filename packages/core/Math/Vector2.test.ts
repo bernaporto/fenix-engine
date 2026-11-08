@@ -51,12 +51,23 @@ describe('Vector2', () => {
 
   it('calculates dot product, length, and distance', () => {
     expect(Vector2.dot({ x: 1, y: 2 }, { x: 3, y: 4 })).toBe(11);
+    expect(Vector2.cross({ x: 1, y: 0 }, { x: 0, y: 1 })).toBe(1);
     expect(Vector2.length({ x: 3, y: 4 })).toBe(5);
     expect(Vector2.distance({ x: 1, y: 2 }, { x: 4, y: 6 })).toBe(5);
   });
 
+  it('does not mutate input vectors when calculating results', () => {
+    const vector = { x: 1, y: 2 };
+
+    expect(Vector2.add(vector, 1)).toEqual({ x: 2, y: 3 });
+    expect(vector).toEqual({ x: 1, y: 2 });
+  });
+
   it('normalizes vectors and returns zero for a zero vector', () => {
-    expect(Vector2.normalize({ x: 3, y: 4 })).toEqual({ x: 0.6, y: 0.8 });
+    const normalized = Vector2.normalize({ x: 3, y: 4 });
+
+    expect(normalized.x).toBeCloseTo(0.6);
+    expect(normalized.y).toBeCloseTo(0.8);
     expect(Vector2.normalize(Vector2.zero)).toEqual(Vector2.zero);
   });
 

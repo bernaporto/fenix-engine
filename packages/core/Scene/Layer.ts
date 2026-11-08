@@ -11,6 +11,7 @@ export class Layer extends SceneItem implements QueryEnabled {
     super();
 
     this.node = new THREE_Scene();
+    this.registerNode(this.node);
   }
 
   public set background(color: Color | null) {
@@ -18,6 +19,6 @@ export class Layer extends SceneItem implements QueryEnabled {
   }
 
   public clear(): void {
-    this.node.children.length = 0;
+    this.node.clear();
   }
 }

@@ -2,64 +2,55 @@ import { Mesh, Object3D } from 'three';
 import type { LifecycleEnabled } from '../@types';
 import { TickerState } from '../Tools/Ticker';
 
+const sceneItems = new WeakMap<Object3D, SceneItem>();
+
 export class SceneItem implements LifecycleEnabled {
   public readonly node: Object3D;
 
-  private _children = new Set<SceneItem>();
-  private _parent: SceneItem | null = null;
-
   constructor(public readonly id: string = crypto.randomUUID()) {
     this.node = new Object3D();
+    this.registerNode(this.node);
   }
 
   /* Graph */
   public get children(): SceneItem[] {
-    return Array.from(this._children);
+    return this.node.children.flatMap((node) => {
+      const item = sceneItems.get(node);
+      return item ? [item] : [];
+    });
   }
 
   public get parent(): SceneItem | null {
-    return this._parent;
+    return (this.node.parent && sceneItems.get(this.node.parent)) ?? null;
   }
 
   public append(...items: SceneItem[]): void {
     items.forEach((item) => {
-      this._children.add(item);
       item.setParent(this);
     });
   }
 
   public remove(...items: SceneItem[]): void {
     items.forEach((item) => {
-      const success = this._children.delete(item);
-      if (success) {
+      if (item.node.parent === this.node) {
         item.removeFromParent();
       }
     });
   }
 
   public setParent(parent: SceneItem): void {
-    this.removeFromParent();
-
-    this._parent = parent;
     parent.node.add(this.node);
   }
 
   public removeFromParent(): void {
-    if (this._parent) {
-      this._parent.remove(this);
-    }
-
-    this._parent = null;
+    this.node.removeFromParent();
   }
 
   /* Lifecycle */
   public dispose(): void {
     this.removeFromParent();
 
-    this._children.forEach((child) => {
-      child.dispose();
-    });
-    this._children.clear();
+    this.children.forEach((child) => child.dispose());
 
     this.node.traverse((child) => {
       if (child instanceof Mesh) {
@@ -72,8 +63,10 @@ export class SceneItem implements LifecycleEnabled {
   }
 
   public update(state: TickerState): void {
-    this._children.forEach((child) => {
-      child.update(state);
-    });
+    this.children.forEach((child) => child.update(state));
+  }
+
+  protected registerNode(node: Object3D): void {
+    sceneItems.set(node, this);
   }
 }

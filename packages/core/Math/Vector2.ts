@@ -1,4 +1,4 @@
-import { clamp } from '@fenix-engine/utilities/misc';
+import { Vector2 as ThreeVector2 } from 'three';
 
 export type Vector2String = `Vector2(${number},${number})`;
 const VECTOR2_STRING_REGEX = /^Vector2\((?<x>-?\d+\.?\d*),(?<y>-?\d+\.?\d*)\)$/;
@@ -8,9 +8,14 @@ export type Vector2 = {
   y: number;
 };
 
+const toThreeVector2 = ({ x, y }: Vector2): ThreeVector2 =>
+  new ThreeVector2(x, y);
+
+const fromThreeVector2 = ({ x, y }: ThreeVector2): Vector2 => ({ x, y });
+
 export const Vector2 = {
   get up(): Vector2 {
-    return { x: 0, y: 1 };
+    return fromThreeVector2(new ThreeVector2(0, 1));
   },
 
   get zero(): Vector2 {
@@ -18,95 +23,66 @@ export const Vector2 = {
   },
 
   get one(): Vector2 {
-    return { x: 1, y: 1 };
+    return fromThreeVector2(new ThreeVector2(1, 1));
   },
 
-  create: (): Vector2 => ({ x: 0, y: 0 }),
+  create: (): Vector2 => fromThreeVector2(new ThreeVector2()),
 
-  copy: (v: Vector2): Vector2 => ({ x: v.x, y: v.y }),
+  copy: (v: Vector2): Vector2 => fromThreeVector2(toThreeVector2(v)),
 
   distance: (a: Vector2, b: Vector2): number =>
-    Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2),
+    toThreeVector2(a).distanceTo(toThreeVector2(b)),
 
-  equals: (a: Vector2, b: Vector2): boolean => a.x === b.x && a.y === b.y,
+  equals: (a: Vector2, b: Vector2): boolean =>
+    toThreeVector2(a).equals(toThreeVector2(b)),
 
   add: (a: Vector2, b: Vector2 | number): Vector2 => {
-    if (typeof b === 'number') {
-      return {
-        x: a.x + b,
-        y: a.y + b,
-      };
-    }
-
-    return {
-      x: a.x + b.x,
-      y: a.y + b.y,
-    };
+    const result = toThreeVector2(a);
+    return fromThreeVector2(
+      typeof b === 'number'
+        ? result.addScalar(b)
+        : result.add(toThreeVector2(b)),
+    );
   },
 
   subtract: (a: Vector2, b: Vector2 | number): Vector2 => {
-    if (typeof b === 'number') {
-      return {
-        x: a.x - b,
-        y: a.y - b,
-      };
-    }
-
-    return {
-      x: a.x - b.x,
-      y: a.y - b.y,
-    };
+    const result = toThreeVector2(a);
+    return fromThreeVector2(
+      typeof b === 'number'
+        ? result.subScalar(b)
+        : result.sub(toThreeVector2(b)),
+    );
   },
 
-  multiply: (a: Vector2, b: Vector2): Vector2 => ({
-    x: a.x * b.x,
-    y: a.y * b.y,
-  }),
+  multiply: (a: Vector2, b: Vector2): Vector2 =>
+    fromThreeVector2(toThreeVector2(a).multiply(toThreeVector2(b))),
 
-  multiplyScalar: (a: Vector2, b: number): Vector2 => ({
-    x: a.x * b,
-    y: a.y * b,
-  }),
+  multiplyScalar: (a: Vector2, b: number): Vector2 =>
+    fromThreeVector2(toThreeVector2(a).multiplyScalar(b)),
 
-  divide: (a: Vector2, b: Vector2): Vector2 => ({
-    x: a.x / b.x,
-    y: a.y / b.y,
-  }),
+  divide: (a: Vector2, b: Vector2): Vector2 =>
+    fromThreeVector2(toThreeVector2(a).divide(toThreeVector2(b))),
 
-  divideScalar: (a: Vector2, b: number): Vector2 => ({
-    x: a.x / b,
-    y: a.y / b,
-  }),
+  divideScalar: (a: Vector2, b: number): Vector2 =>
+    fromThreeVector2(toThreeVector2(a).divideScalar(b)),
 
-  dot: (a: Vector2, b: Vector2): number => a.x * b.x + a.y * b.y,
+  dot: (a: Vector2, b: Vector2): number =>
+    toThreeVector2(a).dot(toThreeVector2(b)),
 
-  cross: (a: Vector2, b: Vector2): Vector2 => ({
-    x: a.x * b.y - a.y * b.x,
-    y: a.y * b.x - a.x * b.y,
-  }),
+  cross: (a: Vector2, b: Vector2): number =>
+    toThreeVector2(a).cross(toThreeVector2(b)),
 
-  length: (a: Vector2): number => Math.sqrt(a.x * a.x + a.y * a.y),
+  length: (a: Vector2): number => toThreeVector2(a).length(),
 
-  normalize: (a: Vector2): Vector2 => {
-    const length = Vector2.length(a);
+  normalize: (a: Vector2): Vector2 =>
+    fromThreeVector2(toThreeVector2(a).normalize()),
 
-    if (length === 0) return Vector2.zero;
+  clamp: (a: Vector2, min: Vector2, max: Vector2): Vector2 =>
+    fromThreeVector2(
+      toThreeVector2(a).clamp(toThreeVector2(min), toThreeVector2(max)),
+    ),
 
-    return {
-      x: a.x / length,
-      y: a.y / length,
-    };
-  },
-
-  clamp: (a: Vector2, min: Vector2, max: Vector2): Vector2 => ({
-    x: clamp(min.x, max.x, a.x),
-    y: clamp(min.y, max.y, a.y),
-  }),
-
-  floor: (a: Vector2): Vector2 => ({
-    x: Math.floor(a.x),
-    y: Math.floor(a.y),
-  }),
+  floor: (a: Vector2): Vector2 => fromThreeVector2(toThreeVector2(a).floor()),
 
   fromString: (s: Vector2String): Vector2 => {
     const match = s.match(VECTOR2_STRING_REGEX);
