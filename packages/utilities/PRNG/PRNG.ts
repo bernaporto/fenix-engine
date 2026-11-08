@@ -71,7 +71,7 @@ const getPRNG = (): TPRNG => {
 export const PRNG = {
   create: (seed?: number) => {
     const prng = getPRNG();
-    if (seed) {
+    if (seed !== undefined) {
       prng.seed.set(seed);
     }
 

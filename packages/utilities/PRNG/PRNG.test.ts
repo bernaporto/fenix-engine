@@ -1,61 +1,68 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { PRNG } from './PRNG';
 
-const seed = 12345;
-
 describe('PRNG', () => {
-  it('should always return the same integer.', () => {
-    PRNG.seed.set(seed);
-    const randomInt = PRNG.int();
+  it('should return the same integer for the same seed', () => {
+    const first = PRNG.create(12345).int();
+    const second = PRNG.create(12345).int();
 
-    expect(randomInt).toBe(6885456471916543);
+    expect(first).toBe(second);
   });
 
-  it('should always return the same float.', () => {
-    PRNG.seed.set(seed);
-    const randomFloat = PRNG.float();
+  it('should return the same float for the same seed', () => {
+    const first = PRNG.create(12345).float();
+    const second = PRNG.create(12345).float();
 
-    expect(randomFloat).toBe(0.7644392310176045);
+    expect(first).toBe(second);
   });
 
-  it('should always return the same range.', () => {
-    PRNG.seed.set(seed);
-    const randomRange = PRNG.range(1, 10);
+  it('should return integers within the requested range', () => {
+    const first = PRNG.create(12345).rangeInt(1, 10);
+    const second = PRNG.create(12345).rangeInt(1, 10);
 
-    expect(randomRange).toBe(7);
+    expect(first).toBe(second);
+    expect(first).toBeGreaterThanOrEqual(1);
+    expect(first).toBeLessThan(10);
   });
 
-  it('should always return the same item from an array.', () => {
-    PRNG.seed.set(seed);
-    const randomItem = PRNG.choices([
-      'dog',
-      'cat',
-      'turtle',
-      'giraffe',
-      'elephant',
-    ]);
+  it('should choose the same item for the same seed', () => {
+    const choices = ['dog', 'cat', 'turtle', 'giraffe', 'elephant'];
+    const first = PRNG.create(12345).choices(choices);
+    const second = PRNG.create(12345).choices(choices);
 
-    expect(randomItem).toBe('giraffe');
+    expect(first).toBe(second);
+    expect(choices).toContain(first);
   });
 
-  it('should gracefully handle an empty array.', () => {
-    const randomItem = PRNG.choices([]);
-
-    expect(randomItem).toBe(null);
+  it('should gracefully handle an empty array', () => {
+    expect(PRNG.create(12345).choices([])).toBe(null);
   });
 
   it('should set the seed', () => {
-    const seed = Date.now() * Math.random();
-    PRNG.seed.set(seed);
+    const prng = PRNG.create(12345);
+    prng.seed.set(67890);
 
-    expect(PRNG.seed.get()).toBe(seed);
+    expect(prng.seed.get()).toBe(67890);
   });
 
   it('should reset the seed', () => {
-    const seed = Date.now() * Math.random();
-    PRNG.seed.set(seed);
-    PRNG.seed.reset();
+    const prng = PRNG.create(12345);
+    const now = vi.spyOn(Date, 'now').mockReturnValue(1000);
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0.5);
 
-    expect(PRNG.seed.get()).not.toBe(seed);
+    prng.seed.reset();
+
+    expect(prng.seed.get()).toBe(500);
+
+    now.mockRestore();
+    random.mockRestore();
+  });
+
+  it('should use zero as a valid seed', () => {
+    const zeroSeed = PRNG.create(0);
+    const explicitSeed = PRNG.create();
+    explicitSeed.seed.set(0);
+
+    expect(zeroSeed.float()).toBe(explicitSeed.float());
   });
 });

@@ -58,12 +58,14 @@ describe('Generator', () => {
               metadata: {
                 type: 'empty',
               },
+              children: undefined,
             },
             {
               type: 'wall',
               metadata: {
                 type: 'empty',
               },
+              children: undefined,
             },
           ],
         },

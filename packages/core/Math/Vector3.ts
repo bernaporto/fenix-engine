@@ -1,7 +1,8 @@
 import { lerp } from '@fenix-engine/utilities/misc';
 
 export type Vector3String = `Vector3(${number},${number},${number})`;
-const VECTOR3_REGEX = /Vector3\((\d+),(\d+),(\d+)\)/;
+const VECTOR3_REGEX =
+  /^Vector3\((?<x>-?\d+\.?\d*),(?<y>-?\d+\.?\d*),(?<z>-?\d+\.?\d*)\)$/;
 
 export type Vector3 = {
   x: number;
@@ -102,14 +103,6 @@ export const Vector3 = {
     if (length === 0) return Vector3.zero;
 
     return Vector3.divideScalar(a, length);
-  },
-
-  project: (a: Vector3, b: number): Vector3 => {
-    return {
-      x: a.x ? b : 0,
-      y: a.y ? b : 0,
-      z: a.z ? b : 0,
-    };
   },
 
   lerp: (a: Vector3, b: Vector3, t: number): Vector3 => {

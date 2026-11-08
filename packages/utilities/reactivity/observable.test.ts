@@ -17,7 +17,7 @@ describe('Observable', () => {
     const value = observable(0);
     const observer = vi.fn();
 
-    const unsubscriber = value.subscribe(observer);
+    const unsubscriber = value.subscribe(observer, false);
     unsubscriber();
     value.set(1);
 
@@ -34,7 +34,7 @@ describe('Observable', () => {
     const value = observable(0);
     const observer = vi.fn();
 
-    value.subscribe(observer);
+    value.subscribe(observer, false);
     value.clearObservers();
 
     value.set(1);
