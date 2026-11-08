@@ -3,7 +3,7 @@ import { OrthographicCamera, PerspectiveCamera } from 'three';
 export const resizeCamera = (
   camera: OrthographicCamera | PerspectiveCamera,
   aspect: number,
-  viewSize = 20
+  viewSize = 20,
 ) => {
   if (camera instanceof PerspectiveCamera) {
     resizePerspectiveCamera(camera, aspect);
@@ -20,7 +20,7 @@ const resizePerspectiveCamera = (camera: PerspectiveCamera, aspect: number) => {
 const resizeOrthographicCamera = (
   camera: OrthographicCamera,
   aspect: number,
-  viewSize: number
+  viewSize: number,
 ) => {
   camera.left = (-aspect * viewSize) / 2;
   camera.right = (aspect * viewSize) / 2;

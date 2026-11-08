@@ -57,6 +57,6 @@ const constructorMap = {
 };
 
 const createLight = (
-  lightType: LightConfig['lightType'] = 'point'
+  lightType: LightConfig['lightType'] = 'point',
 ): AmbientLight | DirectionalLight | PointLight =>
   new constructorMap[lightType]();

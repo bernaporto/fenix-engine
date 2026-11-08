@@ -13,7 +13,7 @@ export type AttributeContext<T extends Record<string, string>> =
 
 export const getAttributeContext = <T extends Record<string, string>>(
   node: HTMLElement,
-  defaultAttributes: T
+  defaultAttributes: T,
 ): AttributeContext<T> => {
   const attributes: Record<string, unknown> = {};
 

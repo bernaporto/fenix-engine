@@ -31,7 +31,7 @@ class Box extends Unit {
       depth,
       segments.x,
       segments.y,
-      segments.z
+      segments.z,
     );
     const mesh = new Mesh(geometry);
 

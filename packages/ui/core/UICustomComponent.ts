@@ -5,14 +5,17 @@ import { AttributeContext, getAttributeContext } from '../utils/context';
 import { applyContextToTree } from './applyContext';
 
 export class UICustomComponent<
-  T extends Record<string, string>
+  T extends Record<string, string>,
 > extends HTMLElement {
   protected _attributes: T;
   protected _context: AttributeContext<T>;
   protected _unit: UIUnit | null = null;
   protected _subscriptions = new Set<VoidFunction>();
 
-  constructor(private componentPath: string, defaultAttributes: T) {
+  constructor(
+    private componentPath: string,
+    defaultAttributes: T,
+  ) {
     super();
 
     this._attributes = {

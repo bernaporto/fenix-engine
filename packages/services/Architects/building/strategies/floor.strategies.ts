@@ -28,7 +28,7 @@ const applyMirror = (blueprint: TBlueprint, buildingSize: Vector2) => {
         metadata.position,
         halfPoint,
         branch,
-        true
+        true,
       );
 
       if (
@@ -59,7 +59,7 @@ const findOppositeChild = (
   position: Vector3,
   mirrorPos: Vector2,
   tree: TLinkedTree<TProductionItem>,
-  mirrorX = true
+  mirrorX = true,
 ): TWallMetadata | null => {
   const x = mirrorX ? mirrorPos.x - (position.x - mirrorPos.x) : position.x;
   const y = !mirrorX ? mirrorPos.y - (position.z - mirrorPos.y) : position.z;

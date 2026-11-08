@@ -5,11 +5,17 @@
   "packageManager": "pnpm@10.20.0",
   "license": "UNLICENSED",
   "scripts": {
-    "lint": "pnpm --recursive --if-present lint",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "typecheck": "pnpm --recursive --if-present typecheck",
     "test": "pnpm --recursive --if-present test",
     "build:examples": "pnpm --filter './examples/*' build"
   },
   "devDependencies": {
+    "oxfmt": "0.77.0",
+    "oxlint": "1.92.0",
     "typescript": "^5.0.2"
   }
 }

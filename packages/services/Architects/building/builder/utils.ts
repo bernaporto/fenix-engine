@@ -7,7 +7,7 @@ import type { TRoofMetadata, TWallMetadata } from '../rules';
 export const buildProp = (
   themeItem: TThemeItem,
   settings: TBuildingSettings,
-  metadata: TRoofMetadata | TWallMetadata
+  metadata: TRoofMetadata | TWallMetadata,
 ) => {
   const { asset, config } = themeItem;
 
@@ -20,7 +20,7 @@ export const buildProp = (
 const applyTransformations = (
   prop: Prop,
   buildingSize: Vector2,
-  metadata?: { position: Vector3; direction?: EFaceDirection }
+  metadata?: { position: Vector3; direction?: EFaceDirection },
 ) => {
   if (!metadata) return;
 

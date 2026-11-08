@@ -15,12 +15,12 @@ export const build = (
   settings: TBuildingSettings,
   blueprint: TProductionItem,
   theme: TTheme,
-  PRNG: TPRNG
+  PRNG: TPRNG,
 ): Unit => {
   const bpTree = LinkedTree.create(toLinkableItem(blueprint), (item) =>
     (item.payload.children ?? []).map((c, index) =>
-      toLinkableItem(c, item, index)
-    )
+      toLinkableItem(c, item, index),
+    ),
   );
   applyStrategies(settings, bpTree);
 
@@ -43,7 +43,7 @@ export const build = (
 const toLinkableItem = (
   item: TProductionItem,
   parent?: TLinkableItem<TProductionItem>,
-  index?: number
+  index?: number,
 ) => ({
   id: [parent?.id ?? parent?.payload.type, item.type, index]
     .filter(isNotNullable)

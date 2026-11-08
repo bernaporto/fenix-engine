@@ -13,7 +13,7 @@ export type TLinkedTree<T> = {
   nodes: TLinkedItem<T>[];
   root: TLinkedItem<T>;
   findNode: (
-    predicate: (node: TLinkedItem<T>) => boolean
+    predicate: (node: TLinkedItem<T>) => boolean,
   ) => TLinkedItem<T> | null;
   getNode: (id: string) => TLinkedItem<T> | null;
 };

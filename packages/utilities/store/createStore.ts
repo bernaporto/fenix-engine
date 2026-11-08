@@ -19,7 +19,7 @@ import {
 
 export const createStore = <T extends AnyState>(
   initialState: T,
-  historyListener?: THistoryListener<T>
+  historyListener?: THistoryListener<T>,
 ): Store<T> => {
   const cleanState = clone(initialState);
   let state = clone(cleanState);
@@ -49,7 +49,7 @@ export const createStore = <T extends AnyState>(
         newValue,
         silent,
         // @ts-ignore-next-line
-        'update'
+        'update',
       );
     },
 
@@ -82,7 +82,7 @@ export const createStore = <T extends AnyState>(
           oldValue: previous,
           listeners: otherNotifiableKeys.reduce(
             (acc, key) => acc + (listeners.get(key)?.length ?? 0),
-            listeners.get(path)?.length ?? 0
+            listeners.get(path)?.length ?? 0,
           ),
         });
       }
@@ -155,7 +155,7 @@ export const createStore = <T extends AnyState>(
             oldValue: previous,
             listeners: notifiableKeys.reduce(
               (acc, key) => acc + (listeners.get(key)?.length ?? 0),
-              0
+              0,
             ),
           });
         }
@@ -165,7 +165,7 @@ export const createStore = <T extends AnyState>(
           value,
           false,
           // @ts-ignore-next-line
-          'reset'
+          'reset',
         );
       }
     },
@@ -193,14 +193,14 @@ export const createStore = <T extends AnyState>(
 const getNotifiableKeys = <T extends AnyState, Path extends NestedPathOf<T>>(
   listeners: NestedObservableMap<T, Listener<NestedValueOf<T, Path>>>,
   path: Path,
-  predicate: (key: NestedPathOf<T>, path: Path) => boolean
+  predicate: (key: NestedPathOf<T>, path: Path) => boolean,
 ): NestedPathOf<T>[] => listeners.keys().filter((key) => predicate(key, path));
 
 const notifyListeners = <T extends AnyState, Path extends NestedPathOf<T>>(
   listeners: NestedObservableMap<T, Listener<NestedValueOf<T, Path>>>,
   next: NestedValueOf<T, Path>,
   previous: NestedValueOf<T, Path>,
-  path: Path
+  path: Path,
 ): void => {
   listeners.get(path)?.forEach((listener) => listener(next, previous));
 };

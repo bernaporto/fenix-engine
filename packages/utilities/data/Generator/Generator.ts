@@ -38,14 +38,14 @@ const handleRule = ({
 
   if (!rule) {
     throw new Error(
-      `[Generator] Failed to get rule of type '${type}'. Was it registered?`
+      `[Generator] Failed to get rule of type '${type}'. Was it registered?`,
     );
   }
 
   const { metadata, produces } = rule.apply(settings, payload);
 
   const children = produces?.map(({ payload, type }) =>
-    handleRule({ payload, registry, settings, type })
+    handleRule({ payload, registry, settings, type }),
   );
 
   return {

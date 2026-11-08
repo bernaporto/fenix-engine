@@ -18,7 +18,7 @@ export type EventEmitter<Event extends string> = {
 
 export type PublicEventHandler<
   Event extends string,
-  CustomEvent extends string = Event
+  CustomEvent extends string = Event,
 > = {
   on(event: Event | CustomEvent, callback: EventCallback): VoidFunction;
   once(event: Event | CustomEvent, callback: EventCallback): VoidFunction;
@@ -31,7 +31,7 @@ export type EventListener<T extends EventArgs = EventArgs> = (
 ) => void;
 export type ListenerHandler<
   E extends string,
-  U extends EventArgs = EventArgs
+  U extends EventArgs = EventArgs,
 > = {
   add(event: E, callback: EventListener<U>): void;
   clear(event?: E): void;

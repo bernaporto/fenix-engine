@@ -20,7 +20,7 @@ export const floorRule: TBuildingRule<TFloorPayload> = {
     const getWallSymbol = (
       x: number,
       y: number,
-      direction: EFaceDirection
+      direction: EFaceDirection,
     ) => ({
       type: EBuildingRule.WALL,
       payload: {
@@ -34,16 +34,16 @@ export const floorRule: TBuildingRule<TFloorPayload> = {
     const { building } = settings;
 
     const eastWalls = Array.from({ length: building.size.y }, (_, i) =>
-      getWallSymbol(building.size.x, i, EFaceDirection.EAST)
+      getWallSymbol(building.size.x, i, EFaceDirection.EAST),
     );
     const northWalls = Array.from({ length: building.size.x }, (_, i) =>
-      getWallSymbol(i, 0, EFaceDirection.NORTH)
+      getWallSymbol(i, 0, EFaceDirection.NORTH),
     );
     const westWalls = Array.from({ length: building.size.y }, (_, i) =>
-      getWallSymbol(0, i, EFaceDirection.WEST)
+      getWallSymbol(0, i, EFaceDirection.WEST),
     );
     const southWalls = Array.from({ length: building.size.x }, (_, i) =>
-      getWallSymbol(i, building.size.y, EFaceDirection.SOUTH)
+      getWallSymbol(i, building.size.y, EFaceDirection.SOUTH),
     );
 
     const metadata: TFloorMetadata = { floor };

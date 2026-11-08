@@ -7,7 +7,7 @@
     "build": "pnpm run build:styles",
     "build:styles": "sass --no-source-map --style compressed styles/index.scss styles.css",
     "dev:styles": "sass --no-source-map --style expanded --watch styles/index.scss styles.css",
-    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "test": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch"
   },

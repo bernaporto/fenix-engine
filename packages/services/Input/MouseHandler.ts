@@ -65,7 +65,7 @@ export class MouseHandler {
 
   constructor(
     target: HTMLElement,
-    buttons = Object.values(MouseButton) as MouseButton[]
+    buttons = Object.values(MouseButton) as MouseButton[],
   ) {
     const state = observable<MouseState>({
       type: 'idle',
@@ -113,7 +113,7 @@ const handleMouseDown =
 
     const { screenPosition, normalizedPosition } = getMouseMovementData(
       target,
-      event
+      event,
     );
 
     state.set({
@@ -180,7 +180,7 @@ const handleWheel =
 // UTILS
 export const getMouseMovementData = (
   target: HTMLElement,
-  event: MouseEvent | WheelEvent
+  event: MouseEvent | WheelEvent,
 ): {
   delta: Vector2;
   screenPosition: Vector2;

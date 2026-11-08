@@ -6,7 +6,7 @@ const branch = <T>(node: TLinkedItem<T>) =>
 
 const create = <T>(
   parent: TLinkableItem<T>,
-  getChildren: (el: TLinkableItem<T>) => TLinkableItem<T>[]
+  getChildren: (el: TLinkableItem<T>) => TLinkableItem<T>[],
 ): TLinkedTree<T> => {
   const elTree = new Map<string, TLinkedItem<T>>();
 
@@ -60,7 +60,7 @@ const childless = <T>(node: TLinkedItem<T>) => {
 
 const traverse = <T>(
   tree: TLinkedTree<T>,
-  callback: (node: TLinkedItem<T>) => void
+  callback: (node: TLinkedItem<T>) => void,
 ) => {
   const visit = (node: TLinkedItem<T>) => {
     callback(node);
@@ -72,7 +72,7 @@ const traverse = <T>(
 
 const reversedTraverse = <T>(
   tree: TLinkedTree<T>,
-  callback: (node: TLinkedItem<T>) => void
+  callback: (node: TLinkedItem<T>) => void,
 ) => {
   const nodesByDepth: Record<number, Set<TLinkedItem<T>>> = {};
   tree.nodes.forEach((node) => {

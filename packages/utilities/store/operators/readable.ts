@@ -4,7 +4,7 @@ import type { AnyState, BranchStore, Store } from '../types';
 
 export const readable = <T extends AnyState, P extends NestedPathOf<T>>(
   store: BranchStore<T> | Store<T>,
-  path: P
+  path: P,
 ): Readable<NestedValueOf<T, P>> => {
   const subscriptions = new Set<VoidFunction>();
 

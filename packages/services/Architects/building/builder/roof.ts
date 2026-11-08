@@ -12,7 +12,7 @@ export const buildRoof = (
   theme: TTheme,
   root: Unit,
   settings: TBuildingSettings,
-  PRNG: TPRNG
+  PRNG: TPRNG,
 ) => {
   const metadata = node.payload.metadata as TRoofMetadata;
   const roofTheme = theme
@@ -22,7 +22,7 @@ export const buildRoof = (
   const themeItem = PRNG.choices(roofTheme);
   if (!themeItem) {
     throw new Error(
-      `[Builder] Failed to get theme item for roof ${metadata.type}`
+      `[Builder] Failed to get theme item for roof ${metadata.type}`,
     );
   }
 

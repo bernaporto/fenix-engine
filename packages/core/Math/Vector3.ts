@@ -106,9 +106,9 @@ export const Vector3 = {
 
   project: (a: Vector3, b: number): Vector3 => {
     return {
-      x: Boolean(a.x) ? b : 0,
-      y: Boolean(a.y) ? b : 0,
-      z: Boolean(a.z) ? b : 0,
+      x: a.x ? b : 0,
+      y: a.y ? b : 0,
+      z: a.z ? b : 0,
     };
   },
 

@@ -4,7 +4,7 @@ import { Vector3 } from '../../Math';
 
 export const applyLightConfig = (
   light: AmbientLight | DirectionalLight | PointLight,
-  config: LightConfig
+  config: LightConfig,
 ): void => {
   const {
     castShadow,
@@ -29,12 +29,17 @@ export const applyLightConfig = (
 
   light.castShadow = castShadow;
   light.color.set(color);
-  'decay' in light && (light.decay = decay);
-  'distance' in light && (light.distance = distance);
+  if ('decay' in light) {
+    light.decay = decay;
+  }
+  if ('distance' in light) {
+    light.distance = distance;
+  }
   light.intensity = intensity;
-  light.shadow &&
-    ((light.shadow.mapSize.width = shadowMapWidth),
-    (light.shadow.mapSize.height = shadowMapHeight));
+  if (light.shadow) {
+    light.shadow.mapSize.width = shadowMapWidth;
+    light.shadow.mapSize.height = shadowMapHeight;
+  }
 
   if ('target' in light) {
     light.target.position.set(target.x, target.y, target.z);

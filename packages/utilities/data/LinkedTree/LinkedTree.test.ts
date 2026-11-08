@@ -27,7 +27,7 @@ const testItems: LinkableTestItem[] = [
 
 const findChildren = (item: LinkableTestItem) => {
   return testItems.filter((el) =>
-    el.payload.output ? item.payload.input?.includes(el.payload.output) : false
+    el.payload.output ? item.payload.input?.includes(el.payload.output) : false,
   );
 };
 

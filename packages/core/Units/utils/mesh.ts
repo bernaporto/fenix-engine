@@ -5,7 +5,7 @@ import { getMaterial } from './material';
 
 export const applyMeshConfig = (
   obj: Object3D,
-  config: MeshUnitConfig
+  config: MeshUnitConfig,
 ): void => {
   const {
     material: materialConfig,
@@ -28,7 +28,9 @@ export const applyMeshConfig = (
         throw new Error(`Material "${materialConfig}" not found`);
       }
 
-      material && (child.material = material.build());
+      if (material) {
+        child.material = material.build();
+      }
     }
   };
 

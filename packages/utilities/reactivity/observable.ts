@@ -3,7 +3,7 @@ import type { Observable, Observer } from './types';
 
 export const observable = <T>(initialValue: T): Observable<T> => {
   let value: Readonly<T> = clone(initialValue);
-  const observers = new Map<Symbol, Observer<T>>();
+  const observers = new Map<symbol, Observer<T>>();
 
   const observable: Observable<T> = {
     clearObservers: () => {

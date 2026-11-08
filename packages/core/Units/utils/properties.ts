@@ -7,7 +7,7 @@ export type PropertiesHandler = {
 };
 
 export const getPropertiesHandler = (
-  properties: Record<string, any>
+  properties: Record<string, any>,
 ): PropertiesHandler => {
   const store = clone(properties);
 

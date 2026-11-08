@@ -37,7 +37,7 @@ describe('Generator', () => {
     const generator = Generator.create();
 
     [floorRule, roomRule, wallRule].forEach((rule) =>
-      generator.rules.register(rule)
+      generator.rules.register(rule),
     );
 
     const result = generator.generate({
@@ -78,7 +78,7 @@ describe('Generator', () => {
     expect(() => {
       generator.generate({ fromRule: ERuleType.FLOOR });
     }).toThrowError(
-      "[Generator] Failed to get rule of type 'wall'. Was it registered?"
+      "[Generator] Failed to get rule of type 'wall'. Was it registered?",
     );
   });
 });

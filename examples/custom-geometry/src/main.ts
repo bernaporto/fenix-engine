@@ -15,7 +15,7 @@ const populateScene = () => {
 
   // const geometry = createGeometry(100, () => (Math.random() - 0.5) * 2);
   const geometry = createGeometry(1000, (i) =>
-    Math.sin(i * Math.random() * Math.PI)
+    Math.sin(i * Math.random() * Math.PI),
   );
   const material = new MeshBasicMaterial({ color: 0xff0000, wireframe: true });
   const mesh = new Mesh(geometry, material);

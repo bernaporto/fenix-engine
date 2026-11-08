@@ -71,7 +71,9 @@ const getPRNG = (): TPRNG => {
 export const PRNG = {
   create: (seed?: number) => {
     const prng = getPRNG();
-    seed && prng.seed.set(seed);
+    if (seed) {
+      prng.seed.set(seed);
+    }
 
     return prng;
   },

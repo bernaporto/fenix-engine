@@ -34,7 +34,7 @@ export class UIRenderer {
       throw new Error(
         `Failed to render UI from ${
           'path' in config ? config.path : config.template
-        }`
+        }`,
       );
     }
 
@@ -44,7 +44,9 @@ export class UIRenderer {
     });
 
     beforeRender?.(unit);
-    container && unit.setParent(container);
+    if (container) {
+      unit.setParent(container);
+    }
 
     this._units.set(unit.id, unit);
     unit.events.once('dispose', () => this._units.delete(unit.id));

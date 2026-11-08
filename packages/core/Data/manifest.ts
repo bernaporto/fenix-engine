@@ -16,20 +16,20 @@ const loadManifest =
     } catch (error) {
       throw new Error(
         `Failed to load ${key} manifest file from path: ${path}`,
-        { cause: error }
+        { cause: error },
       );
     }
   };
 
 export const loadGameManifest = loadManifest<GameManifest>(
   'game',
-  isGameManifest
+  isGameManifest,
 );
 export const loadSceneManifest = loadManifest<SceneManifest>(
   'scene',
-  isSceneManifest
+  isSceneManifest,
 );
 export const loadPrefabManifest = loadManifest<PrefabManifest>(
   'prefab',
-  isPrefabManifest
+  isPrefabManifest,
 );

@@ -8,7 +8,7 @@ export const loadingManager = new LoadingManager();
 const jsonLoader = new FileLoader(loadingManager);
 loadingManager.addHandler(
   /\.(json|html|manifest|prefab|scene|xml)$/i,
-  jsonLoader
+  jsonLoader,
 );
 
 /* 3D Models */

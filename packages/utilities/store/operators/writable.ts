@@ -5,7 +5,7 @@ import type { AnyState, BranchStore, Store } from '../types';
 export const writable = <T extends AnyState, P extends NestedPathOf<T>>(
   store: BranchStore<T> | Store<T>,
   path: P,
-  silent = false
+  silent = false,
 ): Observable<NestedValueOf<T, P>> => {
   const subscriptions = new Set<VoidFunction>();
 

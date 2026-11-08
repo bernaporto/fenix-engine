@@ -4,10 +4,10 @@ import type { AnyState, BranchStore, Store } from '../types';
 export const branch = <
   T extends AnyState,
   P extends NestedPathOf<T>,
-  U extends NestedValueOf<T, P>
+  U extends NestedValueOf<T, P>,
 >(
   store: Store<T> | BranchStore<T>,
-  path: P
+  path: P,
   // @ts-ignore
 ): BranchStore<U> => {
   const subscriptions = new Set<VoidFunction>();
@@ -48,7 +48,7 @@ export const branch = <
         // @ts-ignore
         getBranchedPath(subPath),
         listener,
-        notifyImmediately
+        notifyImmediately,
       );
       subscriptions.add(subscription);
 

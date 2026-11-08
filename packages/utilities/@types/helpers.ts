@@ -6,8 +6,8 @@ export type NestedValueOf<Obj, Key extends string> = Obj extends object
       ? NestedValueOf<Obj[Parent], Leaf>
       : never
     : Key extends keyof Obj
-    ? Obj[Key]
-    : never
+      ? Obj[Key]
+      : never
   : never;
 
 export type NestedPathOf<Obj> = Obj extends object

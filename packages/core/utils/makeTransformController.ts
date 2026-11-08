@@ -49,7 +49,7 @@ export const makeTransformController = (unit: Unit): TransformController => {
       unit.node.rotation.set(
         degreesToRadians(rotation.x),
         degreesToRadians(rotation.y),
-        degreesToRadians(rotation.z)
+        degreesToRadians(rotation.z),
       );
     },
 

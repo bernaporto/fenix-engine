@@ -15,7 +15,7 @@ export const getBindingKeys = (content: string): string[] => {
 export const applyDataBindingValue = (
   content: string,
   key: string,
-  value: unknown
+  value: unknown,
 ): string => {
   return content.replace(DATA_BINDING_REGEX, (substring, match) => {
     if (match.trim() === key) {

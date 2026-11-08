@@ -9,7 +9,7 @@ import { wallRule, type TWallMetadata } from './wall';
 
 export const registerRules = (generator: TGenerator) => {
   [buildingRule, floorRule, roofRule, wallRule].forEach((rule) =>
-    generator.rules.register(rule as TProductionRule)
+    generator.rules.register(rule as TProductionRule),
   );
 };
 

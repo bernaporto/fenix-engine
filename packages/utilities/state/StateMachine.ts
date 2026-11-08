@@ -62,7 +62,7 @@ const create = (): TStateMachine => {
 
       if (!currentState.transitions.includes(state)) {
         console.log(
-          `Transition from ${currentState.id} to ${state} not allowed`
+          `Transition from ${currentState.id} to ${state} not allowed`,
         );
         return;
       }

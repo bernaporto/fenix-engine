@@ -31,7 +31,9 @@ export class SceneItem implements LifecycleEnabled {
   public remove(...items: SceneItem[]): void {
     items.forEach((item) => {
       const success = this._children.delete(item);
-      success && item.removeFromParent();
+      if (success) {
+        item.removeFromParent();
+      }
     });
   }
 

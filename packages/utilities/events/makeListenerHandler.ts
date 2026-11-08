@@ -2,7 +2,7 @@ import type { EventArgs, EventListener, ListenerHandler } from './types';
 
 export const makeListenerHandler = <
   E extends string,
-  U extends EventArgs = EventArgs
+  U extends EventArgs = EventArgs,
 >(): ListenerHandler<E, U> => {
   const listenerMap = new Map<E, Set<EventListener<U>>>();
 
@@ -29,7 +29,7 @@ export const makeListenerHandler = <
 
 const getListenersSet = <E extends string, U extends EventArgs>(
   listenerMap: Map<E, Set<EventListener<U>>>,
-  event: E
+  event: E,
 ): Set<EventListener<U>> => {
   if (!listenerMap.has(event)) {
     listenerMap.set(event, new Set());

@@ -2,7 +2,7 @@ import { makeListenerHandler } from './makeListenerHandler';
 import type { EventCallback, EventEmitter } from './types';
 
 export const makeEventEmitter = <
-  Event extends string
+  Event extends string,
 >(): EventEmitter<Event> => {
   const listeners = makeListenerHandler<Event, any[]>();
 

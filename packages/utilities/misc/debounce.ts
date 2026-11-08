@@ -4,7 +4,7 @@ type Debounced<T extends (...args: any[]) => any> = (
 
 export const debounce = <T extends (...args: any[]) => any>(
   fn: T,
-  wait: number
+  wait: number,
 ): Debounced<T> => {
   let timeout: ReturnType<typeof setTimeout>;
 
@@ -19,7 +19,7 @@ export const debounce = <T extends (...args: any[]) => any>(
  */
 export const debounceList = <T extends (...args: any[]) => any>(
   fn: (argList: Parameters<T>[]) => any,
-  wait: number
+  wait: number,
 ): Debounced<T> => {
   let timeout: ReturnType<typeof setTimeout>;
   const argsList: Parameters<T>[] = [];

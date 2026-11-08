@@ -62,7 +62,7 @@ describe('Store', () => {
       expect(subscriberA).toHaveBeenLastCalledWith('qux', 'baz');
       expect(subscriberB).toHaveBeenLastCalledWith(
         { bar: 'qux' },
-        { bar: 'baz' }
+        { bar: 'baz' },
       );
     });
 
@@ -346,7 +346,7 @@ describe('clone', () => {
     const object = { foo: 'bar' };
 
     expect(() => clone(object)).toThrowError(
-      'Could not clone state. Make sure all values are serializable.'
+      'Could not clone state. Make sure all values are serializable.',
     );
   });
 });
@@ -387,7 +387,7 @@ describe('compute + store', () => {
     });
     const computedValue = compute(
       readable(store, 'value'),
-      (value: number) => `value: ${value}`
+      (value: number) => `value: ${value}`,
     );
     const observer = jest.fn();
     computedValue.subscribe(observer);

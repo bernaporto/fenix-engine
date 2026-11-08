@@ -10,7 +10,7 @@ type MakeRegistryOptions<T, U> = {
 };
 
 export const makeRegistry = <T, U = T>(
-  options?: MakeRegistryOptions<T, U>
+  options?: MakeRegistryOptions<T, U>,
 ): Registry<T, U> => {
   const registry = new Map<string, U>();
   const { process = (value: T) => value as unknown as U } = options ?? {};

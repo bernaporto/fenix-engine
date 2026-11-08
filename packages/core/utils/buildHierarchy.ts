@@ -7,7 +7,7 @@ type OnBuildCallback = (item: SceneItem) => void;
 export const buildHierarchy = (
   { hierarchy }: SceneManifest | PrefabManifest,
   getRoot: (node: SceneChild) => SceneItem,
-  onBuild?: OnBuildCallback
+  onBuild?: OnBuildCallback,
 ): void => {
   hierarchy.forEach((node) => {
     buildSceneItem(getRoot(node), onBuild)(node);
@@ -24,8 +24,8 @@ const buildSceneItem =
     if (!UnitConstructor) {
       throw new Error(
         `Unknown unit type: ${type} | Available: ${UnitRegistry.list().join(
-          ', '
-        )}`
+          ', ',
+        )}`,
       );
     }
 
@@ -36,5 +36,7 @@ const buildSceneItem =
     }
 
     root.append(unit);
-    onBuild && onBuild(unit);
+    if (onBuild) {
+      onBuild(unit);
+    }
   };

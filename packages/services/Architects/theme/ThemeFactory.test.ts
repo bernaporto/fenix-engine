@@ -11,7 +11,7 @@ describe('ThemeFactory', () => {
       },
       {
         asset: 'wall.png',
-      }
+      },
     );
 
     expect(theme.list()).toStrictEqual(['floor']);
@@ -35,7 +35,7 @@ describe('ThemeFactory', () => {
       },
       {
         asset: 'wall.png',
-      }
+      },
     );
 
     expect(theme.list()).toStrictEqual(['floor:empty']);

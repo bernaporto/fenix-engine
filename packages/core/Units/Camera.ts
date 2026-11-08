@@ -71,12 +71,12 @@ class Camera extends Unit {
     this._joint.rotation.set(0, 0, 0);
     this._joint.rotateOnAxis(
       new THREE_Vector3(1, 0, 0),
-      degreesToRadians(angle.x)
+      degreesToRadians(angle.x),
     );
     this.node.rotation.set(0, 0, 0);
     this.node.rotateOnWorldAxis(
       new THREE_Vector3(0, 1, 0),
-      degreesToRadians(angle.y)
+      degreesToRadians(angle.y),
     );
     this.node.updateWorldMatrix(false, true);
   }
@@ -118,7 +118,7 @@ class Camera extends Unit {
 
   public raycast(normalizedMousePos: Vector2, root: Unit): Unit[] {
     return raycast(normalizedMousePos, this._camera, root).map(
-      ({ unit }) => unit
+      ({ unit }) => unit,
     );
   }
 
@@ -144,7 +144,7 @@ export { Camera };
 
 /* UTILS */
 const createCamera = (
-  cameraType: 'orthographic' | 'perspective'
+  cameraType: 'orthographic' | 'perspective',
 ): {
   camera: OrthographicCamera | PerspectiveCamera;
   joint: Object3D;
@@ -164,11 +164,11 @@ const createCamera = (
 const raycast = (
   normalizedMousePos: Vector2,
   camera: OrthographicCamera | PerspectiveCamera,
-  root: Unit
+  root: Unit,
 ): { unit: Unit; point: Vector3 }[] => {
   raycaster.setFromCamera(
     new THREE_Vector2(normalizedMousePos.x, normalizedMousePos.y),
-    camera
+    camera,
   );
 
   return raycaster

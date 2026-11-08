@@ -30,7 +30,9 @@ export class Stage {
 
     if (autoResize && !this._unsubscribeResizeEvent) {
       this._unsubscribeResizeEvent = hookResizeEvent(() => {
-        this._currentScene && this.resize(this._currentScene);
+        if (this._currentScene) {
+          this.resize(this._currentScene);
+        }
       });
     } else if (!autoResize && this._unsubscribeResizeEvent) {
       this._unsubscribeResizeEvent();

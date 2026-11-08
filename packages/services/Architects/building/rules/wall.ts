@@ -46,7 +46,7 @@ const getAllowedWalls = (
   settings: TBuildingSettings,
   floor: number,
   position: Vector2,
-  direction: EFaceDirection
+  direction: EFaceDirection,
 ) => {
   const groundFloor = floor === 0;
   const { building, walls } = settings;
@@ -66,13 +66,13 @@ const getAllowedWalls = (
   }
 
   return allowedWalls.filter(
-    (type) => !(walls && walls.disallowed?.includes(type))
+    (type) => !(walls && walls.disallowed?.includes(type)),
   );
 };
 
 const getDoorPosition = (
   building: TBuildingSettings['building'],
-  direction: EFaceDirection
+  direction: EFaceDirection,
 ) => {
   switch (direction) {
     case EFaceDirection.NORTH:

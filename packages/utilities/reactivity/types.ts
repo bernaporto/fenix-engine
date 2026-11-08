@@ -9,7 +9,7 @@ export type Observable<T> = {
   set: (value: T) => void;
   subscribe: (
     observer: Observer<T>,
-    notifyImmediately?: boolean
+    notifyImmediately?: boolean,
   ) => Usubscriber;
   update: (updater: (value: T) => T) => void;
 };

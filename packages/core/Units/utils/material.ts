@@ -5,7 +5,7 @@ import type { MaterialAssetConfig, MeshUnitConfig } from '../../@types';
 import { Material } from '../Material';
 
 export const getMaterial = (
-  materialConfig: MeshUnitConfig['material']
+  materialConfig: MeshUnitConfig['material'],
 ): Material | null | undefined => {
   if (!materialConfig) return;
 
@@ -16,7 +16,7 @@ export const getMaterial = (
 
 export const loadMaterialAssets = async (
   material: THREE_Material,
-  config?: MaterialAssetConfig
+  config?: MaterialAssetConfig,
 ) => {
   if (!config) return;
   if (material instanceof RawShaderMaterial) return;
@@ -34,8 +34,8 @@ export const loadMaterialAssets = async (
 
             return [key, null];
           }
-        }
-      )
+        },
+      ),
     )
   ).filter(([, texture]) => texture !== null) as [string, Texture][];
 

@@ -26,7 +26,7 @@ export class PathFollower {
 
   public getNextPosition(
     delta: number,
-    currentPosition: Vector3
+    currentPosition: Vector3,
   ): {
     done: boolean;
     nextNodePos: Vector3;
@@ -72,7 +72,7 @@ export class PathFollower {
 
 const getClosestNodes = (
   nodes: ComputedPathNode[],
-  travelledDistance: number
+  travelledDistance: number,
 ): {
   previous: ComputedPathNode;
   next: ComputedPathNode;

@@ -18,7 +18,7 @@ export const clone = <T>(value: T): T => {
   } catch {
     // get paths sorted by depth
     const paths = getAllPaths(value as AnyState).sort(
-      (a, b) => a.split('.').length - b.split('.').length
+      (a, b) => a.split('.').length - b.split('.').length,
     );
 
     // clone each path

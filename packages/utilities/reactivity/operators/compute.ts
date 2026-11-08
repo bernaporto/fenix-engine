@@ -2,7 +2,7 @@ import { type Readable } from '../types';
 
 export const compute = <T, U>(
   input: Readable<T>,
-  map: (value: T) => U
+  map: (value: T) => U,
 ): Readable<U> => {
   return {
     get: () => {

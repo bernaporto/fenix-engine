@@ -9,7 +9,7 @@ export type LoaderWithLoad<T> = {
     url: string,
     onLoad: (value: T) => void,
     onProgress?: ProgressListener,
-    onError?: (event: ErrorEvent) => void
+    onError?: (event: ErrorEvent) => void,
   ) => void;
 };
 
@@ -24,7 +24,7 @@ type Loader = {
   loadObject(url: string, onProgress?: ProgressListener): Promise<Object3D>;
   loadSkinnedObject(
     url: string,
-    onProgress?: ProgressListener
+    onProgress?: ProgressListener,
   ): Promise<SkinnedObject>;
   loadTexture(url: string, onProgress?: ProgressListener): Promise<Texture>;
 };

@@ -18,7 +18,7 @@ const noop = () => {
 
 export const applyContextToTree = (
   root: Node,
-  context: AnyContext
+  context: AnyContext,
 ): Unsubscriber => {
   const subscriptions = new Set<VoidFunction>();
 
@@ -51,7 +51,7 @@ const applyContextToNode = (node: Node, context: AnyContext): Unsubscriber => {
 /* HTML ELEMENT ATTRIBUTES */
 export const applyContextToElement = (
   element: HTMLElement,
-  context: AnyContext
+  context: AnyContext,
 ): Unsubscriber =>
   parallel(
     /* EVENT BINDING */
@@ -63,7 +63,7 @@ export const applyContextToElement = (
       const contextValue = getFromPath(context, attrValue);
       if (typeof contextValue !== 'function') {
         throw new Error(
-          `Event binding should only allow function values, got ${typeof contextValue} from '${attrValue}'`
+          `Event binding should only allow function values, got ${typeof contextValue} from '${attrValue}'`,
         );
       }
 
@@ -80,17 +80,17 @@ export const applyContextToElement = (
         const newValue = applyDataBindingValue(
           attrValue,
           contextKey,
-          contextValue
+          contextValue,
         );
         element.setAttribute(attrKey, newValue);
       });
-    })
+    }),
   );
 
 /* TEXT NODES CONTENT */
 export const applyContextToText = (
   text: Text,
-  context: AnyContext
+  context: AnyContext,
 ): Unsubscriber => {
   const content = text.textContent?.trim().replace(/^\r?\n|\r/, '');
   if (!content) return noop;
@@ -104,7 +104,7 @@ export const applyContextToText = (
 const setupBinding = (
   content: string,
   context: AnyContext,
-  applyEntry: (key: string, value: unknown) => void
+  applyEntry: (key: string, value: unknown) => void,
 ): VoidFunction => {
   const usedKeys = getBindingKeys(content);
 
@@ -126,6 +126,6 @@ const setupBinding = (
           applyEntry(path, newValue);
         });
       })
-      .filter(isNotNullable)
+      .filter(isNotNullable),
   );
 };

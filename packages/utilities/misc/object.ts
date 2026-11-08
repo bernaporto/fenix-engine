@@ -40,7 +40,7 @@ export const deepEqual = (a: unknown, b: unknown): boolean => {
 
 export const traverse = <T extends Record<string, any>>(
   object: T,
-  callback: (node: any) => any
+  callback: (node: any) => any,
 ): void => {
   const traverseObject = (object: Record<string, any>) => {
     Object.keys(object).forEach((key) => {
@@ -60,7 +60,7 @@ export const traverse = <T extends Record<string, any>>(
 
 export const deepMerge = <T extends Record<string, unknown>>(
   objectA: Record<string, unknown>,
-  objectB: Record<string, unknown>
+  objectB: Record<string, unknown>,
 ): T => {
   const result = { ...objectA };
 
@@ -78,10 +78,10 @@ export const deepMerge = <T extends Record<string, unknown>>(
 
 export const getFromPath = <
   T extends Record<string, unknown>,
-  Path extends NestedPathOf<T>
+  Path extends NestedPathOf<T>,
 >(
   value: T,
-  path: Path
+  path: Path,
 ): NestedValueOf<T, Path> => {
   const pathArray = path.split('.');
 
@@ -98,11 +98,11 @@ export const getFromPath = <
 
 export const setOnPath = <
   T extends Record<string, unknown>,
-  Path extends NestedPathOf<T>
+  Path extends NestedPathOf<T>,
 >(
   state: T,
   path: Path,
-  newValue: NestedValueOf<T, Path>
+  newValue: NestedValueOf<T, Path>,
 ): void => {
   const pathArray = path.split('.');
   const lastKey = pathArray.pop() as string;
@@ -118,7 +118,7 @@ export const setOnPath = <
 };
 
 export const getAllPaths = <T extends Record<string, unknown>>(
-  state: T
+  state: T,
 ): NestedPathOf<T>[] => {
   const paths: NestedPathOf<T>[] = [];
 
@@ -142,10 +142,10 @@ export const getAllPaths = <T extends Record<string, unknown>>(
 
 export const deletePath = <
   T extends Record<string, unknown>,
-  Path extends NestedPathOf<T>
+  Path extends NestedPathOf<T>,
 >(
   state: T,
-  path: Path
+  path: Path,
 ): void => {
   try {
     const pathArray = path.split('.');

@@ -8,7 +8,7 @@ export const towerBehaviour: Behaviour = (unit) => {
     { x: 9.5, y: 0, z: 8.5 },
   ];
   const path = towersAt.some((pos) =>
-    Vector3.equals(pos, unit.transform.position)
+    Vector3.equals(pos, unit.transform.position),
   )
     ? 'assets/props/watch.obj'
     : 'assets/props/tower_slot_banner.obj';

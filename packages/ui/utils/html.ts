@@ -13,11 +13,14 @@ export const htmlToString = (value: Node): string => {
 };
 
 export const getAttributeMap = (element: HTMLElement): Record<string, string> =>
-  [...element.attributes].reduce((acc, { name, value }) => {
-    acc[name] = value;
+  [...element.attributes].reduce(
+    (acc, { name, value }) => {
+      acc[name] = value;
 
-    return acc;
-  }, {} as Record<string, string>);
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 
 export const ensureHtmlExtension = (path: string): string => {
   if (path.endsWith('.html')) return path;

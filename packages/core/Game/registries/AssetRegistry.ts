@@ -12,7 +12,7 @@ export const PropAssetRegistry = makeRegistry<string, Promise<Object3D>>({
 export const PuppetAssetRegistry = makeRegistry<string, Promise<SkinnedObject>>(
   {
     process: (path) => Loader.loadSkinnedObject(path),
-  }
+  },
 );
 
 export const PrefabAssetRegistry = makeRegistry<

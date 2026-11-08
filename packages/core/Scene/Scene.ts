@@ -30,7 +30,7 @@ export class Scene implements EventEnabled, LifecycleEnabled {
 
   constructor(
     public readonly sceneId: string,
-    private _renderer: WebGLRenderer
+    private _renderer: WebGLRenderer,
   ) {
     this.events = makePublicEventHandler(this._emitter);
   }
@@ -62,7 +62,7 @@ export class Scene implements EventEnabled, LifecycleEnabled {
         if (item instanceof Camera) {
           this.setCamera(item);
         }
-      }
+      },
     );
   }
 
@@ -119,7 +119,7 @@ export class Scene implements EventEnabled, LifecycleEnabled {
 
     Array.from(this._layers.entries())
       .sort((a, b) => a[0] - b[0])
-      .forEach(([_, layer]) => {
+      .forEach(([, layer]) => {
         layer.update(state);
 
         this._renderer.render(layer.node, camera);

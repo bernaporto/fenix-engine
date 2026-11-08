@@ -51,7 +51,7 @@ export const createNestedObservableMap = <T, U>(): NestedObservableMap<
 };
 
 export const getParentPath = <T extends AnyState, Path extends NestedPathOf<T>>(
-  path: Path
+  path: Path,
 ): NestedPathOf<T> | null => {
   const pathArray = path.split('.');
   pathArray.pop();
@@ -65,12 +65,12 @@ export const getParentPath = <T extends AnyState, Path extends NestedPathOf<T>>(
 
 export const isParentKey = <T extends AnyState, Path extends NestedPathOf<T>>(
   key: NestedPathOf<T>,
-  path: Path
+  path: Path,
 ): boolean => key !== path && path.includes(key);
 
 export const isChildKey = <T extends AnyState, Path extends NestedPathOf<T>>(
   key: NestedPathOf<T>,
-  path: Path
+  path: Path,
 ): boolean => key !== path && key.startsWith(path);
 
 export const log = ({
@@ -89,7 +89,7 @@ export const log = ({
   console.groupCollapsed(
     `${baseMsg}( %c${path}`,
     'font-weight: 400; color: #cccc00;',
-    ')'
+    ')',
   );
   console.table({
     previous: {

@@ -26,7 +26,7 @@ export const getTileType = (position: Vector2, maxPos: Vector2): ETileType => {
 export const getFacingDirection = (
   pos: Vector2,
   maxPos: Vector2,
-  tileType: ETileType
+  tileType: ETileType,
 ): EFaceDirection => {
   if (tileType === ETileType.CORNER) {
     if (Vector2.equals(pos, Vector2.zero)) return EFaceDirection.NORTH;
@@ -48,7 +48,7 @@ export const getFacingDirection = (
 export const offsetByDirection = (
   position: Vector2,
   direction: EFaceDirection,
-  offset: number = 0
+  offset: number = 0,
 ): Vector2 => {
   if (offset === 0) return Vector2.copy(position);
 

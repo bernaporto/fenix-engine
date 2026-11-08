@@ -97,7 +97,9 @@ export class Game implements EventEnabled {
     });
 
     // Load initial scene if provided
-    initialScene && this.stage.load(initialScene);
+    if (initialScene) {
+      this.stage.load(initialScene);
+    }
 
     // Apply game settings
     return {

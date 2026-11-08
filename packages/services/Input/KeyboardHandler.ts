@@ -8,11 +8,11 @@ import {
 type TKeyEventHandler = {
   on: (
     event: TKeyEvent,
-    callback: (event: KeyboardEvent) => void
+    callback: (event: KeyboardEvent) => void,
   ) => VoidFunction;
   once: (
     event: TKeyEvent,
-    callback: (event: KeyboardEvent) => void
+    callback: (event: KeyboardEvent) => void,
   ) => VoidFunction;
 };
 

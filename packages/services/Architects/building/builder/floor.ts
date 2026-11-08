@@ -13,20 +13,20 @@ export const buildFloor = (
   theme: TTheme,
   root: Unit,
   settings: TBuildingSettings,
-  PRNG: TPRNG
+  PRNG: TPRNG,
 ) => {
   node.payload.children?.forEach((wall) => {
     const metadata = wall.metadata as TWallMetadata;
     const rule = theme.rule(
       'wall',
-      [metadata.type, metadata.variant].filter(isNotNullable)
+      [metadata.type, metadata.variant].filter(isNotNullable),
     );
     const items = rule.get();
     const themeItem = PRNG.choices(items);
 
     if (!themeItem) {
       throw new Error(
-        `[Builder] Failed to get theme item for wall ${metadata.type}`
+        `[Builder] Failed to get theme item for wall ${metadata.type}`,
       );
     }
 

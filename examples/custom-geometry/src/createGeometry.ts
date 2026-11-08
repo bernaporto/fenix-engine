@@ -2,7 +2,7 @@ import { BufferAttribute, BufferGeometry } from 'three';
 
 export const createGeometry = (
   faceCount: number,
-  randomFn: (index: number) => number
+  randomFn: (index: number) => number,
 ) => {
   const geometry = new BufferGeometry();
   const positions = new Float32Array(faceCount * 3 * 3);

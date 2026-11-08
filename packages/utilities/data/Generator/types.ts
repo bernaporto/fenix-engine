@@ -13,7 +13,7 @@ type TApplyResult = {
 
 export type TProductionRule<
   T extends TDataMap = TDataMap,
-  U extends TDataMap = TDataMap
+  U extends TDataMap = TDataMap,
 > = {
   type: string;
   apply: (settings: T, payload: U) => TApplyResult;

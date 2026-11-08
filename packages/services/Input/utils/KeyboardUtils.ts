@@ -24,12 +24,12 @@ const getMetaKeyMap = (keys: string[]): TMetaKeyMap => {
           return acc;
       }
     },
-    { meta: false, shift: false, alt: false }
+    { meta: false, shift: false, alt: false },
   );
 };
 
 const parseKeyBlob = (
-  keyBlob: string
+  keyBlob: string,
 ): {
   key: string;
   metaKeys: string[];

@@ -9,7 +9,7 @@ game.behaviours.register('bounce', (unit) => {
     onUpdate: ({ elapsedTime }) => {
       const movement = Vector3.project(
         Vector3.up,
-        Math.sin(elapsedTime * SPEED)
+        Math.sin(elapsedTime * SPEED),
       );
 
       unit.transform.setPosition(Vector3.multiplyScalar(movement, SCALE));

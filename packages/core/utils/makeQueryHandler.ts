@@ -7,7 +7,7 @@ export const makeQueryHandler = (root: SceneItem): QueryHandler => {
       key: keyof Queryable,
       queryKey: keyof QueryHandler,
       fallback: T,
-      process: (item: Queryable | Queryable[] | null) => T
+      process: (item: Queryable | Queryable[] | null) => T,
     ) =>
     (value: string): T => {
       let result: T = fallback;
@@ -53,7 +53,7 @@ export const makeQueryHandler = (root: SceneItem): QueryHandler => {
       'behaviours',
       'findByBehaviour',
       [],
-      ensureItemArray
+      ensureItemArray,
     ),
     findById: getQueryFn('id', 'findById', null, ensureSingleItem),
     findByName: getQueryFn('name', 'findByName', null, ensureSingleItem),

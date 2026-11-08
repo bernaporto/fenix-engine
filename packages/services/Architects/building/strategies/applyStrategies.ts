@@ -3,7 +3,7 @@ import { strategies as floorStrategy } from './floor.strategies';
 
 export const applyStrategies = (
   settings: TBuildingSettings,
-  blueprint: TBlueprint
+  blueprint: TBlueprint,
 ) => {
   const { building, floors } = settings;
 

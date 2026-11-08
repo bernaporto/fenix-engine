@@ -24,7 +24,7 @@ export class Material {
 
   constructor(
     private config?: MaterialConfig,
-    private assets?: MaterialAssetConfig
+    private assets?: MaterialAssetConfig,
   ) {}
 
   build() {

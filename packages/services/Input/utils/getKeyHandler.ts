@@ -32,7 +32,7 @@ const getDefaultKeyHandler = (key: string): TKeyHandler => ({
 
 const getMetaPlusKeyHandler = (
   key: string,
-  metaKeys: string[]
+  metaKeys: string[],
 ): TKeyHandler => {
   const metaKeyMap = KeyboardUtils.getMetaKeyMap(metaKeys);
 
