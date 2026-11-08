@@ -27,4 +27,3 @@ export {
 export { getErrorMessage } from './error';
 export { isNotNullable, isNullable, isValidObject } from './type';
 export { makeRegistry, type Registry } from './makeRegistry';
-export { randomCharacters } from './random';

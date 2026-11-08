@@ -62,28 +62,6 @@ importers:
         specifier: ^6.4.5
         version: 6.4.5(@types/node@26.6.6)(sass@1.108.1)
 
-  examples/building-architect:
-    dependencies:
-      '@fenix-engine/core':
-        specifier: workspace:*
-        version: link:../../packages/core
-      '@fenix-engine/services':
-        specifier: workspace:*
-        version: link:../../packages/services
-      three:
-        specifier: ^0.164.0
-        version: 0.164.1
-    devDependencies:
-      '@types/three':
-        specifier: ^0.164.0
-        version: 0.164.1
-      typescript:
-        specifier: ^5.0.2
-        version: 5.9.3
-      vite:
-        specifier: ^6.4.5
-        version: 6.4.5(@types/node@26.6.6)(sass@1.108.1)
-
   examples/custom-geometry:
     dependencies:
       '@fenix-engine/core':
@@ -173,22 +151,6 @@ importers:
         specifier: ^6.4.5
         version: 6.4.5(@types/node@26.6.6)(sass@1.108.1)
 
-  examples/ui:
-    dependencies:
-      '@fenix-engine/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
-      '@fenix-engine/utilities':
-        specifier: workspace:*
-        version: link:../../packages/utilities
-    devDependencies:
-      typescript:
-        specifier: ^5.0.2
-        version: 5.9.3
-      vite:
-        specifier: ^6.4.5
-        version: 6.4.5(@types/node@26.6.6)(sass@1.108.1)
-
   packages/core:
     dependencies:
       '@fenix-engine/utilities':
@@ -214,22 +176,6 @@ importers:
         specifier: workspace:*
         version: link:../utilities
     devDependencies:
-      typescript:
-        specifier: ^5.0.2
-        version: 5.9.3
-
-  packages/ui:
-    dependencies:
-      '@fenix-engine/core':
-        specifier: workspace:*
-        version: link:../core
-      '@fenix-engine/utilities':
-        specifier: workspace:*
-        version: link:../utilities
-    devDependencies:
-      sass:
-        specifier: ^1.64.2
-        version: 1.108.1
       typescript:
         specifier: ^5.0.2
         version: 5.9.3
@@ -1858,6 +1804,7 @@ snapshots:
   chokidar@5.0.0:
     dependencies:
       readdirp: 5.1.1
+    optional: true
 
   css-tree@3.2.1:
     dependencies:
@@ -1953,7 +1900,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  immutable@5.1.9: {}
+  immutable@5.1.9:
+    optional: true
 
   is-extglob@2.1.1:
     optional: true
@@ -2082,7 +2030,8 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  readdirp@5.1.1: {}
+  readdirp@5.1.1:
+    optional: true
 
   require-from-string@2.0.2: {}
 
@@ -2125,6 +2074,7 @@ snapshots:
       source-map-js: 1.2.2
     optionalDependencies:
       '@parcel/watcher': 2.6.0
+    optional: true
 
   saxes@6.0.0:
     dependencies:
