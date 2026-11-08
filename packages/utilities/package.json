@@ -4,7 +4,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "lint": "tsc-files --noEmit",
+    "lint": "tsc --noEmit",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
   },

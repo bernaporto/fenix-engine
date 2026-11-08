@@ -1,4 +1,4 @@
-import { makeRegistry, type Registry } from '@fenix-engine/utilities/misc';
+import { makeRegistry, type Registry } from '../../misc';
 import type {
   TDataMap,
   TGenerator,

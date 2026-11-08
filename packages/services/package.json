@@ -4,9 +4,13 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "lint": "tsc-files --noEmit",
+    "lint": "tsc --noEmit",
     "test": "jest --coverage",
     "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@fenix-engine/core": "workspace:*",
+    "@fenix-engine/utilities": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",

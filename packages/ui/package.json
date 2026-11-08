@@ -4,12 +4,16 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "yarn build:styles",
-    "build:styles": "npx sass --no-source-map --style compressed styles/index.scss styles.css",
+    "build": "pnpm run build:styles",
+    "build:styles": "sass --no-source-map --style compressed styles/index.scss styles.css",
     "dev:styles": "sass --no-source-map --style expanded --watch styles/index.scss styles.css",
-    "lint": "tsc-files --noEmit",
-    "test": "jest --coverage",
+    "lint": "tsc --noEmit",
+    "test": "jest --coverage --passWithNoTests",
     "test:watch": "jest --watch"
+  },
+  "dependencies": {
+    "@fenix-engine/core": "workspace:*",
+    "@fenix-engine/utilities": "workspace:*"
   },
   "devDependencies": {
     "@types/jest": "^29.5.3",
