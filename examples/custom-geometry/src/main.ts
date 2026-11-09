@@ -1,7 +1,9 @@
 import { Mesh, MeshBasicMaterial } from 'three';
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 import { createGeometry } from './createGeometry';
 import { Unit } from '@fenix-engine/core/Units';
+
+const game = new Game();
 
 game.behaviours.register('orbit', (unit) => ({
   onUpdate: ({ deltaTime }) => {

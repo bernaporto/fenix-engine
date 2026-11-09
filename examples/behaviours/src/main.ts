@@ -1,8 +1,10 @@
 import Stats from 'stats.js';
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 import { Puppet } from '@fenix-engine/core/Units';
 import { PathFollower } from '@fenix-engine/services/Path';
 import type { Vector3 } from '@fenix-engine/core/Math';
+
+const game = new Game();
 
 game.behaviours.register('orbit', (unit) => ({
   onUpdate: ({ deltaTime }) => unit.transform.rotateY(-6 * deltaTime),

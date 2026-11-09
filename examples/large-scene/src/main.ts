@@ -1,11 +1,13 @@
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 import { handleSpawnEnemies } from './handleSpawnEnemies';
 import { registerBehaviours } from './behaviours/registerBehaviours';
 import { setupStats } from './setupStats';
 
+const game = new Game();
+
 const init = async () => {
-  setupStats();
-  registerBehaviours();
+  setupStats(game);
+  registerBehaviours(game);
 
   const { initialScene } = await game.init({
     containerId: 'game',

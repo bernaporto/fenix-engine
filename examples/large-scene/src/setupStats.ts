@@ -1,7 +1,7 @@
-import { game } from '@fenix-engine/core';
+import type { Game } from '@fenix-engine/core';
 import Stats from 'stats.js';
 
-export const setupStats = () => {
+export const setupStats = (game: Game) => {
   const stats = new Stats();
   stats.showPanel(0);
   document.body.appendChild(stats.dom);

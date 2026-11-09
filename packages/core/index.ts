@@ -1,5 +1,2 @@
-import { Game } from './Game';
-
-const game = new Game();
-
-export { game };
+<<<<<<< HEAD
+export { Game } from './Game';

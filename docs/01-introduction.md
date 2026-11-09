@@ -15,12 +15,12 @@ Create a DOM element for the renderer:
 <script type="module" src="/src/main.ts"></script>
 ```
 
-Initialize the shared game instance and automatically load a scene declared in
-the game manifest:
+Create a game instance and automatically load a scene declared in the manifest:
 
 ```ts
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 
+const game = new Game();
 const { scenePromise } = await game.init({
   containerId: 'game',
   manifest: 'assets/manifest.json',

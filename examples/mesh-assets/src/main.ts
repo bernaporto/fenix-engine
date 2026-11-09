@@ -1,4 +1,6 @@
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
+
+const game = new Game();
 
 game.behaviours.register('orbit', (unit) => ({
   onUpdate: ({ deltaTime }) => {

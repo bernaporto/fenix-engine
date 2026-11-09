@@ -8,8 +8,9 @@ Use unit behaviours for logic tied to a unit's lifetime. Each update receives a
 movement:
 
 ```ts
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 
+const game = new Game();
 game.behaviours.register('move-right', (unit) => ({
   onUpdate: ({ deltaTime }) => {
     const position = unit.transform.position;
@@ -21,7 +22,7 @@ game.behaviours.register('move-right', (unit) => ({
 }));
 ```
 
-Pause or resume the shared game ticker with
+Pause or resume the game ticker with
 `game.ticker.setStatus('paused')` or `game.ticker.setStatus('running')`.
 
 ## Keyboard input
@@ -51,9 +52,10 @@ targeted at an `HTMLInputElement` is ignored.
 to a target element. Its `state` is readable and can be subscribed to:
 
 ```ts
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 import { MouseHandler } from '@fenix-engine/services/Input';
 
+const game = new Game();
 const mouse = new MouseHandler(game.domElement);
 const unsubscribe = mouse.state.subscribe((state) => {
   if (state.type === 'click') {

@@ -1,5 +1,7 @@
-import { game } from '@fenix-engine/core';
+import { Game } from '@fenix-engine/core';
 import { Vector3 } from '@fenix-engine/core/Math';
+
+const game = new Game();
 
 game.behaviours.register('bounce', (unit) => {
   const SPEED = 5;

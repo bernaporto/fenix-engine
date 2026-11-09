@@ -2,10 +2,9 @@
 
 ## Game and stage
 
-`Game` owns the Three.js renderer, the game ticker, engine registries, and a `Stage`.
-The package exports a shared `game` instance for common use, or you can create
-your own with `new Game()`. Call `game.destroy()` when the game instance is no
-longer needed.
+`Game` owns the Three.js renderer, the game ticker, engine registries, and a
+`Stage`. Create an instance with `new Game()` and call `game.destroy()` when
+that game instance is no longer needed.
 
 `game.stage.load(key)` loads a registered scene and disposes the previously
 loaded scene. `game.stage.currentScene` provides the active scene. The stage
