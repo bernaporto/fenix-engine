@@ -1,4 +1,5 @@
 import type { Game } from '@fenix-engine/core';
+import { Camera } from '@fenix-engine/core/Units';
 import type { Cell } from './board';
 import { cellToWorld } from './boardView';
 
@@ -38,4 +39,21 @@ export function registerBoardBehaviours(
       unit.transform.setScale({ x: scale, y: 1, z: scale });
     },
   }));
+  game.behaviours.register('fit-board-camera', (unit) => {
+    if (!(unit instanceof Camera)) {
+      throw new Error('The fit-board-camera behaviour requires a camera unit.');
+    }
+
+    const fitZoom = (aspect: number): void => {
+      unit.setZoom(Math.min(20 / 8.5, (20 * aspect) / 8.5));
+    };
+    const unsubscribe = game.stage.events.on('resize', ({ aspect }) => {
+      fitZoom(aspect);
+    });
+
+    const size = game.stage.size;
+    if (size) fitZoom(size.aspect);
+
+    return { onDetach: unsubscribe };
+  });
 }

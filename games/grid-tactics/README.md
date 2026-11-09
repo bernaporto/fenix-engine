@@ -46,9 +46,10 @@ Open the URL printed by Vite in a browser with WebGL support.
   placeholder UI icon. Pieces and blockers are intentionally simple primitives,
   with no external models or image downloads.
 - Native DOM controls provide keyboard access and live action feedback.
-  A game-owned `ResizeObserver` fits the orthographic camera to the viewport.
-- Startup explicitly awaits `Stage.load` because `Game.init` does not await its
-  `initialScene` load. The game also detaches its behaviours on hot reload.
+  The Stage handles renderer, camera-aspect, and container resizing; the game
+  uses a camera behavior to fit the orthographic zoom to Stage resize events.
+- Startup uses `autoLoad` and awaits the returned `scenePromise`. The game also
+  detaches its behaviours on hot reload.
 - Rules tests run through this project's Vitest configuration, separately from
   the engine's root test suite.
 
@@ -64,8 +65,4 @@ Game work that can use existing engine features:
 
 Potential engine improvements, **not implemented here**:
 
-1. Await initial-scene loading in `Game.init` and expose reliable load/error
-   lifecycle signals.
-2. Ensure destruction detaches behaviours and cleans up all stage subscriptions.
-3. Offer opt-in container-based resizing/camera fitting.
-4. Add filtered/visibility-aware picking helpers for interaction layers.
+1. Add filtered/visibility-aware picking helpers for interaction layers.

@@ -5,21 +5,11 @@ import { createBoardControls } from './boardControls';
 import { registerBoardBehaviours } from './boardBehaviours';
 import { createBoardView, type BoardView } from './boardView';
 
-function getContainer(): HTMLDivElement {
-  const container = document.getElementById('game');
-  if (!(container instanceof HTMLDivElement)) {
-    throw new Error('Missing game element: game');
-  }
-  return container;
-}
-
 async function start(): Promise<void> {
-  const container = getContainer();
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let state = createBoard();
   let game: Game | undefined;
   let boardView: BoardView | undefined;
-  let resizeObserver: ResizeObserver | undefined;
   let attachedCanvas: HTMLCanvasElement | undefined;
   let pointerHandler: ((event: PointerEvent) => void) | undefined;
 
@@ -59,12 +49,13 @@ async function start(): Promise<void> {
     const activeGame = new Game();
     game = activeGame;
     registerBoardBehaviours(activeGame, reducedMotion);
-    await activeGame.init({
+    const { scenePromise } = await activeGame.init({
       containerId: 'game',
       manifest: 'assets/manifest.json',
+      autoLoad: { sceneKey: 'board' },
     });
-    // Game.init does not await initial-scene loading, so load it explicitly.
-    const scene = await activeGame.stage.load('board');
+    if (!scenePromise) throw new Error('The board scene was not started.');
+    const scene = await scenePromise;
     boardView = createBoardView({
       scene,
       initialState: state,
@@ -88,26 +79,10 @@ async function start(): Promise<void> {
     canvas.addEventListener('pointerdown', onPointerDown);
     controls.attachCanvas(canvas);
 
-    const camera = scene.camera;
-    if (!camera) throw new Error('The board scene is missing its camera.');
-    const resize = (): void => {
-      const { width, height } = container.getBoundingClientRect();
-      if (width <= 0 || height <= 0) return;
-      const aspect = width / height;
-      activeGame.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      activeGame.renderer.setSize(width, height);
-      camera.resize(aspect);
-      camera.setZoom(Math.min(20 / 8.5, (20 * aspect) / 8.5));
-    };
-    resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(container);
-    resize();
-
     controls.setActionsEnabled(true);
     render('Amber to play. Select one of your pieces.', true);
 
     const dispose = (): void => {
-      resizeObserver?.disconnect();
       boardView?.dispose();
       controls.dispose();
       canvas.removeEventListener('pointerdown', onPointerDown);
@@ -116,7 +91,6 @@ async function start(): Promise<void> {
     };
     import.meta.hot?.dispose(dispose);
   } catch (error) {
-    resizeObserver?.disconnect();
     boardView?.dispose();
     controls.dispose();
     if (attachedCanvas && pointerHandler) {

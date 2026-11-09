@@ -7,7 +7,8 @@
       "cameraType": "orthographic",
       "angle": { "x": -65, "y": 0 },
       "distance": 12,
-      "zoom": 2.4
+      "zoom": 2.4,
+      "behaviours": ["fit-board-camera"]
     },
     {
       "type": "light",
