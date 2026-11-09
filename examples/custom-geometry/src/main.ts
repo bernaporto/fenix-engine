@@ -30,7 +30,14 @@ const populateScene = () => {
 game
   .init({
     containerId: 'game',
-    initialScene: 'basic-scene',
     manifest: 'assets/manifest.json',
+    autoLoad: { sceneKey: 'basic-scene' },
   })
-  .then(populateScene);
+  .then(async ({ scenePromise }) => {
+    if (!scenePromise) throw new Error('The initial scene was not loaded.');
+    await scenePromise;
+    populateScene();
+  })
+  .catch((error: unknown) => {
+    console.error('Failed to start the custom geometry example', error);
+  });

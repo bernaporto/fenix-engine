@@ -44,11 +44,19 @@ game.behaviours.register('pathFollower', (unit) => {
   };
 });
 
-game.init({
-  containerId: 'game',
-  initialScene: 'scene',
-  manifest: 'assets/manifest.json',
-});
+void game
+  .init({
+    containerId: 'game',
+    manifest: 'assets/manifest.json',
+    autoLoad: { sceneKey: 'scene' },
+  })
+  .then(async ({ scenePromise }) => {
+    if (!scenePromise) throw new Error('The initial scene was not loaded.');
+    await scenePromise;
+  })
+  .catch((error: unknown) => {
+    console.error('Failed to start the behaviours example', error);
+  });
 
 const stats = new Stats();
 stats.showPanel(0);

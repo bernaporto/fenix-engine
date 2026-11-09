@@ -11,6 +11,7 @@ import {
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
 import type { GameSettings, StageConfig } from '../@types';
 import { loadGameManifest } from '../Data';
+import type { Scene } from '../Scene';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import {
   BehaviourRegistry,
@@ -26,6 +27,16 @@ type GameEvent =
   | 'afterRender'
   | 'destroy'
   | CustomEvent;
+
+type GameInitOptions = {
+  containerId: string;
+  manifest: string;
+  autoLoad?: boolean | { sceneKey: string };
+};
+
+type GameInitResult = GameSettings & {
+  scenePromise: Promise<Scene> | null;
+};
 
 export class Game implements EventEnabled {
   private _emitter = makeEventEmitter();
@@ -65,12 +76,8 @@ export class Game implements EventEnabled {
   public async init({
     containerId,
     manifest,
-    initialScene,
-  }: {
-    containerId: string;
-    manifest: string;
-    initialScene?: string;
-  }): Promise<GameSettings> {
+    autoLoad = false,
+  }: GameInitOptions): Promise<GameInitResult> {
     // Add renderer to DOM
     const container = document.getElementById(containerId);
     if (!container) {
@@ -85,7 +92,7 @@ export class Game implements EventEnabled {
       materials = [],
     } = await loadGameManifest(manifest);
 
-    this.applySettings({ ...settings, initialScene });
+    this.applySettings(settings);
 
     // Add resources to registry
     materials.forEach(({ key, ...data }) => {
@@ -96,15 +103,26 @@ export class Game implements EventEnabled {
       SceneRegistry.add(key, { path });
     });
 
-    // Load initial scene if provided
-    if (initialScene) {
-      this.stage.load(initialScene);
-    }
+    const initialScene = settings?.initialScene ?? scenes[0]?.key;
+    const sceneKey =
+      autoLoad === true
+        ? initialScene
+        : typeof autoLoad === 'object'
+          ? autoLoad.sceneKey
+          : undefined;
 
-    // Apply game settings
+    if (autoLoad === true && !sceneKey) {
+      throw new Error(
+        'Cannot auto-load a scene because the manifest has none.',
+      );
+    }
+    const scenePromise =
+      sceneKey === undefined ? null : this.stage.load(sceneKey);
+
     return {
       ...settings,
-      initialScene: initialScene ?? settings?.initialScene ?? scenes[0].key,
+      initialScene: sceneKey ?? initialScene,
+      scenePromise,
     };
   }
 
