@@ -1,5 +1,5 @@
 import { Object3D } from 'three';
-import { Unit } from '../Unit';
+import type { Unit } from '../Unit';
 
 export const assignUnitToNode = (unit: Unit) => {
   unit.node.userData.unit = unit;

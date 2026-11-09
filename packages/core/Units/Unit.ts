@@ -15,14 +15,14 @@ import {
 } from '../Game/registries/BehaviourRegistry';
 import { makeQueryHandler, makeTransformController } from '../utils';
 import type { Queryable, QueryEnabled, UnitConfig } from '../@types';
-import { SceneItem } from '../Scene';
+import { SceneItem } from '../Scene/SceneItem';
 import type { TickerState } from '../Tools/Ticker';
 import { UnitRegistry } from '../Game/registries/UnitRegistry';
+import { assignUnitToNode } from './utils/misc';
 import {
-  PropertiesHandler,
-  assignUnitToNode,
   getPropertiesHandler,
-} from './utils';
+  type PropertiesHandler,
+} from './utils/properties';
 
 type UnitEventCallbackMap = {
   dispose: VoidFunction;
@@ -168,6 +168,7 @@ class Unit extends SceneItem implements EventEnabled, Queryable, QueryEnabled {
   /* Lifecycle */
   public override dispose() {
     this._emitEvent('dispose');
+    this._behaviours.keys().forEach((key) => this.removeBehaviour(key));
     this._emitter.clear();
 
     super.dispose();
