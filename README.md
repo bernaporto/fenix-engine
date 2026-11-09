@@ -1,8 +1,10 @@
 # Fenix Engine
 
-Fenix Engine is a browser-based 3D game engine built on Three.js. It provides a
-game loop, scene and unit lifecycle, behaviours, asset-backed units, and basic
-input services while keeping Three.js close at hand.
+Fenix Engine is a browser-based 3D game and game-builder engine built on
+Three.js. It provides a game loop, scene and unit lifecycle, behaviours,
+asset-backed units, and basic input services while keeping Three.js close at
+hand. The same runtime can power games and tools for authoring or selecting
+scenes.
 
 ## Engine guide
 

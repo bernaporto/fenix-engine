@@ -27,6 +27,11 @@ scene keys, optional shared materials, and settings:
 Scene paths are loaded when their scene key is passed to `game.stage.load`.
 Scene manifests define a hierarchy of typed units:
 
+The optional `settings.initialScene` is the default scene key used by
+`game.init({ autoLoad: true })`; it does not load a scene by itself. Use
+`autoLoad: { sceneKey }` to choose a scene for that initialization, or omit
+`autoLoad` and call `game.stage.load(key)` when the game/editor is ready.
+
 ```json
 {
   "key": "main",

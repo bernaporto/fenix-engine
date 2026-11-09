@@ -9,7 +9,26 @@ longer needed.
 
 `game.stage.load(key)` loads a registered scene and disposes the previously
 loaded scene. `game.stage.currentScene` provides the active scene. The stage
-resizes the renderer and scene camera with the window by default.
+resizes the renderer and scene camera when the container or window changes size
+by default. Subscribe to its `resize` event for subsequent container
+dimensions:
+
+```ts
+const unsubscribe = game.stage.events.on(
+  'resize',
+  ({ width, height, aspect }) => {
+    // Apply game-specific camera framing or layout.
+  },
+);
+
+// When the owner is finished:
+unsubscribe();
+```
+
+The event fires whenever the stage applies a valid size. `game.stage.size`
+contains the latest dimensions (`null` until the first valid measurement), so
+code subscribing after initialization can read the current size. `game.destroy()`
+disposes the stage's resize observer and window listener.
 
 ## Scenes and layers
 
@@ -57,4 +76,5 @@ game.behaviours.register('spin', (unit) => ({
 ```
 
 The behavior factory can return `onLoad`, `onUpdate`, and `onDetach` callbacks.
-Updates receive elapsed and delta time in seconds.
+Updates receive elapsed and delta time in seconds. `onDetach` runs when the
+behavior is removed or its unit is disposed.

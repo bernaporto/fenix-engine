@@ -1,9 +1,10 @@
 # Introduction
 
-Fenix Engine is a browser-based 3D game engine built on Three.js. It provides
-the game loop and lifecycle, a scene hierarchy of game units, behaviour
-callbacks, asset and manifest loading, and keyboard and mouse input services.
-Rendering and 3D assets are handled by Three.js.
+Fenix Engine is a browser-based 3D game and game-builder engine built on Three.js.
+It provides the game loop and lifecycle, a scene hierarchy of game units,
+behaviour callbacks, asset and manifest loading, and keyboard and mouse input
+services. The same runtime can power a game or an editor for building and
+selecting scenes. Rendering and 3D assets are handled by Three.js.
 
 ## Start a game
 
@@ -14,24 +15,34 @@ Create a DOM element for the renderer:
 <script type="module" src="/src/main.ts"></script>
 ```
 
-Initialize the shared game instance and load a scene declared in the game
-manifest:
+Initialize the shared game instance and automatically load a scene declared in
+the game manifest:
 
 ```ts
 import { game } from '@fenix-engine/core';
 
-await game.init({
+const { scenePromise } = await game.init({
   containerId: 'game',
   manifest: 'assets/manifest.json',
+  autoLoad: { sceneKey: 'main' },
 });
 
-const scene = await game.stage.load('main');
+if (!scenePromise) throw new Error('The scene was not started.');
+const scene = await scenePromise;
 ```
 
 `containerId` identifies the element that receives the WebGL canvas. The
-manifest registers scene keys and optional game settings and materials. The
-explicit `stage.load()` returns the loaded scene once its manifest data has
-been built.
+manifest registers scene keys and optional game settings and materials.
+`autoLoad: { sceneKey }` starts loading that scene after the manifest is
+registered. `init()` returns `scenePromise`, which resolves to the loaded scene
+or rejects if scene loading fails. `autoLoad: true` instead loads the manifest's
+`settings.initialScene`, or the first registered scene if no default is set.
+When `autoLoad` is omitted or `false`, `scenePromise` is `null` and no scene is
+loaded; this is useful for showing an intro screen or building an editor UI
+before choosing a scene.
+
+Scenes can also be loaded explicitly at any time with
+`await game.stage.load('main')`. `Stage.load()` resolves when the scene is ready.
 
 The scene must provide a camera to render. See [Scenes and assets](./04-scenes-and-assets.md)
 for a minimal manifest example.
