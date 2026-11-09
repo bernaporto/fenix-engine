@@ -151,6 +151,19 @@ importers:
         specifier: ^6.4.5
         version: 6.4.5(@types/node@26.6.6)(sass@1.108.1)
 
+  games/grid-tactics:
+    dependencies:
+      '@fenix-engine/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+    devDependencies:
+      typescript:
+        specifier: 7.0.2
+        version: 7.0.2
+      vite:
+        specifier: ^6.4.5
+        version: 6.4.5(@types/node@26.6.6)(sass@1.108.1)
+
   packages/core:
     dependencies:
       '@fenix-engine/utilities':

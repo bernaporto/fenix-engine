@@ -1,0 +1,42 @@
+{
+  "scenes": [{ "key": "board", "path": "assets/scenes/board.json" }],
+  "materials": [
+    {
+      "key": "tile-light",
+      "type": "standard",
+      "color": "#a6b4c2",
+      "roughness": 0.9
+    },
+    {
+      "key": "tile-dark",
+      "type": "standard",
+      "color": "#64768b",
+      "roughness": 0.9
+    },
+    {
+      "key": "amber",
+      "type": "standard",
+      "color": "#ffbd59",
+      "roughness": 0.45
+    },
+    {
+      "key": "indigo",
+      "type": "standard",
+      "color": "#9296ff",
+      "roughness": 0.45
+    },
+    {
+      "key": "blocker",
+      "type": "standard",
+      "color": "#354358",
+      "roughness": 1
+    },
+    { "key": "legal-move", "type": "basic", "color": "#8bf0cf" },
+    { "key": "selection", "type": "basic", "color": "#ffffff" },
+    { "key": "cursor", "type": "basic", "color": "#e4f5ff", "wireframe": true }
+  ],
+  "settings": {
+    "autoResize": false,
+    "backgroundColor": "#101824"
+  }
+}

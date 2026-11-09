@@ -14,3 +14,13 @@ scenes.
 [04-scenes-and-assets.md](./docs/04-scenes-and-assets.md) — manifests, scene hierarchies, materials, and asset-backed units.
 
 Runnable projects are available in [examples](./examples/).
+
+## Games
+
+[Grid Tactics](./games/grid-tactics/) is a basic 6 x 6 local turn-based movement
+sandbox with placeholder pieces, blockers, keyboard controls, and a 3D board.
+It uses existing engine features without extending the engine.
+
+```sh
+pnpm --filter @fenix-engine/grid-tactics dev
+```

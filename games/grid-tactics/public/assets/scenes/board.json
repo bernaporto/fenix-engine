@@ -1,0 +1,35 @@
+{
+  "key": "board",
+  "hierarchy": [
+    {
+      "type": "camera",
+      "name": "board-camera",
+      "cameraType": "orthographic",
+      "angle": { "x": -65, "y": 0 },
+      "distance": 12,
+      "zoom": 2.4
+    },
+    {
+      "type": "light",
+      "lightType": "ambient",
+      "color": "#d9e7ff",
+      "intensity": 2
+    },
+    {
+      "type": "light",
+      "lightType": "directional",
+      "position": { "x": -3, "y": 8, "z": 4 },
+      "color": "#ffffff",
+      "intensity": 3
+    },
+    {
+      "type": "box",
+      "name": "board-base",
+      "width": 6.3,
+      "height": 0.24,
+      "depth": 6.3,
+      "position": { "x": 0, "y": -0.22, "z": 0 },
+      "material": { "type": "standard", "color": "#27374b", "roughness": 0.9 }
+    }
+  ]
+}
