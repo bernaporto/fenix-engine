@@ -9,7 +9,7 @@ import {
   makePublicEventHandler,
 } from '@fenix-engine/utilities/events';
 import type { VoidFunction } from '@fenix-engine/utilities/@types';
-import type { GameSettings } from '../@types';
+import type { GameSettings, StageConfig } from '../@types';
 import { loadGameManifest } from '../Data';
 import { Ticker, type TickerState } from '../Tools/Ticker';
 import {
@@ -112,9 +112,7 @@ export class Game implements EventEnabled {
     const {
       alpha,
       enableShadows,
-      initialScene,
       shadowMapType,
-      ...stageConfig
     } = {
       alpha: false,
       enableShadows: false,
@@ -130,6 +128,13 @@ export class Game implements EventEnabled {
     this.renderer.shadowMap.enabled = enableShadows;
     this.renderer.shadowMap.type = shadowMapType as ShadowMapType;
 
+    const stageConfig: StageConfig = {};
+    if (settings?.autoResize !== undefined) {
+      stageConfig.autoResize = settings.autoResize;
+    }
+    if (settings?.backgroundColor !== undefined) {
+      stageConfig.backgroundColor = settings.backgroundColor;
+    }
     this.stage.applyConfig(stageConfig);
   }
 
@@ -145,7 +150,7 @@ export class Game implements EventEnabled {
   }
 
   public destroy() {
-    this.stage.currentScene?.dispose();
+    this.stage.dispose();
     this.renderer.dispose();
     this._subscription();
 
